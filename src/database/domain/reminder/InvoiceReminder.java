@@ -1,4 +1,7 @@
-package database.domain;
+package database.domain.reminder;
+
+import database.domain.payment.Invoice;
+import database.domain.account.AccountHolder;
 
 public class InvoiceReminder
 {

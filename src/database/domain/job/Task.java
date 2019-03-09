@@ -1,4 +1,6 @@
-package database.domain;
+package database.domain.job;
+
+import database.domain.part.StockPart;
 
 import java.sql.Date;
 

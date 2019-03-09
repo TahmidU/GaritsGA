@@ -1,4 +1,4 @@
-package database.domain;
+package database.domain.job;
 
 import java.sql.Date;
 

@@ -1,4 +1,4 @@
-package database.domain;
+package database.domain.discount;
 
 public class VariableDiscount extends DiscountPlan
 {

@@ -1,4 +1,6 @@
-package database.domain;
+package database.domain.discount;
+
+import database.domain.job.Task;
 
 public class VariableTask
 {

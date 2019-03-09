@@ -1,4 +1,4 @@
-package database.domain;
+package database.domain.account;
 
 //  Related to the login_detail table within the database.
 

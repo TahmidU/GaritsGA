@@ -1,4 +1,7 @@
-package database.domain;
+package database.domain.payment;
+
+import database.domain.account.CustomerAcc;
+import database.domain.job.JobSheet;
 
 import java.sql.Date;
 

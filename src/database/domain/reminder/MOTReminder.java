@@ -1,4 +1,6 @@
-package database.domain;
+package database.domain.reminder;
+
+import database.domain.account.AccountHolder;
 
 import java.sql.Date;
 

@@ -1,4 +1,4 @@
-package database.domain;
+package database.domain.part;
 
 import java.sql.Date;
 
