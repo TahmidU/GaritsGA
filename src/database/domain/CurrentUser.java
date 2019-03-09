@@ -20,7 +20,7 @@ public class CurrentUser
     //  Create Table SQL Statement.
     public static final String CREATE_STAFF_TABLE = "CREATE TABLE " + TABLE_LOGIN_DETAIL + " (" + COLUMN_USER_NAME + " varchar(15) NOT NULL," +
             " " + COLUMN_STAFF_ID + " integer(10) NOT NULL, " + COLUMN_PASSWORD + " varchar(15) NOT NULL," +
-            " PRIMARY KEY (" + COLUMN_USER_NAME + "), FOREIGN KEY(" + COLUMN_STAFF_ID + ") REFERENCES staff(" + Staff.COLUMN_ID + "));";
+            " PRIMARY KEY (" + COLUMN_USER_NAME + "), FOREIGN KEY(" + COLUMN_STAFF_ID + ") REFERENCES " + Staff.TABLE_STAFF + "(" + Staff.COLUMN_ID + "));";
 
     //  Properties
     private String userName;
