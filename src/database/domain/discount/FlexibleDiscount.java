@@ -10,7 +10,7 @@ public class FlexibleDiscount extends DiscountPlan
     public static final int INDEX_FLEX_ID = 1;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_FLEXIBLE_DISCOUNT = "CREATE TABLE " + TABLE_FLEXIBLE_DISCOUNT + " (" + COLUMN_FLEX_DISCOUNT_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_FLEXIBLE_DISCOUNT = "CREATE TABLE " + TABLE_FLEXIBLE_DISCOUNT + " (" + COLUMN_FLEX_DISCOUNT_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_ID + " integer(10) NOT NULL, FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " + TABLE_DISCOUNT_PLAN + "(" + COLUMN_ID + "));";
 
     //  Properties

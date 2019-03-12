@@ -23,7 +23,7 @@ public class OutstandingBalance
 
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_OUTSTANDING_BALANCE = "CREATE TABLE " + TABLE_OUTSTANDING_BALANCE + " " +
-            "(" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+            "(" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             ""+ COLUMN_STAFF_ID + " integer(10) NOT NULL, " + COLUMN_ACCOUNT_HOLDER_ID + " integer(10) NOT NULL, " +
             "" + COLUMN_DATE_AUTHORISED + " date NOT NULL, FOREIGN KEY(" + COLUMN_STAFF_ID + ") REFERENCES " + Staff.TABLE_STAFF + "(" + Staff.COLUMN_ID + "), " +
             "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " + AccountHolder.TABLE_ACCOUNT_HOLDER + "(" + AccountHolder.COLUMN_ID + "));";

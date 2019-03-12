@@ -26,7 +26,7 @@ public class Task
     public static final int INDEX_DATE_TASK_COMPLETE = 7;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_TASK = "CREATE TABLE " + TABLE_TASK + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_TASK = "CREATE TABLE " + TABLE_TASK + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_STOCK_PART_ID + " integer(10) NOT NULL, " + COLUMN_JOB_NUM + " integer(10) NOT NULL, " + COLUMN_TASK_DESC + " varchar(255) NOT NULL, " +
             "" + COLUMN_EST_DURATION + " integer(10) NOT NULL, " + COLUMN_PARTS_QTY + " integer(10) NOT NULL, " + COLUMN_DATE_TASK_COMPLETE + " date NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_STOCK_PART_ID + ") REFERENCES " + StockPart.TABLE_STOCK_PART + "(" + StockPart.COLUMN_PART_ID + "), FOREIGN KEY(" + COLUMN_JOB_NUM + ") " +

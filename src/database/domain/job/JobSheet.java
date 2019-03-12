@@ -30,7 +30,7 @@ public class JobSheet
     public static final int INDEX_DATE_COMPLETED = 9;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_JOB_SHEET = "CREATE TABLE " + TABLE_JOB_SHEET + " (" + COLUMN_JOB_NUM + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_JOB_SHEET = "CREATE TABLE " + TABLE_JOB_SHEET + " (" + COLUMN_JOB_NUM + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_STAFF_ID + " integer(10), " + COLUMN_VEHICLE_REG + " varchar(7) NOT NULL, " +
             "" + COLUMN_BOOKING_ID + " integer(10) NOT NULL, " + COLUMN_PROBLEM_DESC + " varchar(1500) NOT NULL, " +
             "" + COLUMN_DATE_CREATED + " date NOT NULL, " + COLUMN_STATUS + " varchar(255) NOT NULL, " + COLUMN_ALLOCATION_DATE + " date, " +

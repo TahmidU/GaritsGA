@@ -19,7 +19,7 @@ public class InvoiceReminder
     public static final int INDEX_REMINDERS_SENT = 4;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_INVOICE_REMINDER = "CREATE TABLE " + TABLE_INVOICE_REMINDER + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_INVOICE_REMINDER = "CREATE TABLE " + TABLE_INVOICE_REMINDER + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_INVOICE_ID + " integer(10) NOT NULL, " + COLUMN_ACC_HOLDER_ID + " integer(10) NOT NULL, " +
             "" + COLUMN_REMINDERS_SENT + " integer(1) NOT NULL, FOREIGN KEY(" + COLUMN_ACC_HOLDER_ID + ") " +
             "REFERENCES " + AccountHolder.TABLE_ACCOUNT_HOLDER + "(" + AccountHolder.COLUMN_ID + "), FOREIGN KEY(" + COLUMN_INVOICE_ID + ") REFERENCES " + Invoice.TABLE_INVOICE + "(" + Invoice.COLUMN_ID + "));";

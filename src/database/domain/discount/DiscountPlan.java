@@ -16,7 +16,7 @@ public abstract class DiscountPlan
     public static final int INDEX_NI = 3;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_DISCOUNT_PLAN = "CREATE TABLE " + TABLE_DISCOUNT_PLAN + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_DISCOUNT_PLAN = "CREATE TABLE " + TABLE_DISCOUNT_PLAN + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_TYPE + " varchar(8) NOT NULL, " + COLUMN_NI + " varchar(9) NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_NI + ") " +
             "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + "));";

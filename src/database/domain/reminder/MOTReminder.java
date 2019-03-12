@@ -18,7 +18,7 @@ public class MOTReminder
     public static final int INDEX_RENEWAL_DATE = 3;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_MOT_REMINDER = "CREATE TABLE " + TABLE_MOT_REMINDERS + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_MOT_REMINDER = "CREATE TABLE " + TABLE_MOT_REMINDERS + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_ACCOUNT_HOLDER_ID + " integer(10) NOT NULL, " + COLUMN_RENEWAL_DATE +" date NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_ACCOUNT_HOLDER_ID + ") REFERENCES " + AccountHolder.TABLE_ACCOUNT_HOLDER + "(" + AccountHolder.COLUMN_ID + "));";
 

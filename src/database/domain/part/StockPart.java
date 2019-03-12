@@ -24,7 +24,7 @@ public class StockPart
     public static final int INDEX_END_YEAR = 8;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_STOCK_PART = "CREATE TABLE " + TABLE_STOCK_PART + " (" + COLUMN_PART_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_STOCK_PART = "CREATE TABLE " + TABLE_STOCK_PART + " (" + COLUMN_PART_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_PART_NAME + " varchar(50) NOT NULL, " + COLUMN_PRICE + " float(10) NOT NULL, " + COLUMN_LOW_THRES + " integer(10) NOT NULL, " +
             "" + COLUMN_MANUFACTURER + " varchar(50) NOT NULL, " + COLUMN_VEHICLE_TYPE + " varchar(50) NOT NULL, " +
             "" + COLUMN_START_YEAR + " varchar(4) NOT NULL, " + COLUMN_END_YEAR + " varchar(4) NOT NULL);";

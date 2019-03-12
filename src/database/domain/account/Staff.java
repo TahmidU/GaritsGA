@@ -20,7 +20,7 @@ public class Staff
     public static final int INDEX_TYPE = 6;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_STAFF = "CREATE TABLE " + TABLE_STAFF + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+    public static final String CREATE_TABLE_STAFF = "CREATE TABLE " + TABLE_STAFF + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY ," +
             " " + COLUMN_FIRST_NAME + " varchar(30) NOT NULL, " + COLUMN_LAST_NAME + " varchar(30) NOT NULL, " + COLUMN_PHONE_NUM + " varchar(11), " +
             "" + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_TYPE + " integer(10) NOT NULL);";
 

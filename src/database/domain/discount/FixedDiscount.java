@@ -12,7 +12,7 @@ public class FixedDiscount extends DiscountPlan
     public static final int INDEX_PERCENTAGE = 2;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_FIXED_DISCOUNT = "CREATE TABLE " + TABLE_FIXED_DISCOUNT + " (" + COLUMN_FIX_DISCOUNT_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_FIXED_DISCOUNT = "CREATE TABLE " + TABLE_FIXED_DISCOUNT + " (" + COLUMN_FIX_DISCOUNT_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_ID + " integer(10) NOT NULL, " + COLUMN_PERCENTAGE + " float(10) NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " + TABLE_DISCOUNT_PLAN + "(" + COLUMN_ID + "));";
 

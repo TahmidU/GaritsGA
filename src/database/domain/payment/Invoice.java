@@ -23,7 +23,7 @@ public class Invoice
     public static final int INDEX_JOB_NUM = 5;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_INVOICE = "CREATE TABLE " + TABLE_INVOICE + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_INVOICE = "CREATE TABLE " + TABLE_INVOICE + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_NI + " varchar(9) NOT NULL, " + COLUMN_DATE_CREATED + " date NOT NULL, " +
             "" + COLUMN_TOTAL + " float(10) NOT NULL, " + COLUMN_JOB_NUM + " integer(10) NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_NI + ") REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + "), " +
