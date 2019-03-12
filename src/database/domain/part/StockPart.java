@@ -4,7 +4,7 @@ public class StockPart
 {
     //  Table name and name of all columns.
     public static final String TABLE_STOCK_PART = "stock_part";
-    public static final String COLUMN_PART_ID = "id";
+    public static final String COLUMN_PART_ID = "part_id";
     public static final String COLUMN_PART_NAME = "part_name";
     public static final String COLUMN_PRICE = "price";
     public static final String COLUMN_LOW_THRES = "low_threshold";

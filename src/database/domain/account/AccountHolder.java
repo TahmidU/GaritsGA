@@ -16,7 +16,7 @@ public class AccountHolder extends CustomerAcc
     public static final int INDEX_DATE_JOINED = 3;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_ACCOUNT_HOLDER_TABLE = "CREATE TABLE " + TABLE_ACCOUNT_HOLDER + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+    public static final String CREATE_TABLE_ACCOUNT_HOLDER = "CREATE TABLE " + TABLE_ACCOUNT_HOLDER + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
             "" + COLUMN_NI + " varchar(9) NOT NULL, " + COLUMN_DATE_JOINED + " date NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_NI + ") REFERENCES " + AccountHolder.TABLE_ACCOUNT_HOLDER + "(" + AccountHolder.COLUMN_NI + "));";
 

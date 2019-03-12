@@ -3,31 +3,20 @@ package database.domain.part;
 public class StockPartOrder
 {
     //  Table name and name of all columns.
-    public static final String TABLE_STOCK_PART = "stock_part";
-    public static final String COLUMN_PART_ID = "id";
-    public static final String COLUMN_PART_NAME = "part_name";
-    public static final String COLUMN_PRICE = "price";
-    public static final String COLUMN_LOW_THRES = "low_threshold";
-    public static final String COLUMN_MANUFACTURER = "manufacturer";
-    public static final String COLUMN_VEHICLE_TYPE = "vehicle_type";
-    public static final String COLUMN_START_YEAR = "start_year";
-    public static final String COLUMN_END_YEAR = "end_year";
+    public static final String TABLE_STOCK_PART_ORDER = "stock_part_order";
+    public static final String COLUMN_PART_ORDER_NUM = "part_order_number";
+    public static final String COLUMN_STOCK_PART_ID = "stock_part_id";
+
 
     //  Columns indexes.
-    public static final int INDEX_PART_ID = 1;
-    public static final int INDEX_PART_NAME = 2;
-    public static final int INDEX_PRICE = 3;
-    public static final int INDEX_LOW_THRES = 4;
-    public static final int INDEX_MANUFACTURER = 5;
-    public static final int INDEX_VEHICLE_TYPE = 6;
-    public static final int INDEX_START_YEAR = 7;
-    public static final int INDEX_END_YEAR = 8;
+    public static final int INDEX_PART_ORDER_NUM = 1;
+    public static final int INDEX_STOCK_PART_ID = 2;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_STOCK_PART = "CREATE TABLE " + TABLE_STOCK_PART + " (" + COLUMN_PART_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-            "" + COLUMN_PART_NAME + " varchar(50) NOT NULL, " + COLUMN_PRICE + " float(10) NOT NULL, " + COLUMN_LOW_THRES + " integer(10) NOT NULL, " +
-            "" + COLUMN_MANUFACTURER + " varchar(50) NOT NULL, " + COLUMN_VEHICLE_TYPE + " varchar(50) NOT NULL, " +
-            "" + COLUMN_START_YEAR + " varchar(4) NOT NULL, " + COLUMN_END_YEAR + " varchar(4) NOT NULL);";
+    public static final String CREATE_TABLE_STOCK_PART_ORDER = "CREATE TABLE " + TABLE_STOCK_PART_ORDER + " (" + COLUMN_PART_ORDER_NUM + " varchar(30) NOT NULL, " +
+            "" + COLUMN_STOCK_PART_ID + " integer(10) NOT NULL, PRIMARY KEY (" + COLUMN_PART_ORDER_NUM + ", " + COLUMN_STOCK_PART_ID + "), " +
+            "FOREIGN KEY(" + COLUMN_PART_ORDER_NUM + ") REFERENCES " + PartOrder.TABLE_PART_ORDER + "(" + PartOrder.COLUMN_ORDER_NUM + "), " +
+            "FOREIGN KEY(" + COLUMN_STOCK_PART_ID + ") REFERENCES " + StockPart.TABLE_STOCK_PART + "(" + StockPart.COLUMN_PART_ID + "));";
 
     //  Properties
     private int partId;

@@ -30,7 +30,7 @@ public class PartOrder
     public static final int INDEX_FAX = 10;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_INVOICE = "CREATE TABLE " + TABLE_PART_ORDER + " (" + COLUMN_ORDER_NUM + " varchar(30) NOT NULL, " +
+    public static final String CREATE_TABLE_PART_ORDER= "CREATE TABLE " + TABLE_PART_ORDER + " (" + COLUMN_ORDER_NUM + " varchar(30) NOT NULL, " +
             "" + COLUMN_DESC + " varchar(50) NOT NULL, " + COLUMN_QUANTITY + " integer(10) NOT NULL, " + COLUMN_PRICE + " float(10) NOT NULL, " +
             "" + COLUMN_DATE + " date NOT NULL, " + COLUMN_COMPANY_NAME + " varchar(50) NOT NULL, " + COLUMN_ADDRESS_LINE + " varchar(80) NOT NULL, " +
             "" + COLUMN_DAY_DELIVERED + " date, " + COLUMN_TELEPHONE + " varchar(11), " + COLUMN_FAX + " varchar(11), PRIMARY KEY (" + COLUMN_ORDER_NUM + "));";
