@@ -20,6 +20,20 @@ public class FixedDiscount extends DiscountPlan
     private int fixedDiscountId;
     private float percentage;
 
+    public FixedDiscount(){}
+
+    public FixedDiscount(int fixedDiscountId, float percentage) {
+        this.fixedDiscountId = fixedDiscountId;
+        this.percentage = percentage;
+    }
+
+    public FixedDiscount(String id, String type, String nationalInsurance, int fixedDiscountId, float percentage)
+    {
+        super(id, type, nationalInsurance);
+        this.fixedDiscountId = fixedDiscountId;
+        this.percentage = percentage;
+    }
+
     //--------Getters and Setters--------
     public int getFixedDiscountId() {
         return fixedDiscountId;

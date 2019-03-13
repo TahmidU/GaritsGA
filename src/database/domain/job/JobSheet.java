@@ -49,6 +49,20 @@ public class JobSheet
     private Date allocationDate;
     private Date dateCompleted;
 
+    public JobSheet(){}
+
+    public JobSheet(int jobNum, int staffId, String vehicleReg, int bookingId, String problemDesc, Date dateCreated, String status, Date allocationDate, Date dateCompleted) {
+        this.jobNum = jobNum;
+        this.staffId = staffId;
+        this.vehicleReg = vehicleReg;
+        this.bookingId = bookingId;
+        this.problemDesc = problemDesc;
+        this.dateCreated = dateCreated;
+        this.status = status;
+        this.allocationDate = allocationDate;
+        this.dateCompleted = dateCompleted;
+    }
+
     //--------Getters and Setters--------
     public int getJobNum() {
         return jobNum;

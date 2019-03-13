@@ -47,6 +47,21 @@ public class PartOrder
     private String telephone;
     private String fax;
 
+    public PartOrder(){}
+
+    public PartOrder(String orderNum, String desc, int quantity, float price, Date date, String companyName, String addressLine, Date dayDelivered, String telephone, String fax) {
+        this.orderNum = orderNum;
+        this.desc = desc;
+        this.quantity = quantity;
+        this.price = price;
+        this.date = date;
+        this.companyName = companyName;
+        this.addressLine = addressLine;
+        this.dayDelivered = dayDelivered;
+        this.telephone = telephone;
+        this.fax = fax;
+    }
+
     //--------Getters and Setters--------
     public String getOrderNum() {
         return orderNum;

@@ -36,6 +36,16 @@ public class Invoice
     private float totalAmount;
     private int jobNum;
 
+    public Invoice(){}
+
+    public Invoice(int id, String nationalInsurance, Date dateCreated, float totalAmount, int jobNum) {
+        this.id = id;
+        this.nationalInsurance = nationalInsurance;
+        this.dateCreated = dateCreated;
+        this.totalAmount = totalAmount;
+        this.jobNum = jobNum;
+    }
+
     //--------Getters and Setters--------
     public int getId() {
         return id;

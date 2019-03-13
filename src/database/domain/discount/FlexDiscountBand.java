@@ -19,6 +19,13 @@ public class FlexDiscountBand
     private String flexBandId;
     private float bandDiscount;
 
+    public FlexDiscountBand(){}
+
+    public FlexDiscountBand(String flexBandId, float bandDiscount) {
+        this.flexBandId = flexBandId;
+        this.bandDiscount = bandDiscount;
+    }
+
     //--------Getters and Setters--------
     public String getFlexBandId() {
         return flexBandId;

@@ -25,6 +25,16 @@ public class AccountHolder extends CustomerAcc
     private String nationalInsurance;
     private Date dateJoined;
 
+    public AccountHolder(){}
+
+    public AccountHolder(int id, String nationalInsurance, Date dateJoined)
+    {
+        this.id = id;
+        this.nationalInsurance = nationalInsurance;
+        this.dateJoined = dateJoined;
+    }
+
+
     //--------Getters and Setters--------
     public int getId() {
         return id;

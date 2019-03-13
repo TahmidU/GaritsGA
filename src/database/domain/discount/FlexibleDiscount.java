@@ -16,6 +16,17 @@ public class FlexibleDiscount extends DiscountPlan
     //  Properties
     private int flexId;
 
+    public FlexibleDiscount(){}
+
+    public FlexibleDiscount(int flexId) {
+        this.flexId = flexId;
+    }
+
+    public FlexibleDiscount(String id, String type, String nationalInsurance, int flexId) {
+        super(id, type, nationalInsurance);
+        this.flexId = flexId;
+    }
+
     //--------Getters and Setters--------
     public int getFlexId() {
         return flexId;

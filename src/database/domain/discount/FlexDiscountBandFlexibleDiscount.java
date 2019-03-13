@@ -22,6 +22,14 @@ public class FlexDiscountBandFlexibleDiscount
     private int flexDiscountBandFlexDiscount;
     private int flexDiscountBandValuationBand;
 
+    public FlexDiscountBandFlexibleDiscount(){}
+
+    public FlexDiscountBandFlexibleDiscount(int flexDiscountBandFlexDiscount, int flexDiscountBandValuationBand)
+    {
+        this.flexDiscountBandFlexDiscount = flexDiscountBandFlexDiscount;
+        this.flexDiscountBandValuationBand = flexDiscountBandValuationBand;
+    }
+
     //--------Getters and Setters--------
     public int getFlexDiscountBandFlexDiscount() {
         return flexDiscountBandFlexDiscount;

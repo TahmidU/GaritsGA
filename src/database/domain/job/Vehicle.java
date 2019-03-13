@@ -40,6 +40,18 @@ public class Vehicle
     private String chassisNum;
     private String color;
 
+    public Vehicle(){}
+
+    public Vehicle(String vehicleRegistration, String nationalInsurance, String make, String model, String engineSerial, String chassisNum, String color) {
+        this.vehicleRegistration = vehicleRegistration;
+        this.nationalInsurance = nationalInsurance;
+        this.make = make;
+        this.model = model;
+        this.engineSerial = engineSerial;
+        this.chassisNum = chassisNum;
+        this.color = color;
+    }
+
     //--------Getters and Setters--------
     public String getVehicleRegistration() {
         return vehicleRegistration;

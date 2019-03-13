@@ -28,6 +28,15 @@ public class Booking
     private Date dateBooked;
     private String vehicleRegistrationNumber;
 
+    public Booking(){}
+
+    public Booking(int id, String jobType, Date dateBooked, String vehicleRegistrationNumber) {
+        this.id = id;
+        this.jobType = jobType;
+        this.dateBooked = dateBooked;
+        this.vehicleRegistrationNumber = vehicleRegistrationNumber;
+    }
+
     //--------Getters and Setters--------
     public int getId() {
         return id;

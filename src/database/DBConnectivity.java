@@ -45,6 +45,30 @@ public class DBConnectivity implements IDBConnectivity
     }
 
     @Override
+    public boolean writePrepared(String sql, Connection con, String[] sets)
+    {
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+        if(sets.length > 0)
+        {
+            for(int i = 0; i < sets.length; i++)
+            {
+                ps.setString(i+1, sets[i]);
+            }
+            ps.execute();
+            Log.write("DBConnectivity: Statement was successfully executed.");
+            return true;
+        }else
+            {
+                Log.write("DBConnectivity: Sets is empty. Please use write instead for simple SQL writes.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public boolean writeBatch(Connection con)
     {
         if(batchStm != null)

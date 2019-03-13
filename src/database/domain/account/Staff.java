@@ -22,15 +22,27 @@ public class Staff
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_STAFF = "CREATE TABLE " + TABLE_STAFF + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY ," +
             " " + COLUMN_FIRST_NAME + " varchar(30) NOT NULL, " + COLUMN_LAST_NAME + " varchar(30) NOT NULL, " + COLUMN_PHONE_NUM + " varchar(11), " +
-            "" + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_TYPE + " integer(10) NOT NULL);";
+            "" + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_TYPE + " varchar(15) NOT NULL);";
 
     //  Properties
     private int id;
     private String firstName;
     private String lastName;
-    private int phoneNum;
+    private String phoneNum;
     private String email;
     private String type;
+
+    public Staff(){}
+
+    public Staff(int id, String firstName, String lastName, String phoneNum, String email, String type)
+    {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNum = phoneNum;
+        this.email = email;
+        this.type = type;
+    }
 
     //--------Getters and Setters--------
     public int getId() {
@@ -57,11 +69,11 @@ public class Staff
         this.lastName = lastName;
     }
 
-    public int getPhoneNum() {
+    public String getPhoneNum() {
         return phoneNum;
     }
 
-    public void setPhoneNum(int phoneNum) {
+    public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
 

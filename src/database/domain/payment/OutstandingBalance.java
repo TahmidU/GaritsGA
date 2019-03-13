@@ -34,6 +34,15 @@ public class OutstandingBalance
     private int accHolderId;
     private Date dateAuthorised;
 
+    public OutstandingBalance(){}
+
+    public OutstandingBalance(int id, int staffId, int accHolderId, Date dateAuthorised) {
+        this.id = id;
+        this.staffId = staffId;
+        this.accHolderId = accHolderId;
+        this.dateAuthorised = dateAuthorised;
+    }
+
     //--------Getters and Setters--------
     public int getId() {
         return id;

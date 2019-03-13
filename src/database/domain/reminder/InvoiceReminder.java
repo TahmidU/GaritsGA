@@ -30,6 +30,15 @@ public class InvoiceReminder
     private int accHolderId;
     private int remindersSent;
 
+    public InvoiceReminder(){}
+
+    public InvoiceReminder(int id, int invoiceId, int accHolderId, int remindersSent) {
+        this.id = id;
+        this.invoiceId = invoiceId;
+        this.accHolderId = accHolderId;
+        this.remindersSent = remindersSent;
+    }
+
     //--------Getters and Setters--------
     public int getId() {
         return id;

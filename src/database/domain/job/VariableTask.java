@@ -28,6 +28,15 @@ public class VariableTask
     private int varDiscountId;
     private float discountVal;
 
+    public VariableTask(){}
+
+    public VariableTask(int id, int taskId, int varDiscountId, float discountVal) {
+        this.id = id;
+        this.taskId = taskId;
+        this.varDiscountId = varDiscountId;
+        this.discountVal = discountVal;
+    }
+
     //--------Getters and Setters--------
     public int getId() {
         return id;

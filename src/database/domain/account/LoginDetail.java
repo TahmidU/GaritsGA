@@ -2,7 +2,7 @@ package database.domain.account;
 
 //  Related to the login_detail table within the database.
 
-public class CurrentUser
+public class LoginDetail
 {
     //  Table name and name of all columns.
     public static final String TABLE_LOGIN_DETAIL = "login_detail";
@@ -26,6 +26,15 @@ public class CurrentUser
     private String userName;
     private String staffID;
     private String password;
+
+    public LoginDetail(){}
+
+    public LoginDetail(String userName, String staffID, String password)
+    {
+        this.userName = userName;
+        this.staffID = staffID;
+        this.password = password;
+    }
 
     //--------Getters and Setters--------
     public String getUserName() {

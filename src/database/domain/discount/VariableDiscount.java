@@ -17,6 +17,17 @@ public class VariableDiscount extends DiscountPlan
     //  Properties
     private int varId;
 
+    public VariableDiscount(){}
+
+    public VariableDiscount(int varId) {
+        this.varId = varId;
+    }
+
+    public VariableDiscount(String id, String type, String nationalInsurance, int varId) {
+        super(id, type, nationalInsurance);
+        this.varId = varId;
+    }
+
     //--------Getters and Setters--------
     public int getVarId() {
         return varId;

@@ -41,6 +41,18 @@ public class Task
     private int partQty;
     private Date dateTaskComplete;
 
+    public Task(){}
+
+    public Task(int id, int stockPartId, int jobNum, String taskDesc, int estDuration, int partQty, Date dateTaskComplete) {
+        this.id = id;
+        this.stockPartId = stockPartId;
+        this.jobNum = jobNum;
+        this.taskDesc = taskDesc;
+        this.estDuration = estDuration;
+        this.partQty = partQty;
+        this.dateTaskComplete = dateTaskComplete;
+    }
+
     //--------Getters and Setters--------
     public int getId() {
         return id;

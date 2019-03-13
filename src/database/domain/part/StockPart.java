@@ -39,6 +39,19 @@ public class StockPart
     private String startYr;
     private String endYr;
 
+    public StockPart(){}
+
+    public StockPart(int partId, String partName, float price, int threshold, String manufacturer, String vehicleType, String startYr, String endYr) {
+        this.partId = partId;
+        this.partName = partName;
+        this.price = price;
+        this.threshold = threshold;
+        this.manufacturer = manufacturer;
+        this.vehicleType = vehicleType;
+        this.startYr = startYr;
+        this.endYr = endYr;
+    }
+
     //--------Getters and Setters--------
     public int getPartId() {
         return partId;

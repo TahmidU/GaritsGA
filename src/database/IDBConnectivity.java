@@ -9,6 +9,7 @@ public interface IDBConnectivity
 {
     ResultSet read(String sql, Connection con);
     boolean write(String sql, Connection con);
+    boolean writePrepared(String sql, Connection con, String[] sets);
     boolean writeBatch(Connection con);
     void addToBatch(String sql, @Nullable Connection con);
     void clearBatch();

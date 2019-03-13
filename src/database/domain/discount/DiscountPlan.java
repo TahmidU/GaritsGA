@@ -2,7 +2,7 @@ package database.domain.discount;
 
 import database.domain.account.CustomerAcc;
 
-public abstract class DiscountPlan
+public class DiscountPlan
 {
     //  Table name and name of all columns.
     public static final String TABLE_DISCOUNT_PLAN = "discount_plan";
@@ -25,6 +25,15 @@ public abstract class DiscountPlan
     private String id;
     private String type;
     private String nationalInsurance;
+
+    public DiscountPlan(){}
+
+    public DiscountPlan(String id, String type, String nationalInsurance)
+    {
+        this.id = id;
+        this.type = type;
+        this.nationalInsurance = nationalInsurance;
+    }
 
     //--------Getters and Setters--------
     public String getId() {

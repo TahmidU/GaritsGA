@@ -36,6 +36,19 @@ public class CustomerAcc
     private String email;
     private int phoneNumber;
 
+    public CustomerAcc(){}
+
+    public CustomerAcc(String nationalInsurance, String firstName, String lastName, String addressLine, String postCode,
+                       String email, int phoneNumber)
+    {
+        this.nationalInsurance = nationalInsurance;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.addressLine = addressLine;
+        this.postCode = postCode;
+        this.email = email;
+    }
+
     //--------Getters and Setters--------
     public String getNationalInsurance() {
         return nationalInsurance;

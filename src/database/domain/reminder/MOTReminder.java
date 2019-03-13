@@ -27,6 +27,14 @@ public class MOTReminder
     private int accountHolderId;
     private Date renewalDate;
 
+    public MOTReminder(){}
+
+    public MOTReminder(int id, int accountHolderId, Date renewalDate) {
+        this.id = id;
+        this.accountHolderId = accountHolderId;
+        this.renewalDate = renewalDate;
+    }
+
     //--------Getters and Setters--------
     public int getId() {
         return id;

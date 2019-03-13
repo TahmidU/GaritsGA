@@ -1,0 +1,97 @@
+package database.dao.account;
+
+import database.DBConnectivity;
+import database.IDBConnectivity;
+import database.dao.DataSource;
+import database.dao.IDao;
+import database.dao.contracts.IStaff;
+import database.domain.account.Staff;
+import util.Log;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class StaffDAO implements IStaff
+{
+
+    private ArrayList<Staff> staffs;
+
+    private Connection con;
+    private IDBConnectivity connectivity;
+
+    public StaffDAO()
+    {
+        staffs = new ArrayList<>();
+        connectivity = new DBConnectivity();
+    }
+
+    @Override
+    public ArrayList<Staff> getAll()
+    {
+        con = connectivity.connect(DataSource.DB_DRIVER);
+
+        String sql = "SELECT * FROM " + Staff.TABLE_STAFF;
+        ResultSet rs = connectivity.read(sql,con);
+        try {
+            while (rs.next()) {
+                staffs.add(new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
+                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE)));
+            }
+            Log.write("DAO: Query successful.");
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+
+        return staffs;
+    }
+
+    @Override
+    public void save(Staff staff)
+    {
+        con = connectivity.connect(DataSource.DB_DRIVER);
+
+        String sql = "INSERT INTO " + Staff.TABLE_STAFF + "( " + Staff.COLUMN_FIRST_NAME + ", " + Staff.COLUMN_LAST_NAME + ", " +
+                Staff.COLUMN_PHONE_NUM + ", " + Staff.COLUMN_EMAIL + ", " + Staff.COLUMN_TYPE + ")" + " VALUES(?,?,?,?,?)";
+        String[] values = {staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(),
+        staff.getEmail(), staff.getType()};
+
+        connectivity.writePrepared(sql, con, values);
+
+        connectivity.closeConnection(con);
+    }
+
+    @Override
+    public void update(Staff staff)
+    {
+        con = connectivity.connect(DataSource.DB_DRIVER);
+
+        String sql = "UPDATE " + Staff.TABLE_STAFF + " SET " + Staff.COLUMN_FIRST_NAME + " =?," + Staff.COLUMN_LAST_NAME + " =?," +
+                Staff.COLUMN_PHONE_NUM + " =?," + Staff.COLUMN_EMAIL + " =?," + Staff.COLUMN_TYPE + " =?" + " WHERE " + Staff.COLUMN_ID +
+                " =" + staff.getId();
+
+        String[] values = {staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(), staff.getEmail(), staff.getType()};
+
+        connectivity.writePrepared(sql, con, values);
+
+        connectivity.closeConnection(con);
+    }
+
+    @Override
+    public void delete(Staff staff)
+    {
+        con = connectivity.connect(DataSource.DB_DRIVER);
+
+        String sql = "DELETE FROM " + Staff.TABLE_STAFF + " WHERE " + Staff.COLUMN_ID + "=" + staff.getId();
+
+        connectivity.write(sql, con);
+
+        connectivity.closeConnection(con);
+    }
+}

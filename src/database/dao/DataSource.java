@@ -1,8 +1,9 @@
 package database.dao;
 
 import database.DBConnectivity;
+import database.IDBConnectivity;
 import database.domain.account.AccountHolder;
-import database.domain.account.CurrentUser;
+import database.domain.account.LoginDetail;
 import database.domain.account.CustomerAcc;
 import database.domain.account.Staff;
 import database.domain.discount.*;
@@ -16,15 +17,26 @@ import database.domain.reminder.InvoiceReminder;
 import database.domain.reminder.MOTReminder;
 import util.Log;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class DataSource
 {
     public static final String DB_NAME = "GaritsGA.db";
     public static final String DB_DRIVER =  "jdbc:sqlite:"+DB_NAME;
 
-    private DBConnectivity connectivity;
+    private IDBConnectivity connectivity;
     private Connection conn;
+
+    private String backupLocation = "backup/";
+    private String backupName = "backupGA.db";
 
     public DataSource()
     {
@@ -38,7 +50,7 @@ public class DataSource
         if(connectivity.checkExists(DB_NAME))
         {
             connectivity.addToBatch(Staff.CREATE_TABLE_STAFF, conn);
-            connectivity.addToBatch(CurrentUser.CREATE_TABLE_LOGIN, null);
+            connectivity.addToBatch(LoginDetail.CREATE_TABLE_LOGIN, null);
             connectivity.addToBatch(CustomerAcc.CREATE_TABLE_CUSTOMER_ACC, null);
             connectivity.addToBatch(AccountHolder.CREATE_TABLE_ACCOUNT_HOLDER, null);
             connectivity.addToBatch(Invoice.CREATE_TABLE_INVOICE, null);
@@ -75,5 +87,52 @@ public class DataSource
         return false;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public boolean backUpDB()
+    {
+        File file = new File(backupLocation);
+        if(!file.exists())
+            file.mkdir();
 
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat time = new SimpleDateFormat("HHmmss");
+        SimpleDateFormat DMY = new SimpleDateFormat("ddMMyyyy");
+
+        String timePath = backupLocation + DMY.format(calendar.getTime()) + "/";
+        File timeFile = new File(timePath);
+
+        if(!timeFile.exists())
+            timeFile.mkdir();
+
+        Path source = Paths.get(DB_NAME);
+        Path dest = Paths.get(timePath+time.format(calendar.getTime())+backupName);
+
+        try {
+            Files.copy(source, dest);
+            Log.write("DataSource: backup successfully created.");
+            return true;
+        } catch (IOException e) {
+            Log.write("DataSource: Error while creating backup. Perhaps backup method called twice in the same second.");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public String getBackupLocation() {
+        return backupLocation;
+    }
+
+    public void setBackupLocation(String backupLocation) {
+        this.backupLocation = backupLocation;
+    }
+
+    public String getBackupName() {
+        return backupName;
+    }
+
+    public void setBackupName(String backupName) {
+        this.backupName = backupName;
+    }
 }
