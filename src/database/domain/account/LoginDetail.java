@@ -24,12 +24,12 @@ public class LoginDetail
 
     //  Properties
     private String userName;
-    private String staffID;
+    private int staffID;
     private String password;
 
     public LoginDetail(){}
 
-    public LoginDetail(String userName, String staffID, String password)
+    public LoginDetail(String userName, int staffID, String password)
     {
         this.userName = userName;
         this.staffID = staffID;
@@ -45,11 +45,11 @@ public class LoginDetail
         this.userName = userName;
     }
 
-    public String getStaffID() {
+    public int getStaffID() {
         return staffID;
     }
 
-    public void setStaffID(String staffID) {
+    public void setStaffID(int staffID) {
         this.staffID = staffID;
     }
 

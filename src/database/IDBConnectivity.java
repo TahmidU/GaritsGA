@@ -1,7 +1,5 @@
 package database;
 
-import com.sun.istack.internal.Nullable;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 
@@ -11,7 +9,7 @@ public interface IDBConnectivity
     boolean write(String sql, Connection con);
     boolean writePrepared(String sql, Connection con, String[] sets);
     boolean writeBatch(Connection con);
-    void addToBatch(String sql, @Nullable Connection con);
+    void addToBatch(String sql, Connection con);
     void clearBatch();
     Connection connect(String con);
     boolean closeConnection(Connection con);

@@ -1,10 +1,9 @@
 package database;
 
-import com.sun.istack.internal.Nullable;
 import util.Log;
-
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DBConnectivity implements IDBConnectivity
 {
@@ -19,9 +18,9 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public ResultSet read(String sql, Connection con)
     {
-        Statement mState = null;
+
         try {
-            mState = con.createStatement();
+            Statement mState = con.createStatement();
             return mState.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,7 +84,7 @@ public class DBConnectivity implements IDBConnectivity
     }
 
     @Override
-    public void addToBatch(String sql, @Nullable Connection con)
+    public void addToBatch(String sql, Connection con)
     {
         if(batchStm == null)
         {
@@ -112,6 +111,7 @@ public class DBConnectivity implements IDBConnectivity
         if(batchStm != null) {
             try {
                 batchStm.clearBatch();
+                batchStm.close();
             } catch (SQLException e) {
                 Log.write("DBConnectivity: Failed to clear batch.");
                 e.printStackTrace();

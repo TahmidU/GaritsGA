@@ -27,7 +27,7 @@ import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class DataSource
+public class DBHelper
 {
     public static final String DB_NAME = "GaritsGA.db";
     public static final String DB_DRIVER =  "jdbc:sqlite:"+DB_NAME;
@@ -38,7 +38,7 @@ public class DataSource
     private String backupLocation = "backup/";
     private String backupName = "backupGA.db";
 
-    public DataSource()
+    public DBHelper()
     {
         connectivity = new DBConnectivity();
     }
@@ -79,6 +79,8 @@ public class DataSource
                 {
                     Log.write("DataSource: Error while creating the database.");
                 }
+
+            connectivity.clearBatch();
             connectivity.closeConnection(conn);
             return true;
         }

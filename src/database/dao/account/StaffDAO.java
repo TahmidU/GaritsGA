@@ -2,8 +2,7 @@ package database.dao.account;
 
 import database.DBConnectivity;
 import database.IDBConnectivity;
-import database.dao.DataSource;
-import database.dao.IDao;
+import database.dao.DBHelper;
 import database.dao.contracts.IStaff;
 import database.domain.account.Staff;
 import util.Log;
@@ -12,7 +11,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StaffDAO implements IStaff
 {
@@ -31,7 +29,7 @@ public class StaffDAO implements IStaff
     @Override
     public ArrayList<Staff> getAll()
     {
-        con = connectivity.connect(DataSource.DB_DRIVER);
+        con = connectivity.connect(DBHelper.DB_DRIVER);
 
         String sql = "SELECT * FROM " + Staff.TABLE_STAFF;
         ResultSet rs = connectivity.read(sql,con);
@@ -55,7 +53,7 @@ public class StaffDAO implements IStaff
     @Override
     public void save(Staff staff)
     {
-        con = connectivity.connect(DataSource.DB_DRIVER);
+        con = connectivity.connect(DBHelper.DB_DRIVER);
 
         String sql = "INSERT INTO " + Staff.TABLE_STAFF + "( " + Staff.COLUMN_FIRST_NAME + ", " + Staff.COLUMN_LAST_NAME + ", " +
                 Staff.COLUMN_PHONE_NUM + ", " + Staff.COLUMN_EMAIL + ", " + Staff.COLUMN_TYPE + ")" + " VALUES(?,?,?,?,?)";
@@ -70,7 +68,7 @@ public class StaffDAO implements IStaff
     @Override
     public void update(Staff staff)
     {
-        con = connectivity.connect(DataSource.DB_DRIVER);
+        con = connectivity.connect(DBHelper.DB_DRIVER);
 
         String sql = "UPDATE " + Staff.TABLE_STAFF + " SET " + Staff.COLUMN_FIRST_NAME + " =?," + Staff.COLUMN_LAST_NAME + " =?," +
                 Staff.COLUMN_PHONE_NUM + " =?," + Staff.COLUMN_EMAIL + " =?," + Staff.COLUMN_TYPE + " =?" + " WHERE " + Staff.COLUMN_ID +
@@ -86,10 +84,20 @@ public class StaffDAO implements IStaff
     @Override
     public void delete(Staff staff)
     {
-        con = connectivity.connect(DataSource.DB_DRIVER);
+        con = connectivity.connect(DBHelper.DB_DRIVER);
 
         String sql = "DELETE FROM " + Staff.TABLE_STAFF + " WHERE " + Staff.COLUMN_ID + "=" + staff.getId();
+        connectivity.write(sql, con);
 
+        connectivity.closeConnection(con);
+    }
+
+    @Override
+    public void delete(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+
+        String sql = "DELETE FROM " + Staff.TABLE_STAFF + " WHERE " + Staff.COLUMN_ID + "=" + id;
         connectivity.write(sql, con);
 
         connectivity.closeConnection(con);

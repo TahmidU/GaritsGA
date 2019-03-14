@@ -10,4 +10,5 @@ public interface IStaff
     void save(Staff staff);
     void update(Staff staff);
     void delete(Staff staff);
+    void delete(int id);
 }
