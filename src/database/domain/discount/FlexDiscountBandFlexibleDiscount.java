@@ -20,11 +20,11 @@ public class FlexDiscountBandFlexibleDiscount
 
     //  Properties
     private int flexDiscountBandFlexDiscount;
-    private int flexDiscountBandValuationBand;
+    private String flexDiscountBandValuationBand;
 
     public FlexDiscountBandFlexibleDiscount(){}
 
-    public FlexDiscountBandFlexibleDiscount(int flexDiscountBandFlexDiscount, int flexDiscountBandValuationBand)
+    public FlexDiscountBandFlexibleDiscount(int flexDiscountBandFlexDiscount, String flexDiscountBandValuationBand)
     {
         this.flexDiscountBandFlexDiscount = flexDiscountBandFlexDiscount;
         this.flexDiscountBandValuationBand = flexDiscountBandValuationBand;
@@ -39,11 +39,11 @@ public class FlexDiscountBandFlexibleDiscount
         this.flexDiscountBandFlexDiscount = flexDiscountBandFlexDiscount;
     }
 
-    public int getFlexDiscountBandValuationBand() {
+    public String getFlexDiscountBandValuationBand() {
         return flexDiscountBandValuationBand;
     }
 
-    public void setFlexDiscountBandValuationBand(int flexDiscountBandValuationBand) {
+    public void setFlexDiscountBandValuationBand(String flexDiscountBandValuationBand) {
         this.flexDiscountBandValuationBand = flexDiscountBandValuationBand;
     }
 }

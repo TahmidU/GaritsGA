@@ -3,8 +3,9 @@ package database.dao.account;
 import database.DBConnectivity;
 import database.IDBConnectivity;
 import database.dao.DBHelper;
-import database.dao.contracts.ILoginDetail;
-import database.domain.account.LoginDetail;
+import database.dao.contracts.IAccountHolder;
+import database.domain.account.AccountHolder;
+import util.DBDateHelper;
 import util.Log;
 
 import java.sql.Connection;
@@ -12,22 +13,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class LoginDetailDAO implements ILoginDetail
+public class AccountHolderDAO implements IAccountHolder
 {
 
-    private ArrayList<LoginDetail> loginDetails;
+    private ArrayList<AccountHolder> accountHolders;
 
     private Connection con;
     private IDBConnectivity connectivity;
 
-    public LoginDetailDAO()
+    public AccountHolderDAO()
     {
-        loginDetails = new ArrayList<>();
+        accountHolders = new ArrayList<>();
         connectivity = new DBConnectivity();
     }
 
     @Override
-    public ArrayList<LoginDetail> getAll()
+    public ArrayList<AccountHolder> getAll()
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -37,12 +38,13 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "SELECT * FROM " + LoginDetail.TABLE_LOGIN_DETAIL;
+        String sql = "SELECT * FROM " + AccountHolder.TABLE_ACCOUNT_HOLDER;
         ResultSet rs = connectivity.read(sql,con);
         try {
             while (rs.next()) {
-                loginDetails.add(new LoginDetail(rs.getString(LoginDetail.INDEX_USER_NAME), rs.getInt(LoginDetail.INDEX_STAFF_ID),
-                        rs.getString(LoginDetail.INDEX_PASSWORD)));
+
+                accountHolders.add(new AccountHolder(rs.getInt(AccountHolder.INDEX_ID), rs.getString(AccountHolder.INDEX_NI),
+                        DBDateHelper.parseDate(rs.getString(AccountHolder.INDEX_DATE_JOINED))));
             }
             Log.write("DAO: Query successful.");
         }catch (SQLException e)
@@ -53,11 +55,11 @@ public class LoginDetailDAO implements ILoginDetail
 
         connectivity.closeConnection(con);
 
-        return loginDetails;
+        return accountHolders;
     }
 
     @Override
-    public void save(LoginDetail loginDetail)
+    public void save(AccountHolder accountHolder)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -67,9 +69,8 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "INSERT INTO " + LoginDetail.TABLE_LOGIN_DETAIL + "( " + LoginDetail.COLUMN_USER_NAME + ","
-                + LoginDetail.COLUMN_STAFF_ID + "," + LoginDetail.COLUMN_PASSWORD + ")" + " VALUES(?,?,?)";
-        String[] values = {loginDetail.getUserName(), Integer.toString(loginDetail.getStaffID()), loginDetail.getPassword()};
+        String sql = "INSERT INTO " + AccountHolder.TABLE_ACCOUNT_HOLDER + "( " + AccountHolder.COLUMN_NI + "," + AccountHolder.COLUMN_DATE_JOINED + ")" + " VALUES(?,?)";
+        String[] values = {accountHolder.getNationalInsurance(), String.valueOf(accountHolder.getDateJoined())};
 
         connectivity.writePrepared(sql, con, values);
 
@@ -77,7 +78,7 @@ public class LoginDetailDAO implements ILoginDetail
     }
 
     @Override
-    public void update(LoginDetail loginDetail)
+    public void update(AccountHolder accountHolder)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -87,11 +88,12 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "UPDATE " + LoginDetail.TABLE_LOGIN_DETAIL + " SET " + LoginDetail.COLUMN_STAFF_ID + " =?," +
-                LoginDetail.COLUMN_PASSWORD + " =?" + " WHERE " + LoginDetail.COLUMN_USER_NAME +
-                " ='" + loginDetail.getUserName() + "'";
+        String sql = "UPDATE " + AccountHolder.TABLE_ACCOUNT_HOLDER + " SET " + AccountHolder.COLUMN_NI + " =?," +
+                AccountHolder.COLUMN_DATE_JOINED + " =?" + " WHERE " + AccountHolder.COLUMN_ID +
+                " =" + accountHolder.getId();
 
-        String[] values = {Integer.toString(loginDetail.getStaffID()), loginDetail.getPassword()};
+        String[] values = {Integer.toString(accountHolder.getId()), accountHolder.getNationalInsurance(),
+                String.valueOf(accountHolder.getDateJoined())};
 
         connectivity.writePrepared(sql, con, values);
 
@@ -99,7 +101,7 @@ public class LoginDetailDAO implements ILoginDetail
     }
 
     @Override
-    public void delete(LoginDetail loginDetail)
+    public void delete(AccountHolder accountHolder)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -109,15 +111,15 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "DELETE FROM " + LoginDetail.TABLE_LOGIN_DETAIL + " WHERE " + LoginDetail.COLUMN_USER_NAME + "="
-                + loginDetail.getUserName();
+        String sql = "DELETE FROM " + AccountHolder.TABLE_ACCOUNT_HOLDER + " WHERE " + AccountHolder.COLUMN_ID + "="
+                + accountHolder.getId();
         connectivity.write(sql, con);
 
         connectivity.closeConnection(con);
     }
 
     @Override
-    public void delete(String username)
+    public void delete(int id)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -127,8 +129,8 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "DELETE FROM " + LoginDetail.TABLE_LOGIN_DETAIL + " WHERE " + LoginDetail.COLUMN_USER_NAME + "="
-                + username;
+        String sql = "DELETE FROM " + AccountHolder.TABLE_ACCOUNT_HOLDER + " WHERE " + AccountHolder.COLUMN_ID + "="
+                + id;
         connectivity.write(sql, con);
 
         connectivity.closeConnection(con);

@@ -25,7 +25,7 @@ public class CustomerAcc
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_CUSTOMER_ACC = "CREATE TABLE " + TABLE_CUSTOMER_ACCOUNT + " (" + COLUMN_NI + " varchar(9) NOT NULL," +
             " " + COLUMN_FIRST_NAME + " varchar(50) NOT NULL, " + COLUMN_LAST_NAME + " varchar(50) NOT NULL, " + COLUMN_ADDRESS + " varchar(100) NOT NULL," +
-            " " + COLUMN_POSTCODE + " varchar(8) NOT NULL, " + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_PHONE + " integer(11), PRIMARY KEY (" + COLUMN_NI + "));";
+            " " + COLUMN_POSTCODE + " varchar(8) NOT NULL, " + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_PHONE + " varchar(11), PRIMARY KEY (" + COLUMN_NI + "));";
 
     //  Properties
     private String nationalInsurance;
@@ -34,12 +34,12 @@ public class CustomerAcc
     private String addressLine;
     private String postCode;
     private String email;
-    private int phoneNumber;
+    private String phoneNumber;
 
     public CustomerAcc(){}
 
     public CustomerAcc(String nationalInsurance, String firstName, String lastName, String addressLine, String postCode,
-                       String email, int phoneNumber)
+                       String email, String phoneNumber)
     {
         this.nationalInsurance = nationalInsurance;
         this.firstName = firstName;
@@ -47,6 +47,7 @@ public class CustomerAcc
         this.addressLine = addressLine;
         this.postCode = postCode;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     //--------Getters and Setters--------
@@ -98,11 +99,11 @@ public class CustomerAcc
         this.email = email;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }

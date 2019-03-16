@@ -23,29 +23,19 @@ public class VariableTask
             "FOREIGN KEY(" + COLUMN_VAR_DISCOUNT_ID + ") REFERENCES " + VariableDiscount.TABLE_VARIABLE_DISCOUNT + "(" + VariableDiscount.COLUMN_VAR_ID + "));";
 
     //  Properties
-    private int id;
     private int taskId;
     private int varDiscountId;
     private float discountVal;
 
     public VariableTask(){}
 
-    public VariableTask(int id, int taskId, int varDiscountId, float discountVal) {
-        this.id = id;
+    public VariableTask(int taskId, int varDiscountId, float discountVal) {
         this.taskId = taskId;
         this.varDiscountId = varDiscountId;
         this.discountVal = discountVal;
     }
 
     //--------Getters and Setters--------
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getTaskId() {
         return taskId;
     }

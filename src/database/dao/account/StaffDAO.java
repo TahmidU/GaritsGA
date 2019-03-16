@@ -30,6 +30,12 @@ public class StaffDAO implements IStaff
     public ArrayList<Staff> getAll()
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
 
         String sql = "SELECT * FROM " + Staff.TABLE_STAFF;
         ResultSet rs = connectivity.read(sql,con);
@@ -54,6 +60,12 @@ public class StaffDAO implements IStaff
     public void save(Staff staff)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
 
         String sql = "INSERT INTO " + Staff.TABLE_STAFF + "( " + Staff.COLUMN_FIRST_NAME + ", " + Staff.COLUMN_LAST_NAME + ", " +
                 Staff.COLUMN_PHONE_NUM + ", " + Staff.COLUMN_EMAIL + ", " + Staff.COLUMN_TYPE + ")" + " VALUES(?,?,?,?,?)";
@@ -69,6 +81,12 @@ public class StaffDAO implements IStaff
     public void update(Staff staff)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
 
         String sql = "UPDATE " + Staff.TABLE_STAFF + " SET " + Staff.COLUMN_FIRST_NAME + " =?," + Staff.COLUMN_LAST_NAME + " =?," +
                 Staff.COLUMN_PHONE_NUM + " =?," + Staff.COLUMN_EMAIL + " =?," + Staff.COLUMN_TYPE + " =?" + " WHERE " + Staff.COLUMN_ID +
@@ -85,6 +103,12 @@ public class StaffDAO implements IStaff
     public void delete(Staff staff)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
 
         String sql = "DELETE FROM " + Staff.TABLE_STAFF + " WHERE " + Staff.COLUMN_ID + "=" + staff.getId();
         connectivity.write(sql, con);
@@ -96,6 +120,12 @@ public class StaffDAO implements IStaff
     public void delete(int id)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
 
         String sql = "DELETE FROM " + Staff.TABLE_STAFF + " WHERE " + Staff.COLUMN_ID + "=" + id;
         connectivity.write(sql, con);

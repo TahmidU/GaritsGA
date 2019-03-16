@@ -1,10 +1,11 @@
-package database.dao.account;
+package database.dao.payment;
 
 import database.DBConnectivity;
 import database.IDBConnectivity;
 import database.dao.DBHelper;
-import database.dao.contracts.ILoginDetail;
-import database.domain.account.LoginDetail;
+import database.dao.contracts.IInvoice;
+import database.domain.payment.Invoice;
+import util.DBDateHelper;
 import util.Log;
 
 import java.sql.Connection;
@@ -12,23 +13,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class LoginDetailDAO implements ILoginDetail
-{
-
-    private ArrayList<LoginDetail> loginDetails;
+public class InvoiceDAO implements IInvoice {
+    private ArrayList<Invoice> invoices;
 
     private Connection con;
     private IDBConnectivity connectivity;
 
-    public LoginDetailDAO()
-    {
-        loginDetails = new ArrayList<>();
+    public InvoiceDAO() {
+        invoices = new ArrayList<>();
         connectivity = new DBConnectivity();
     }
 
     @Override
-    public ArrayList<LoginDetail> getAll()
-    {
+    public ArrayList<Invoice> getAll() {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
             con.setAutoCommit(false);
@@ -37,28 +34,26 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "SELECT * FROM " + LoginDetail.TABLE_LOGIN_DETAIL;
-        ResultSet rs = connectivity.read(sql,con);
+        String sql = "SELECT * FROM " + Invoice.TABLE_INVOICE;
+        ResultSet rs = connectivity.read(sql, con);
         try {
             while (rs.next()) {
-                loginDetails.add(new LoginDetail(rs.getString(LoginDetail.INDEX_USER_NAME), rs.getInt(LoginDetail.INDEX_STAFF_ID),
-                        rs.getString(LoginDetail.INDEX_PASSWORD)));
+                invoices.add(new Invoice(rs.getInt(Invoice.INDEX_ID), rs.getString(Invoice.INDEX_NI), DBDateHelper.parseDate(rs.getString(Invoice.INDEX_DATE_CREATED)),
+                        rs.getFloat(Invoice.INDEX_TOTAL), rs.getInt(Invoice.INDEX_JOB_NUM)));
             }
             Log.write("DAO: Query successful.");
-        }catch (SQLException e)
-        {
+        } catch (SQLException e) {
             Log.write("DAO: Failed to retrieve data from database.");
             e.printStackTrace();
         }
 
         connectivity.closeConnection(con);
 
-        return loginDetails;
+        return invoices;
     }
 
     @Override
-    public void save(LoginDetail loginDetail)
-    {
+    public void save(Invoice invoice) {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
             con.setAutoCommit(false);
@@ -67,9 +62,10 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "INSERT INTO " + LoginDetail.TABLE_LOGIN_DETAIL + "( " + LoginDetail.COLUMN_USER_NAME + ","
-                + LoginDetail.COLUMN_STAFF_ID + "," + LoginDetail.COLUMN_PASSWORD + ")" + " VALUES(?,?,?)";
-        String[] values = {loginDetail.getUserName(), Integer.toString(loginDetail.getStaffID()), loginDetail.getPassword()};
+        String sql = "INSERT INTO " + Invoice.TABLE_INVOICE + "( " + Invoice.COLUMN_NI + ","
+                + Invoice.COLUMN_DATE_CREATED + "," + Invoice.COLUMN_TOTAL + "," + Invoice.COLUMN_JOB_NUM + ")" + " VALUES(?,?,?,?)";
+        String[] values = {invoice.getNationalInsurance(), String.valueOf(invoice.getDateCreated()), String.valueOf(invoice.getTotalAmount()),
+                String.valueOf(invoice.getJobNum())};
 
         connectivity.writePrepared(sql, con, values);
 
@@ -77,8 +73,7 @@ public class LoginDetailDAO implements ILoginDetail
     }
 
     @Override
-    public void update(LoginDetail loginDetail)
-    {
+    public void update(Invoice invoice) {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
             con.setAutoCommit(false);
@@ -87,11 +82,12 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "UPDATE " + LoginDetail.TABLE_LOGIN_DETAIL + " SET " + LoginDetail.COLUMN_STAFF_ID + " =?," +
-                LoginDetail.COLUMN_PASSWORD + " =?" + " WHERE " + LoginDetail.COLUMN_USER_NAME +
-                " ='" + loginDetail.getUserName() + "'";
+        String sql = "UPDATE " + Invoice.TABLE_INVOICE + " SET " + Invoice.COLUMN_NI + " =?," + Invoice.COLUMN_DATE_CREATED + " =?," +
+                Invoice.COLUMN_TOTAL + " =?," + Invoice.COLUMN_JOB_NUM + " =?" + " WHERE " + Invoice.COLUMN_ID +
+                " =" + invoice.getId();
 
-        String[] values = {Integer.toString(loginDetail.getStaffID()), loginDetail.getPassword()};
+        String[] values = {invoice.getNationalInsurance(), String.valueOf(invoice.getDateCreated()), String.valueOf(invoice.getTotalAmount()),
+                String.valueOf(invoice.getJobNum())};
 
         connectivity.writePrepared(sql, con, values);
 
@@ -99,8 +95,7 @@ public class LoginDetailDAO implements ILoginDetail
     }
 
     @Override
-    public void delete(LoginDetail loginDetail)
-    {
+    public void delete(Invoice invoice) {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
             con.setAutoCommit(false);
@@ -109,16 +104,15 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "DELETE FROM " + LoginDetail.TABLE_LOGIN_DETAIL + " WHERE " + LoginDetail.COLUMN_USER_NAME + "="
-                + loginDetail.getUserName();
+        String sql = "DELETE FROM " + Invoice.TABLE_INVOICE + " WHERE " + Invoice.COLUMN_ID + "="
+                + invoice.getId();
         connectivity.write(sql, con);
 
         connectivity.closeConnection(con);
     }
 
     @Override
-    public void delete(String username)
-    {
+    public void delete(int id) {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
             con.setAutoCommit(false);
@@ -127,8 +121,8 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "DELETE FROM " + LoginDetail.TABLE_LOGIN_DETAIL + " WHERE " + LoginDetail.COLUMN_USER_NAME + "="
-                + username;
+        String sql = "DELETE FROM " + Invoice.TABLE_INVOICE + " WHERE " + Invoice.COLUMN_ID + "="
+                + id;
         connectivity.write(sql, con);
 
         connectivity.closeConnection(con);

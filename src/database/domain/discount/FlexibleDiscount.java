@@ -1,6 +1,6 @@
 package database.domain.discount;
 
-public class FlexibleDiscount extends DiscountPlan
+public class FlexibleDiscount
 {
     //  Table name and name of all columns.
     public static final String TABLE_FLEXIBLE_DISCOUNT = "flexible_discount";
@@ -8,23 +8,22 @@ public class FlexibleDiscount extends DiscountPlan
 
     //  Columns indexes.
     public static final int INDEX_FLEX_ID = 1;
+    public static final int INDEX_DISCOUNT_ID = 2;
 
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_FLEXIBLE_DISCOUNT = "CREATE TABLE " + TABLE_FLEXIBLE_DISCOUNT + " (" + COLUMN_FLEX_DISCOUNT_ID + " INTEGER NOT NULL PRIMARY KEY , " +
-            "" + COLUMN_ID + " integer(10) NOT NULL, FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " + TABLE_DISCOUNT_PLAN + "(" + COLUMN_ID + "));";
+            "" + DiscountPlan.COLUMN_ID + " integer(10) NOT NULL, FOREIGN KEY(" + DiscountPlan.COLUMN_ID + ") REFERENCES " + DiscountPlan.TABLE_DISCOUNT_PLAN + "(" +
+            DiscountPlan.COLUMN_ID + "));";
 
     //  Properties
     private int flexId;
+    private int discountId;
 
     public FlexibleDiscount(){}
 
-    public FlexibleDiscount(int flexId) {
+    public FlexibleDiscount(int flexId, int discountId) {
         this.flexId = flexId;
-    }
-
-    public FlexibleDiscount(String id, String type, String nationalInsurance, int flexId) {
-        super(id, type, nationalInsurance);
-        this.flexId = flexId;
+        this.discountId = discountId;
     }
 
     //--------Getters and Setters--------
@@ -34,5 +33,13 @@ public class FlexibleDiscount extends DiscountPlan
 
     public void setFlexId(int flexId) {
         this.flexId = flexId;
+    }
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
+    public void setDiscountId(int discountId) {
+        this.discountId = discountId;
     }
 }

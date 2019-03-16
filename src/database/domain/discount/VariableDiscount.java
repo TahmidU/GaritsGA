@@ -1,6 +1,6 @@
 package database.domain.discount;
 
-public class VariableDiscount extends DiscountPlan
+public class VariableDiscount
 {
     //  Table name and name of all columns.
     public static final String TABLE_VARIABLE_DISCOUNT = "variable_discount";
@@ -9,23 +9,22 @@ public class VariableDiscount extends DiscountPlan
 
     //  Columns indexes.
     public static final int INDEX_VAR_ID = 1;
+    public static final int INDEX_DISCOUNT_ID =2;
 
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_VARIABLE_DISCOUNT = "CREATE TABLE " + TABLE_VARIABLE_DISCOUNT + " (" + COLUMN_VAR_ID + " INTEGER NOT NULL PRIMARY KEY , " +
-            "" + COLUMN_ID + " integer(10) NOT NULL, FOREIGN KEY(" + COLUMN_ID + ") REFERENCES " + DiscountPlan.TABLE_DISCOUNT_PLAN + "(" + COLUMN_ID + "));";
+            "" + DiscountPlan.COLUMN_ID + " integer(10) NOT NULL, FOREIGN KEY(" + DiscountPlan.COLUMN_ID + ") REFERENCES " +
+            DiscountPlan.TABLE_DISCOUNT_PLAN + "(" + DiscountPlan.COLUMN_ID + "));";
 
     //  Properties
     private int varId;
+    private int discountId;
 
     public VariableDiscount(){}
 
-    public VariableDiscount(int varId) {
+    public VariableDiscount(int varId, int discountId) {
         this.varId = varId;
-    }
-
-    public VariableDiscount(String id, String type, String nationalInsurance, int varId) {
-        super(id, type, nationalInsurance);
-        this.varId = varId;
+        this.discountId = discountId;
     }
 
     //--------Getters and Setters--------
@@ -35,5 +34,13 @@ public class VariableDiscount extends DiscountPlan
 
     public void setVarId(int varId) {
         this.varId = varId;
+    }
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
+    public void setDiscountId(int discountId) {
+        this.discountId = discountId;
     }
 }

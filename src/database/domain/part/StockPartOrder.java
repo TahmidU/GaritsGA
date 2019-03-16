@@ -19,90 +19,31 @@ public class StockPartOrder
             "FOREIGN KEY(" + COLUMN_STOCK_PART_ID + ") REFERENCES " + StockPart.TABLE_STOCK_PART + "(" + StockPart.COLUMN_PART_ID + "));";
 
     //  Properties
-    private int partId;
-    private String partName;
-    private float price;
-    private int threshold;
-    private String manufacturer;
-    private String vehicleType;
-    private String startYr;
-    private String endYr;
+    private String partOrderNum;
+    private int stockPartId;
 
     public StockPartOrder(){}
 
-    public StockPartOrder(int partId, String partName, float price, int threshold, String manufacturer, String vehicleType, String startYr, String endYr) {
-        this.partId = partId;
-        this.partName = partName;
-        this.price = price;
-        this.threshold = threshold;
-        this.manufacturer = manufacturer;
-        this.vehicleType = vehicleType;
-        this.startYr = startYr;
-        this.endYr = endYr;
+    public StockPartOrder(String partOrderNum, int stockPartId) {
+        this.partOrderNum = partOrderNum;
+        this.stockPartId = stockPartId;
     }
 
     //--------Getters and Setters--------
-    public int getPartId() {
-        return partId;
+
+    public String getPartOrderNum() {
+        return partOrderNum;
     }
 
-    public void setPartId(int partId) {
-        this.partId = partId;
+    public void setPartOrderNum(String partOrderNum) {
+        this.partOrderNum = partOrderNum;
     }
 
-    public String getPartName() {
-        return partName;
+    public int getStockPartId() {
+        return stockPartId;
     }
 
-    public void setPartName(String partName) {
-        this.partName = partName;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getThreshold() {
-        return threshold;
-    }
-
-    public void setThreshold(int threshold) {
-        this.threshold = threshold;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
-    public String getVehicleType() {
-        return vehicleType;
-    }
-
-    public void setVehicleType(String vehicleType) {
-        this.vehicleType = vehicleType;
-    }
-
-    public String getStartYr() {
-        return startYr;
-    }
-
-    public void setStartYr(String startYr) {
-        this.startYr = startYr;
-    }
-
-    public String getEndYr() {
-        return endYr;
-    }
-
-    public void setEndYr(String endYr) {
-        this.endYr = endYr;
+    public void setStockPartId(int stockPartId) {
+        this.stockPartId = stockPartId;
     }
 }

@@ -22,13 +22,13 @@ public class DiscountPlan
             "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + "));";
 
     //  Properties
-    private String id;
+    private int id;
     private String type;
     private String nationalInsurance;
 
     public DiscountPlan(){}
 
-    public DiscountPlan(String id, String type, String nationalInsurance)
+    public DiscountPlan(int id, String type, String nationalInsurance)
     {
         this.id = id;
         this.type = type;
@@ -36,11 +36,11 @@ public class DiscountPlan
     }
 
     //--------Getters and Setters--------
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

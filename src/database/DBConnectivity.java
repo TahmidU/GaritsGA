@@ -1,5 +1,6 @@
 package database;
 
+import org.sqlite.SQLiteConfig;
 import util.Log;
 import java.io.File;
 import java.sql.*;
@@ -18,10 +19,13 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public ResultSet read(String sql, Connection con)
     {
-
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
         try {
             Statement mState = con.createStatement();
-            return mState.executeQuery(sql);
+            ResultSet rs = mState.executeQuery(sql);
+            con.commit();
+            return rs;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -32,9 +36,12 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public boolean write(String sql, Connection con)
     {
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
         try {
             Statement mState = con.createStatement();
             mState.execute(sql);
+            con.commit();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,7 +53,11 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public boolean writePrepared(String sql, Connection con, String[] sets)
     {
+
         try {
+            Statement stat = con.createStatement();
+            stat.execute("PRAGMA foreign_keys=ON;");
+            con.commit();
             PreparedStatement ps = con.prepareStatement(sql);
         if(sets.length > 0)
         {
@@ -55,6 +66,7 @@ public class DBConnectivity implements IDBConnectivity
                 ps.setString(i+1, sets[i]);
             }
             ps.execute();
+            con.commit();
             Log.write("DBConnectivity: Statement was successfully executed.");
             return true;
         }else
@@ -70,10 +82,19 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public boolean writeBatch(Connection con)
     {
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("StaffDAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
         if(batchStm != null)
         {
             try {
                 batchStm.executeBatch();
+                con.commit();
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -86,6 +107,8 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public void addToBatch(String sql, Connection con)
     {
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
         if(batchStm == null)
         {
             try {
@@ -108,6 +131,8 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public void clearBatch()
     {
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
         if(batchStm != null) {
             try {
                 batchStm.clearBatch();

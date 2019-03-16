@@ -1,10 +1,11 @@
-package database.dao.account;
+package database.dao.reminder;
 
 import database.DBConnectivity;
 import database.IDBConnectivity;
 import database.dao.DBHelper;
-import database.dao.contracts.ILoginDetail;
-import database.domain.account.LoginDetail;
+import database.dao.contracts.IMOTReminder;
+import database.domain.reminder.MOTReminder;
+import util.DBDateHelper;
 import util.Log;
 
 import java.sql.Connection;
@@ -12,22 +13,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class LoginDetailDAO implements ILoginDetail
+public class MOTReminderDAO implements IMOTReminder
 {
-
-    private ArrayList<LoginDetail> loginDetails;
+    private ArrayList<MOTReminder> motReminders;
 
     private Connection con;
     private IDBConnectivity connectivity;
 
-    public LoginDetailDAO()
+    public MOTReminderDAO()
     {
-        loginDetails = new ArrayList<>();
+        motReminders = new ArrayList<>();
         connectivity = new DBConnectivity();
     }
 
     @Override
-    public ArrayList<LoginDetail> getAll()
+    public ArrayList<MOTReminder> getAll()
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -37,12 +37,12 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "SELECT * FROM " + LoginDetail.TABLE_LOGIN_DETAIL;
+        String sql = "SELECT * FROM " + MOTReminder.TABLE_MOT_REMINDERS;
         ResultSet rs = connectivity.read(sql,con);
         try {
             while (rs.next()) {
-                loginDetails.add(new LoginDetail(rs.getString(LoginDetail.INDEX_USER_NAME), rs.getInt(LoginDetail.INDEX_STAFF_ID),
-                        rs.getString(LoginDetail.INDEX_PASSWORD)));
+                motReminders.add(new MOTReminder(rs.getInt(MOTReminder.COLUMN_ID), rs.getInt(MOTReminder.COLUMN_ACCOUNT_HOLDER_ID),
+                        DBDateHelper.parseDate(rs.getString(MOTReminder.INDEX_RENEWAL_DATE))));
             }
             Log.write("DAO: Query successful.");
         }catch (SQLException e)
@@ -53,11 +53,11 @@ public class LoginDetailDAO implements ILoginDetail
 
         connectivity.closeConnection(con);
 
-        return loginDetails;
+        return motReminders;
     }
 
     @Override
-    public void save(LoginDetail loginDetail)
+    public void save(MOTReminder motReminder)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -67,9 +67,9 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "INSERT INTO " + LoginDetail.TABLE_LOGIN_DETAIL + "( " + LoginDetail.COLUMN_USER_NAME + ","
-                + LoginDetail.COLUMN_STAFF_ID + "," + LoginDetail.COLUMN_PASSWORD + ")" + " VALUES(?,?,?)";
-        String[] values = {loginDetail.getUserName(), Integer.toString(loginDetail.getStaffID()), loginDetail.getPassword()};
+        String sql = "INSERT INTO " + MOTReminder.TABLE_MOT_REMINDERS + "( " + MOTReminder.COLUMN_ACCOUNT_HOLDER_ID + ","
+                + MOTReminder.COLUMN_RENEWAL_DATE + ")" + " VALUES(?,?)";
+        String[] values = {Integer.toString(motReminder.getAccountHolderId()), String.valueOf(motReminder.getRenewalDate())};
 
         connectivity.writePrepared(sql, con, values);
 
@@ -77,7 +77,7 @@ public class LoginDetailDAO implements ILoginDetail
     }
 
     @Override
-    public void update(LoginDetail loginDetail)
+    public void update(MOTReminder motReminder)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -87,11 +87,11 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "UPDATE " + LoginDetail.TABLE_LOGIN_DETAIL + " SET " + LoginDetail.COLUMN_STAFF_ID + " =?," +
-                LoginDetail.COLUMN_PASSWORD + " =?" + " WHERE " + LoginDetail.COLUMN_USER_NAME +
-                " ='" + loginDetail.getUserName() + "'";
+        String sql = "UPDATE " + MOTReminder.TABLE_MOT_REMINDERS + " SET " + MOTReminder.COLUMN_ACCOUNT_HOLDER_ID + " =?," +
+                MOTReminder.COLUMN_RENEWAL_DATE + " =?" + " WHERE " + MOTReminder.COLUMN_ID +
+                " =" + motReminder.getId();
 
-        String[] values = {Integer.toString(loginDetail.getStaffID()), loginDetail.getPassword()};
+        String[] values = {Integer.toString(motReminder.getAccountHolderId()), String.valueOf(motReminder.getRenewalDate())};
 
         connectivity.writePrepared(sql, con, values);
 
@@ -99,7 +99,7 @@ public class LoginDetailDAO implements ILoginDetail
     }
 
     @Override
-    public void delete(LoginDetail loginDetail)
+    public void delete(MOTReminder motReminder)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -109,15 +109,15 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "DELETE FROM " + LoginDetail.TABLE_LOGIN_DETAIL + " WHERE " + LoginDetail.COLUMN_USER_NAME + "="
-                + loginDetail.getUserName();
+        String sql = "DELETE FROM " + MOTReminder.TABLE_MOT_REMINDERS + " WHERE " + MOTReminder.COLUMN_ID + "="
+                + motReminder.getId();
         connectivity.write(sql, con);
 
         connectivity.closeConnection(con);
     }
 
     @Override
-    public void delete(String username)
+    public void delete(int id)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -127,8 +127,8 @@ public class LoginDetailDAO implements ILoginDetail
             e.printStackTrace();
         }
 
-        String sql = "DELETE FROM " + LoginDetail.TABLE_LOGIN_DETAIL + " WHERE " + LoginDetail.COLUMN_USER_NAME + "="
-                + username;
+        String sql = "DELETE FROM " + MOTReminder.TABLE_MOT_REMINDERS + " WHERE " + MOTReminder.COLUMN_ID + "="
+                + id;
         connectivity.write(sql, con);
 
         connectivity.closeConnection(con);
