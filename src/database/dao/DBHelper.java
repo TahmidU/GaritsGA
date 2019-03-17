@@ -32,6 +32,9 @@ public class DBHelper
     public static final String DB_NAME = "GaritsGA.db";
     public static final String DB_DRIVER =  "jdbc:sqlite:"+DB_NAME;
 
+    public static final String ON_UPDATE = " ON UPDATE CASCADE";
+    public static final String ON_DELETE = " ON DELETE CASCADE";
+
     private IDBConnectivity connectivity;
     private Connection conn;
 
@@ -71,6 +74,7 @@ public class DBHelper
             connectivity.addToBatch(FlexDiscountBand.CREATE_TABLE_FLEX_DISCOUNT_BAND, null);
             connectivity.addToBatch(VariableTask.CREATE_TABLE_VARIABLE_TASK, null);
             connectivity.addToBatch(FlexDiscountBandFlexibleDiscount.CREATE_TABLE_FLEX_DISCOUNT_BAND, null);
+
 
             if(connectivity.writeBatch(conn))
             {

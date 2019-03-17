@@ -64,8 +64,8 @@ public class FixedDiscountDAO implements IFixedDiscount
             Log.write( "DAO: Failed to set auto commit to false ." );
             e.printStackTrace();
         }
-        String sql = "INSERT INTO " + FixedDiscount.TABLE_FIXED_DISCOUNT+"( "+ DiscountPlan.COLUMN_ID + "," +
-                FixedDiscount.COLUMN_PERCENTAGE+")"+ " VALUES(?,?)";
+        String sql = "INSERT INTO " + FixedDiscount.TABLE_FIXED_DISCOUNT+"("+ DiscountPlan.COLUMN_ID + "," +
+                FixedDiscount.COLUMN_PERCENTAGE+")"+ " VALUES(?,?);";
         String[] values = {String.valueOf(fixedDiscount.getDiscountPlanId()),String.valueOf(fixedDiscount.getPercentage())};
 
         connectivity.writePrepared(sql, con, values);

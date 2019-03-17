@@ -1,5 +1,7 @@
 package database.domain.discount;
 
+import database.dao.DBHelper;
+
 public class FlexDiscountBandFlexibleDiscount
 {
     //  Table name and name of all columns.
@@ -16,8 +18,8 @@ public class FlexDiscountBandFlexibleDiscount
             "(" + COLUMN_FLEX_DISCOUNT_BAND_VALUATION_BAND + " varchar(2) NOT NULL, " + COLUMN_FLEXIBLE_DISCOUNT_ID + " integer(10) NOT NULL, " +
             "PRIMARY KEY (" + COLUMN_FLEX_DISCOUNT_BAND_VALUATION_BAND + ", " + COLUMN_FLEXIBLE_DISCOUNT_ID + "), FOREIGN KEY(" + COLUMN_FLEX_DISCOUNT_BAND_VALUATION_BAND + ") " +
             "REFERENCES " + FlexDiscountBand.TABLE_FLEX_DISCOUNT_BAND + "(" + FlexDiscountBand.COLUMN_BAND + "), " +
-            "FOREIGN KEY(" + COLUMN_FLEXIBLE_DISCOUNT_ID + ") REFERENCES " + FlexibleDiscount.TABLE_FLEXIBLE_DISCOUNT + "(" + FlexibleDiscount.COLUMN_FLEX_DISCOUNT_ID + "));";
-
+            "FOREIGN KEY(" + COLUMN_FLEXIBLE_DISCOUNT_ID + ") REFERENCES " + FlexibleDiscount.TABLE_FLEXIBLE_DISCOUNT + "(" + FlexibleDiscount.COLUMN_FLEX_DISCOUNT_ID + ")"
+             + DBHelper.ON_UPDATE + DBHelper.ON_DELETE+");";
     //  Properties
     private int flexDiscountBandFlexDiscount;
     private String flexDiscountBandValuationBand;

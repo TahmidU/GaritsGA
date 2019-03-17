@@ -1,5 +1,6 @@
 package database.domain.discount;
 
+import database.dao.DBHelper;
 import database.domain.account.CustomerAcc;
 
 public class DiscountPlan
@@ -19,7 +20,7 @@ public class DiscountPlan
     public static final String CREATE_TABLE_DISCOUNT_PLAN = "CREATE TABLE " + TABLE_DISCOUNT_PLAN + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_TYPE + " varchar(8) NOT NULL, " + COLUMN_NI + " varchar(9) NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_NI + ") " +
-            "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + "));";
+            "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + ")"+ DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int id;

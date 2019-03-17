@@ -1,5 +1,6 @@
 package database.domain.job;
 
+import database.dao.DBHelper;
 import database.domain.part.StockPart;
 
 import java.sql.Date;
@@ -30,7 +31,7 @@ public class Task
             "" + COLUMN_STOCK_PART_ID + " integer(10) NOT NULL, " + COLUMN_JOB_NUM + " integer(10) NOT NULL, " + COLUMN_TASK_DESC + " varchar(255) NOT NULL, " +
             "" + COLUMN_EST_DURATION + " integer(10) NOT NULL, " + COLUMN_PARTS_QTY + " integer(10) NOT NULL, " + COLUMN_DATE_TASK_COMPLETE + " date NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_STOCK_PART_ID + ") REFERENCES " + StockPart.TABLE_STOCK_PART + "(" + StockPart.COLUMN_PART_ID + "), FOREIGN KEY(" + COLUMN_JOB_NUM + ") " +
-            "REFERENCES " + JobSheet.TABLE_JOB_SHEET + "(" + JobSheet.COLUMN_JOB_NUM + "));";
+            "REFERENCES " + JobSheet.TABLE_JOB_SHEET + "(" + JobSheet.COLUMN_JOB_NUM + ")"+ DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int id;

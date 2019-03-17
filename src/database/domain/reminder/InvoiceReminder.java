@@ -1,5 +1,6 @@
 package database.domain.reminder;
 
+import database.dao.DBHelper;
 import database.domain.payment.Invoice;
 import database.domain.account.AccountHolder;
 
@@ -27,7 +28,7 @@ public class InvoiceReminder
             "" + COLUMN_INVOICE_ID + " integer(10) NOT NULL, " + COLUMN_ACC_HOLDER_ID + " integer(10) NOT NULL, " + COLUMN_TYPE + " varchar(10) NOT NULL, " +
             "" + COLUMN_DATE_CREATED + " date NOT NULL, FOREIGN KEY(" + COLUMN_ACC_HOLDER_ID + ") " +
             "REFERENCES " + AccountHolder.TABLE_ACCOUNT_HOLDER + "(" + AccountHolder.COLUMN_ID + "), FOREIGN KEY(" + COLUMN_INVOICE_ID + ") " +
-            "REFERENCES " + Invoice.TABLE_INVOICE + "(" + Invoice.COLUMN_ID + "));";
+            "REFERENCES " + Invoice.TABLE_INVOICE + "(" + Invoice.COLUMN_ID + ")"+ DBHelper.ON_UPDATE + DBHelper.ON_DELETE+");";
 
     //  Properties
     private int id;

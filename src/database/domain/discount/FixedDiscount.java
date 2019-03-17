@@ -1,5 +1,7 @@
 package database.domain.discount;
 
+import database.dao.DBHelper;
+
 public class FixedDiscount
 {
     //  Table name and name of all columns.
@@ -14,8 +16,8 @@ public class FixedDiscount
 
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_FIXED_DISCOUNT = "CREATE TABLE " + TABLE_FIXED_DISCOUNT + " (" + COLUMN_FIX_DISCOUNT_ID + " INTEGER NOT NULL PRIMARY KEY , " +
-            "" + DiscountPlan.COLUMN_ID + " integer(10) NOT NULL, " + COLUMN_PERCENTAGE + " float(10) NOT NULL, " +
-            "FOREIGN KEY(" + DiscountPlan.COLUMN_ID + ") REFERENCES " + DiscountPlan.TABLE_DISCOUNT_PLAN + "(" + DiscountPlan.COLUMN_ID + "));";
+            "" + DiscountPlan.COLUMN_ID + " INTEGER NOT NULL, " + COLUMN_PERCENTAGE + " float(10) NOT NULL, " +
+            "FOREIGN KEY(" + DiscountPlan.COLUMN_ID + ") REFERENCES " + DiscountPlan.TABLE_DISCOUNT_PLAN + "(" + DiscountPlan.COLUMN_ID + ")"+ DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int fixedDiscountId;
@@ -27,6 +29,7 @@ public class FixedDiscount
     public FixedDiscount(int fixedDiscountId, int discountPlanId, float percentage)
     {
         this.fixedDiscountId = fixedDiscountId;
+        this.discountPlanId = discountPlanId;
         this.percentage = percentage;
     }
 

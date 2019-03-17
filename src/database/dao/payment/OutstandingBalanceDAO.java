@@ -12,6 +12,7 @@ import util.Log;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class OutstandingBalanceDAO implements IOutstandingBalance
@@ -90,11 +91,13 @@ public class OutstandingBalanceDAO implements IOutstandingBalance
             Log.write("DAO: Failed to set auto commit to false.");
             e.printStackTrace();
         }
-
+        //SQLiteConfig config = new SQLiteConfig();
+        //config.enforceForeignKeys(true);
+        //connectivity.write("pragma foreign_keys = 1;", con);
         String sql = "UPDATE " + OutstandingBalance.TABLE_OUTSTANDING_BALANCE + " SET " +
                 OutstandingBalance.COLUMN_STAFF_ID + " =?," + OutstandingBalance.COLUMN_ACCOUNT_HOLDER_ID + " =?," +
                 OutstandingBalance.COLUMN_DATE_AUTHORISED + " =?" + " WHERE " + OutstandingBalance.COLUMN_ID +
-                " =" + outstandingBalance.getId();
+                " =" + outstandingBalance.getId()+";";
 
         String[] values = {Integer.toString(outstandingBalance.getStaffId()),
         Integer.toString(outstandingBalance.getAccHolderId()), String.valueOf(outstandingBalance.getDateAuthorised())};

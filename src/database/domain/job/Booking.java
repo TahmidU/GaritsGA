@@ -1,5 +1,7 @@
 package database.domain.job;
 
+import database.dao.DBHelper;
+
 import java.sql.Date;
 
 public class Booking
@@ -20,7 +22,7 @@ public class Booking
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_BOOKING = "CREATE TABLE " + TABLE_BOOKING + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_JOB_TYPE + " varchar(10) NOT NULL, " + COLUMN_DATE_BOOKED + " date NOT NULL, " + COLUMN_VEHICLE_REG + " varchar(7) NOT NULL, " +
-            "FOREIGN KEY(" + COLUMN_VEHICLE_REG + ") REFERENCES " + Vehicle.TABLE_VEHICLE + "(" + Vehicle.COLUMN_VEHICLE_REG + "));";
+            "FOREIGN KEY(" + COLUMN_VEHICLE_REG + ") REFERENCES " + Vehicle.TABLE_VEHICLE + "(" + Vehicle.COLUMN_VEHICLE_REG + ")"+ DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int id;

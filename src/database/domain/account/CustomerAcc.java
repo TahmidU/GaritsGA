@@ -1,5 +1,7 @@
 package database.domain.account;
 
+import database.dao.DBHelper;
+
 public class CustomerAcc
 {
 
@@ -26,6 +28,7 @@ public class CustomerAcc
     public static final String CREATE_TABLE_CUSTOMER_ACC = "CREATE TABLE " + TABLE_CUSTOMER_ACCOUNT + " (" + COLUMN_NI + " varchar(9) NOT NULL," +
             " " + COLUMN_FIRST_NAME + " varchar(50) NOT NULL, " + COLUMN_LAST_NAME + " varchar(50) NOT NULL, " + COLUMN_ADDRESS + " varchar(100) NOT NULL," +
             " " + COLUMN_POSTCODE + " varchar(8) NOT NULL, " + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_PHONE + " varchar(11), PRIMARY KEY (" + COLUMN_NI + "));";
+
 
     //  Properties
     private String nationalInsurance;

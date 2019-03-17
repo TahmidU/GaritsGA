@@ -1,5 +1,6 @@
 package database.domain.payment;
 
+import database.dao.DBHelper;
 import database.domain.account.CustomerAcc;
 import database.domain.job.JobSheet;
 
@@ -27,7 +28,7 @@ public class Invoice
             "" + COLUMN_NI + " varchar(9) NOT NULL, " + COLUMN_DATE_CREATED + " date NOT NULL, " +
             "" + COLUMN_TOTAL + " float(10) NOT NULL, " + COLUMN_JOB_NUM + " integer(10) NOT NULL, " +
             "FOREIGN KEY(" + COLUMN_NI + ") REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + "), " +
-            "FOREIGN KEY(" + COLUMN_JOB_NUM + ") REFERENCES " + JobSheet.TABLE_JOB_SHEET + " (" + JobSheet.COLUMN_JOB_NUM + "));";
+            "FOREIGN KEY(" + COLUMN_JOB_NUM + ") REFERENCES " + JobSheet.TABLE_JOB_SHEET + " (" + JobSheet.COLUMN_JOB_NUM + ")"+ DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int id;

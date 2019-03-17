@@ -1,5 +1,7 @@
 package database.domain.discount;
 
+import database.dao.DBHelper;
+
 public class VariableDiscount
 {
     //  Table name and name of all columns.
@@ -14,7 +16,7 @@ public class VariableDiscount
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_VARIABLE_DISCOUNT = "CREATE TABLE " + TABLE_VARIABLE_DISCOUNT + " (" + COLUMN_VAR_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + DiscountPlan.COLUMN_ID + " integer(10) NOT NULL, FOREIGN KEY(" + DiscountPlan.COLUMN_ID + ") REFERENCES " +
-            DiscountPlan.TABLE_DISCOUNT_PLAN + "(" + DiscountPlan.COLUMN_ID + "));";
+            DiscountPlan.TABLE_DISCOUNT_PLAN + "(" + DiscountPlan.COLUMN_ID + ")"+ DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int varId;

@@ -1,5 +1,6 @@
 package database.domain.job;
 
+import database.dao.DBHelper;
 import database.domain.account.Staff;
 
 import java.sql.Date;
@@ -36,7 +37,8 @@ public class JobSheet
             "" + COLUMN_DATE_CREATED + " date NOT NULL, " + COLUMN_STATUS + " varchar(255) NOT NULL, " + COLUMN_ALLOCATION_DATE + " date, " +
             "" + COLUMN_DATE_COMPLETED + " date, FOREIGN KEY(" + COLUMN_VEHICLE_REG + ") " +
             "REFERENCES " + Vehicle.TABLE_VEHICLE + "(" + Vehicle.COLUMN_VEHICLE_REG + "), FOREIGN KEY(" + COLUMN_BOOKING_ID + ") " +
-            "REFERENCES " + Booking.TABLE_BOOKING + "(" + Booking.COLUMN_ID + "), FOREIGN KEY(" + COLUMN_STAFF_ID + ") REFERENCES " + Staff.TABLE_STAFF + "(" + Staff.COLUMN_ID + "));";
+            "REFERENCES " + Booking.TABLE_BOOKING + "(" + Booking.COLUMN_ID + "), FOREIGN KEY(" + COLUMN_STAFF_ID + ") REFERENCES " + Staff.TABLE_STAFF + "(" + Staff.COLUMN_ID + ")"
+            + DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int jobNum;

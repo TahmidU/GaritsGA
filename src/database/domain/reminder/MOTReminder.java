@@ -1,5 +1,6 @@
 package database.domain.reminder;
 
+import database.dao.DBHelper;
 import database.domain.account.AccountHolder;
 
 import java.sql.Date;
@@ -20,7 +21,8 @@ public class MOTReminder
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_MOT_REMINDER = "CREATE TABLE " + TABLE_MOT_REMINDERS + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_ACCOUNT_HOLDER_ID + " integer(10) NOT NULL, " + COLUMN_RENEWAL_DATE +" date NOT NULL, " +
-            "FOREIGN KEY(" + COLUMN_ACCOUNT_HOLDER_ID + ") REFERENCES " + AccountHolder.TABLE_ACCOUNT_HOLDER + "(" + AccountHolder.COLUMN_ID + "));";
+            "FOREIGN KEY(" + COLUMN_ACCOUNT_HOLDER_ID + ") REFERENCES " + AccountHolder.TABLE_ACCOUNT_HOLDER + "(" + AccountHolder.COLUMN_ID + ")"+
+            DBHelper.ON_UPDATE + DBHelper.ON_DELETE+");";
 
     //  Properties
     private int id;

@@ -1,5 +1,6 @@
 package database.domain.job;
 
+import database.dao.DBHelper;
 import database.domain.account.CustomerAcc;
 
 public class Vehicle
@@ -29,7 +30,7 @@ public class Vehicle
         "" + COLUMN_MODEL + " varchar(50) NOT NULL, " + COLUMN_ENGINE_SERIAL + " varchar(11) NOT NULL UNIQUE, " +
         "" + COLUMN_CHASSIS_NUM + " varchar(11) NOT NULL UNIQUE, " + COLUMN_COLOR + " varchar(10) NOT NULL, " +
         "PRIMARY KEY (" + COLUMN_VEHICLE_REG + "), FOREIGN KEY(" + COLUMN_NI + ") " +
-        "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + "));";
+        "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + ")"+ DBHelper.ON_UPDATE+");";
 
     //  Properties
     private String vehicleRegistration;

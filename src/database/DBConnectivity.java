@@ -19,8 +19,7 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public ResultSet read(String sql, Connection con)
     {
-        SQLiteConfig config = new SQLiteConfig();
-        config.enforceForeignKeys(true);
+
         try {
             Statement mState = con.createStatement();
             ResultSet rs = mState.executeQuery(sql);
@@ -36,8 +35,6 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public boolean write(String sql, Connection con)
     {
-        SQLiteConfig config = new SQLiteConfig();
-        config.enforceForeignKeys(true);
         try {
             Statement mState = con.createStatement();
             mState.execute(sql);
@@ -55,9 +52,6 @@ public class DBConnectivity implements IDBConnectivity
     {
 
         try {
-            Statement stat = con.createStatement();
-            stat.execute("PRAGMA foreign_keys=ON;");
-            con.commit();
             PreparedStatement ps = con.prepareStatement(sql);
         if(sets.length > 0)
         {
@@ -82,8 +76,6 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public boolean writeBatch(Connection con)
     {
-        SQLiteConfig config = new SQLiteConfig();
-        config.enforceForeignKeys(true);
         try {
             con.setAutoCommit(false);
         } catch (SQLException e) {
@@ -107,8 +99,6 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public void addToBatch(String sql, Connection con)
     {
-        SQLiteConfig config = new SQLiteConfig();
-        config.enforceForeignKeys(true);
         if(batchStm == null)
         {
             try {
@@ -131,8 +121,6 @@ public class DBConnectivity implements IDBConnectivity
     @Override
     public void clearBatch()
     {
-        SQLiteConfig config = new SQLiteConfig();
-        config.enforceForeignKeys(true);
         if(batchStm != null) {
             try {
                 batchStm.clearBatch();
@@ -148,7 +136,9 @@ public class DBConnectivity implements IDBConnectivity
     public Connection connect(String con)
     {
         try {
-            return DriverManager.getConnection(con);
+            Connection connection = DriverManager.getConnection(con);
+            connection.createStatement().execute("pragma foreign_keys=ON");
+            return connection;
         } catch (SQLException e) {
             e.printStackTrace();
         }

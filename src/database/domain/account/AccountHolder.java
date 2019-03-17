@@ -1,5 +1,7 @@
 package database.domain.account;
 
+import database.dao.DBHelper;
+
 import java.sql.Date;
 
 public class AccountHolder extends CustomerAcc
@@ -18,7 +20,8 @@ public class AccountHolder extends CustomerAcc
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_ACCOUNT_HOLDER = "CREATE TABLE " + TABLE_ACCOUNT_HOLDER + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_NI + " varchar(9) NOT NULL, " + COLUMN_DATE_JOINED + " date NOT NULL, " +
-            "FOREIGN KEY(" + COLUMN_NI + ") REFERENCES " + AccountHolder.TABLE_ACCOUNT_HOLDER + "(" + AccountHolder.COLUMN_NI + "));";
+            "FOREIGN KEY(" + COLUMN_NI + ") REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + ")" +
+            DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int id;

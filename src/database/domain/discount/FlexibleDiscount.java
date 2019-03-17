@@ -1,5 +1,7 @@
 package database.domain.discount;
 
+import database.dao.DBHelper;
+
 public class FlexibleDiscount
 {
     //  Table name and name of all columns.
@@ -13,7 +15,7 @@ public class FlexibleDiscount
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_FLEXIBLE_DISCOUNT = "CREATE TABLE " + TABLE_FLEXIBLE_DISCOUNT + " (" + COLUMN_FLEX_DISCOUNT_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + DiscountPlan.COLUMN_ID + " integer(10) NOT NULL, FOREIGN KEY(" + DiscountPlan.COLUMN_ID + ") REFERENCES " + DiscountPlan.TABLE_DISCOUNT_PLAN + "(" +
-            DiscountPlan.COLUMN_ID + "));";
+            DiscountPlan.COLUMN_ID + ")" + DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int flexId;

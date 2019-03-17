@@ -1,5 +1,7 @@
 package database.domain.part;
 
+import database.dao.DBHelper;
+
 public class StockPartOrder
 {
     //  Table name and name of all columns.
@@ -16,7 +18,7 @@ public class StockPartOrder
     public static final String CREATE_TABLE_STOCK_PART_ORDER = "CREATE TABLE " + TABLE_STOCK_PART_ORDER + " (" + COLUMN_PART_ORDER_NUM + " varchar(30) NOT NULL, " +
             "" + COLUMN_STOCK_PART_ID + " integer(10) NOT NULL, PRIMARY KEY (" + COLUMN_PART_ORDER_NUM + ", " + COLUMN_STOCK_PART_ID + "), " +
             "FOREIGN KEY(" + COLUMN_PART_ORDER_NUM + ") REFERENCES " + PartOrder.TABLE_PART_ORDER + "(" + PartOrder.COLUMN_ORDER_NUM + "), " +
-            "FOREIGN KEY(" + COLUMN_STOCK_PART_ID + ") REFERENCES " + StockPart.TABLE_STOCK_PART + "(" + StockPart.COLUMN_PART_ID + "));";
+            "FOREIGN KEY(" + COLUMN_STOCK_PART_ID + ") REFERENCES " + StockPart.TABLE_STOCK_PART + "(" + StockPart.COLUMN_PART_ID + ")" + DBHelper.ON_UPDATE + DBHelper.ON_DELETE+");";
 
     //  Properties
     private String partOrderNum;

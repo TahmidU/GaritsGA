@@ -1,5 +1,7 @@
 package database.domain.discount;
 
+import database.dao.DBHelper;
+
 public class FlexDiscountBand
 {
     //  Table name and name of all columns.

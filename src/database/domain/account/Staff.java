@@ -1,5 +1,7 @@
 package database.domain.account;
 
+import database.dao.DBHelper;
+
 public class Staff
 {
     //  Table name and name of all columns.

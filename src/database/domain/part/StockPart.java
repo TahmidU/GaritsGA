@@ -1,5 +1,7 @@
 package database.domain.part;
 
+import database.dao.DBHelper;
+
 public class StockPart
 {
     //  Table name and name of all columns.

@@ -1,5 +1,7 @@
 package database.domain.part;
 
+import database.dao.DBHelper;
+
 import java.sql.Date;
 
 public class PartOrder
