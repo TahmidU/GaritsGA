@@ -125,6 +125,27 @@ public class DBHelper
         return false;
     }
 
+    public boolean restoreDB(String location)
+    {
+        backUpDB();
+        Path source = Paths.get(location);
+        Path dest = Paths.get(DB_NAME);
+
+        File file = new File(dest.toString());
+
+        if(file.exists())
+            file.delete();
+
+        try {
+            Files.copy(source, dest);
+            Log.write("DataSource: DB restoration successful.");
+            return true;
+        } catch (IOException e) {
+            Log.write("DataSource: DB restoration failed.");
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public String getBackupLocation() {
         return backupLocation;

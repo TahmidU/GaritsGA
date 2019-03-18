@@ -17,11 +17,14 @@ public class PartOrderDAO implements IPartOrder
 {
 
     private ArrayList<PartOrder> partOrders;
+    private PartOrder partOrder;
+
     private Connection con;
     private IDBConnectivity connectivity;
 
     public PartOrderDAO(){
         partOrders = new ArrayList<>();
+        partOrder = null;
         connectivity = new DBConnectivity();
     }
 
@@ -35,6 +38,7 @@ public class PartOrderDAO implements IPartOrder
             e.printStackTrace();
         }
 
+        partOrders.clear();
         String sql = "SELECT * FROM " +PartOrder.TABLE_PART_ORDER;
         ResultSet rs = connectivity.read(sql, con);
         try{
@@ -52,6 +56,41 @@ public class PartOrderDAO implements IPartOrder
         connectivity.closeConnection(con);
         return partOrders;
     }
+
+    @Override
+    public PartOrder getByOrderNum(String orderNum)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + PartOrder.TABLE_PART_ORDER + " WHERE " + PartOrder.COLUMN_ORDER_NUM +
+                "='" + orderNum +"'";
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                partOrder = new PartOrder(rs.getString(PartOrder.INDEX_ORDER_NUM),rs.getString(PartOrder.INDEX_DESC),
+                        rs.getInt(PartOrder.INDEX_QUANTITY),rs.getFloat(PartOrder.INDEX_PRICE), DBDateHelper.parseDate(rs.getString(PartOrder.INDEX_DATE)),
+                        rs.getString(PartOrder.INDEX_COMPANY_NAME),rs.getString(PartOrder.INDEX_ADDRESS_LINE), DBDateHelper.parseDate(rs.getString(PartOrder.INDEX_DAY_DELIVERED)),
+                        rs.getString(PartOrder.INDEX_TELEPHONE), rs.getString(PartOrder.INDEX_FAX));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return partOrder;
+    }
+
     @Override
     public void save(PartOrder partOrder){
 

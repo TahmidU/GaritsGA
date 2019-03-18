@@ -13,14 +13,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class InvoiceDAO implements IInvoice {
+public class InvoiceDAO implements IInvoice
+{
+
     private ArrayList<Invoice> invoices;
+    private Invoice invoice;
 
     private Connection con;
     private IDBConnectivity connectivity;
 
     public InvoiceDAO() {
         invoices = new ArrayList<>();
+        invoice = null;
         connectivity = new DBConnectivity();
     }
 
@@ -34,6 +38,7 @@ public class InvoiceDAO implements IInvoice {
             e.printStackTrace();
         }
 
+        invoices.clear();
         String sql = "SELECT * FROM " + Invoice.TABLE_INVOICE;
         ResultSet rs = connectivity.read(sql, con);
         try {
@@ -49,6 +54,102 @@ public class InvoiceDAO implements IInvoice {
 
         connectivity.closeConnection(con);
 
+        return invoices;
+    }
+
+    @Override
+    public Invoice getById(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Invoice.TABLE_INVOICE + " WHERE " + Invoice.COLUMN_ID +
+                "=" + id;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                invoice = new Invoice(rs.getInt(Invoice.INDEX_ID), rs.getString(Invoice.INDEX_NI), DBDateHelper.parseDate(rs.getString(Invoice.INDEX_DATE_CREATED)),
+                        rs.getFloat(Invoice.INDEX_TOTAL), rs.getInt(Invoice.INDEX_JOB_NUM));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return invoice;
+    }
+
+    @Override
+    public Invoice getByJobNum(int jobNum)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Invoice.TABLE_INVOICE + " WHERE " + Invoice.COLUMN_JOB_NUM +
+                "=" + jobNum;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                invoice = new Invoice(rs.getInt(Invoice.INDEX_ID), rs.getString(Invoice.INDEX_NI), DBDateHelper.parseDate(rs.getString(Invoice.INDEX_DATE_CREATED)),
+                        rs.getFloat(Invoice.INDEX_TOTAL), rs.getInt(Invoice.INDEX_JOB_NUM));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return invoice;
+    }
+
+    @Override
+    public ArrayList<Invoice> getByNI(String nI)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Invoice.TABLE_INVOICE + " WHERE " + Invoice.COLUMN_JOB_NUM +
+                "='" + nI + "'";
+
+        invoices.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                invoices.add(new Invoice(rs.getInt(Invoice.INDEX_ID), rs.getString(Invoice.INDEX_NI), DBDateHelper.parseDate(rs.getString(Invoice.INDEX_DATE_CREATED)),
+                        rs.getFloat(Invoice.INDEX_TOTAL), rs.getInt(Invoice.INDEX_JOB_NUM)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
         return invoices;
     }
 

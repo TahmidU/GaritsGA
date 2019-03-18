@@ -17,11 +17,14 @@ public class BookingDAO implements IBooking
 {
 
     private ArrayList<Booking> bookings;
+    private Booking booking;
+
     private Connection con;
     private IDBConnectivity connectivity;
 
     public BookingDAO(){
         bookings = new ArrayList<>();
+        booking = null;
         connectivity = new DBConnectivity();
     }
 
@@ -35,6 +38,7 @@ public class BookingDAO implements IBooking
             e.printStackTrace();
         }
 
+        bookings.clear();
         String sql = "SELECT * FROM " +Booking.TABLE_BOOKING;
         ResultSet rs = connectivity.read(sql, con);
         try{
@@ -50,6 +54,70 @@ public class BookingDAO implements IBooking
         connectivity.closeConnection(con);
         return bookings;
     }
+
+    @Override
+    public Booking getById(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Booking.TABLE_BOOKING + " WHERE " + Booking.COLUMN_ID +
+                "=" + id;
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                booking = new Booking(rs.getInt(Booking.INDEX_ID),rs.getString(Booking.INDEX_JOB_TYPE),
+                        DBDateHelper.parseDate(rs.getString(Booking.INDEX_DATE_BOOKED)),rs.getString(Booking.INDEX_VEHICLE_REG));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return booking;
+    }
+
+    @Override
+    public ArrayList<Booking> getByVehicleReg(String vehicleReg)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Booking.TABLE_BOOKING + " WHERE " + Booking.COLUMN_VEHICLE_REG +
+                "='" + vehicleReg + "'";
+
+        bookings.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                bookings.add( new Booking(rs.getInt(Booking.INDEX_ID),rs.getString(Booking.INDEX_JOB_TYPE),
+                        DBDateHelper.parseDate(rs.getString(Booking.INDEX_DATE_BOOKED)),rs.getString(Booking.INDEX_VEHICLE_REG)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return bookings;
+    }
+
     @Override
     public void save(Booking booking){
 

@@ -5,6 +5,7 @@ import database.IDBConnectivity;
 import database.dao.DBHelper;
 import database.dao.contracts.IStockPart;
 import database.domain.part.StockPart;
+import util.DBDateHelper;
 import util.Log;
 
 import java.sql.Connection;
@@ -16,11 +17,14 @@ public class StockPartDAO implements IStockPart
 {
 
     private ArrayList<StockPart> stockParts;
+    private StockPart stockPart;
+
     private Connection con;
     private IDBConnectivity connectivity;
 
     public StockPartDAO(){
         stockParts = new ArrayList<>();
+        stockPart = null;
         connectivity = new DBConnectivity();
     }
 
@@ -34,6 +38,7 @@ public class StockPartDAO implements IStockPart
             e.printStackTrace();
         }
 
+        stockParts.clear();
         String sql = "SELECT * FROM " +StockPart.TABLE_STOCK_PART;
         ResultSet rs = connectivity.read(sql, con);
         try{
@@ -51,6 +56,41 @@ public class StockPartDAO implements IStockPart
         connectivity.closeConnection(con);
         return stockParts;
     }
+
+    @Override
+    public StockPart getByStockPart(int partId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + StockPart.TABLE_STOCK_PART + " WHERE " + StockPart.COLUMN_PART_ID +
+                "=" + partId;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                stockPart = new StockPart(rs.getInt(StockPart.INDEX_PART_ID),rs.getString(StockPart.INDEX_PART_NAME),
+                        rs.getFloat(StockPart.INDEX_PRICE),rs.getInt(StockPart.INDEX_LOW_THRES),
+                        rs.getString(StockPart.INDEX_MANUFACTURER),rs.getString(StockPart.INDEX_VEHICLE_TYPE),
+                        rs.getString(StockPart.INDEX_START_YEAR),rs.getString(StockPart.INDEX_END_YEAR));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return stockPart;
+    }
+
     @Override
     public void save(StockPart stockPart){
 

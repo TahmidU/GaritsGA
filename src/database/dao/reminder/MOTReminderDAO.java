@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class MOTReminderDAO implements IMOTReminder
 {
     private ArrayList<MOTReminder> motReminders;
+    private MOTReminder motReminder;
 
     private Connection con;
     private IDBConnectivity connectivity;
@@ -23,6 +24,7 @@ public class MOTReminderDAO implements IMOTReminder
     public MOTReminderDAO()
     {
         motReminders = new ArrayList<>();
+        motReminder = null;
         connectivity = new DBConnectivity();
     }
 
@@ -37,6 +39,7 @@ public class MOTReminderDAO implements IMOTReminder
             e.printStackTrace();
         }
 
+        motReminders.clear();
         String sql = "SELECT * FROM " + MOTReminder.TABLE_MOT_REMINDERS;
         ResultSet rs = connectivity.read(sql,con);
         try {
@@ -53,6 +56,70 @@ public class MOTReminderDAO implements IMOTReminder
 
         connectivity.closeConnection(con);
 
+        return motReminders;
+    }
+
+    @Override
+    public MOTReminder getById(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + MOTReminder.TABLE_MOT_REMINDERS + " WHERE " + MOTReminder.COLUMN_ID +
+                "=" + id;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                motReminder = new MOTReminder(rs.getInt(MOTReminder.COLUMN_ID), rs.getInt(MOTReminder.COLUMN_ACCOUNT_HOLDER_ID),
+                        DBDateHelper.parseDate(rs.getString(MOTReminder.INDEX_RENEWAL_DATE)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return motReminder;
+    }
+
+    @Override
+    public ArrayList<MOTReminder> getByAccountHolderId(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + MOTReminder.TABLE_MOT_REMINDERS + " WHERE " + MOTReminder.COLUMN_ID +
+                "=" + id;
+
+        motReminders.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                motReminders.add(new MOTReminder(rs.getInt(MOTReminder.COLUMN_ID), rs.getInt(MOTReminder.COLUMN_ACCOUNT_HOLDER_ID),
+                        DBDateHelper.parseDate(rs.getString(MOTReminder.INDEX_RENEWAL_DATE))));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
         return motReminders;
     }
 

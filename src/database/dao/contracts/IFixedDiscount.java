@@ -9,6 +9,8 @@ public interface IFixedDiscount
 {
 
     ArrayList<FixedDiscount> getAll();
+    FixedDiscount getById(int id);
+    FixedDiscount getByDiscountId(int discountId);
     void save(FixedDiscount fixedDiscount);
     void update(FixedDiscount fixedDiscount);
     void delete(FixedDiscount fixedDiscount);

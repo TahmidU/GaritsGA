@@ -16,6 +16,7 @@ public class CustomerAccDAO implements ICustomerAcc
 {
 
     private ArrayList<CustomerAcc> customerAccs;
+    private CustomerAcc customerAcc;
 
     private Connection con;
     private IDBConnectivity connectivity;
@@ -23,6 +24,7 @@ public class CustomerAccDAO implements ICustomerAcc
     public CustomerAccDAO()
     {
         customerAccs = new ArrayList<>();
+        customerAcc = null;
         connectivity = new DBConnectivity();
     }
 
@@ -37,6 +39,7 @@ public class CustomerAccDAO implements ICustomerAcc
             e.printStackTrace();
         }
 
+        customerAccs.clear();
         String sql = "SELECT * FROM " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT;
         ResultSet rs = connectivity.read(sql,con);
         try {
@@ -55,6 +58,39 @@ public class CustomerAccDAO implements ICustomerAcc
         connectivity.closeConnection(con);
 
         return customerAccs;
+    }
+
+    @Override
+    public CustomerAcc getByNI(String nI)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + " WHERE " + CustomerAcc.COLUMN_NI +
+                "='" + nI + "'";
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                customerAcc = new CustomerAcc(rs.getString(CustomerAcc.INDEX_NI), rs.getString(CustomerAcc.INDEX_FIRST_NAME),
+                        rs.getString(CustomerAcc.INDEX_LAST_NAME), rs.getString(CustomerAcc.INDEX_ADDRESS), rs.getString(CustomerAcc.INDEX_POSTCODE),
+                        rs.getString(CustomerAcc.INDEX_EMAIL), rs.getString(CustomerAcc.INDEX_PHONE));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return customerAcc;
     }
 
     @Override

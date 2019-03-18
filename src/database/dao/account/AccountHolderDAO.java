@@ -17,6 +17,7 @@ public class AccountHolderDAO implements IAccountHolder
 {
 
     private ArrayList<AccountHolder> accountHolders;
+    private AccountHolder accountHolder;
 
     private Connection con;
     private IDBConnectivity connectivity;
@@ -24,6 +25,7 @@ public class AccountHolderDAO implements IAccountHolder
     public AccountHolderDAO()
     {
         accountHolders = new ArrayList<>();
+        accountHolder = null;
         connectivity = new DBConnectivity();
     }
 
@@ -38,6 +40,7 @@ public class AccountHolderDAO implements IAccountHolder
             e.printStackTrace();
         }
 
+        accountHolders.clear();
         String sql = "SELECT * FROM " + AccountHolder.TABLE_ACCOUNT_HOLDER;
         ResultSet rs = connectivity.read(sql,con);
         try {
@@ -56,6 +59,70 @@ public class AccountHolderDAO implements IAccountHolder
         connectivity.closeConnection(con);
 
         return accountHolders;
+    }
+
+    @Override
+    public AccountHolder getById(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + AccountHolder.TABLE_ACCOUNT_HOLDER + " WHERE " + AccountHolder.COLUMN_ID +
+                "=" + id;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                accountHolder = new AccountHolder(rs.getInt(AccountHolder.INDEX_ID), rs.getString(AccountHolder.INDEX_NI),
+                        DBDateHelper.parseDate(rs.getString(AccountHolder.INDEX_DATE_JOINED)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return accountHolder;
+    }
+
+    @Override
+    public AccountHolder getByNI(String nI)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + AccountHolder.TABLE_ACCOUNT_HOLDER + " WHERE " + AccountHolder.COLUMN_NI +
+                "='" + nI +"'";
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                accountHolder = new AccountHolder(rs.getInt(AccountHolder.INDEX_ID), rs.getString(AccountHolder.INDEX_NI),
+                        DBDateHelper.parseDate(rs.getString(AccountHolder.INDEX_DATE_JOINED)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return accountHolder;
     }
 
     @Override

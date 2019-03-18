@@ -15,12 +15,15 @@ import java.util.ArrayList;
 public class VehicleDAO implements IVehicle {
 
     private ArrayList<Vehicle> vehicles;
+    private Vehicle vehicle;
+
     private Connection con;
     private IDBConnectivity connectivity;
 
     public VehicleDAO()
     {
         vehicles = new ArrayList<>();
+        vehicle = null;
         connectivity = new DBConnectivity();
     }
 
@@ -35,6 +38,7 @@ public class VehicleDAO implements IVehicle {
             e.printStackTrace();
         }
 
+        vehicles.clear();
         String sql = "SELECT * FROM " + Vehicle.TABLE_VEHICLE;
         ResultSet rs = connectivity.read(sql, con);
         try {
@@ -48,6 +52,72 @@ public class VehicleDAO implements IVehicle {
             Log.write("DAO: Faild to retrieve date from database.");
             e.printStackTrace();
         }
+        connectivity.closeConnection(con);
+        return vehicles;
+    }
+
+    @Override
+    public Vehicle getByRegNum(String regNum)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Vehicle.TABLE_VEHICLE + " WHERE " + Vehicle.COLUMN_VEHICLE_REG +
+                "='" + regNum + "'";
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                vehicle = new Vehicle(rs.getString(Vehicle.INDEX_VEHICLE_REG), rs.getString(Vehicle.INDEX_NI), rs.getString(Vehicle.INDEX_MAKE),
+                        rs.getString(Vehicle.INDEX_MODEL), rs.getString(Vehicle.INDEX_ENGINE_SERIAL), rs.getString(Vehicle.INDEX_CHASSIS_NUM),
+                        rs.getString(Vehicle.INDEX_COLOR));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return vehicle;
+    }
+
+    @Override
+    public ArrayList<Vehicle> getByNI(String nI)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Vehicle.TABLE_VEHICLE + " WHERE " + Vehicle.COLUMN_NI +
+                "='" + nI + "'";
+
+        vehicles.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                vehicles.add(new Vehicle(rs.getString(Vehicle.INDEX_VEHICLE_REG), rs.getString(Vehicle.INDEX_NI), rs.getString(Vehicle.INDEX_MAKE),
+                        rs.getString(Vehicle.INDEX_MODEL), rs.getString(Vehicle.INDEX_ENGINE_SERIAL), rs.getString(Vehicle.INDEX_CHASSIS_NUM),
+                        rs.getString(Vehicle.INDEX_COLOR)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
         connectivity.closeConnection(con);
         return vehicles;
     }

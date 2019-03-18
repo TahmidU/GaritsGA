@@ -17,11 +17,14 @@ public class TaskDAO implements ITask
 {
 
     private ArrayList<Task> tasks;
+    private Task task;
+
     private Connection con;
     private IDBConnectivity connectivity;
 
     public TaskDAO(){
         tasks = new ArrayList<>();
+        task = null;
         connectivity = new DBConnectivity();
     }
 
@@ -35,12 +38,14 @@ public class TaskDAO implements ITask
             e.printStackTrace();
         }
 
+        tasks.clear();
         String sql = "SELECT * FROM " +Task.TABLE_TASK;
         ResultSet rs = connectivity.read(sql, con);
         try{
             while(rs.next()){
                 tasks.add( new Task(rs.getInt(Task.INDEX_ID),rs.getInt(Task.INDEX_STOCK_PART_ID),
-                        rs.getInt(Task.INDEX_JOB_NUM),rs.getString(Task.INDEX_TASK_DESC),rs.getInt(Task.INDEX_EST_DURATION),rs.getInt(Task.INDEX_PARTS_QTY), DBDateHelper.parseDate(rs.getString(Task.INDEX_DATE_TASK_COMPLETE))));
+                        rs.getInt(Task.INDEX_JOB_NUM),rs.getString(Task.INDEX_TASK_DESC),rs.getInt(Task.INDEX_EST_DURATION),
+                        rs.getInt(Task.INDEX_PARTS_QTY), DBDateHelper.parseDate(rs.getString(Task.INDEX_DATE_TASK_COMPLETE))));
             }
             Log.write("DAO: Query successful.");
         }catch(SQLException e){
@@ -50,6 +55,104 @@ public class TaskDAO implements ITask
         connectivity.closeConnection(con);
         return tasks;
     }
+
+    @Override
+    public Task getById(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Task.TABLE_TASK + " WHERE " + Task.COLUMN_ID +
+                "=" + id;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                task = new Task(rs.getInt(Task.INDEX_ID),rs.getInt(Task.INDEX_STOCK_PART_ID),
+                    rs.getInt(Task.INDEX_JOB_NUM),rs.getString(Task.INDEX_TASK_DESC),
+                    rs.getInt(Task.INDEX_EST_DURATION),rs.getInt(Task.INDEX_PARTS_QTY), DBDateHelper.parseDate(rs.getString(Task.INDEX_DATE_TASK_COMPLETE)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return task;
+    }
+
+    @Override
+    public ArrayList<Task> getByStockPartId(int stockPartId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Task.TABLE_TASK + " WHERE " + Task.COLUMN_STOCK_PART_ID +
+                "=" + stockPartId;
+
+        tasks.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                tasks.add( new Task(rs.getInt(Task.INDEX_ID),rs.getInt(Task.INDEX_STOCK_PART_ID),
+                        rs.getInt(Task.INDEX_JOB_NUM),rs.getString(Task.INDEX_TASK_DESC),rs.getInt(Task.INDEX_EST_DURATION),
+                        rs.getInt(Task.INDEX_PARTS_QTY), DBDateHelper.parseDate(rs.getString(Task.INDEX_DATE_TASK_COMPLETE))));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+        connectivity.closeConnection(con);
+        return tasks;
+    }
+
+    @Override
+    public ArrayList<Task> getByJobNum(int jobNum)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Task.TABLE_TASK + " WHERE " + Task.COLUMN_JOB_NUM +
+                "=" + jobNum;
+
+        tasks.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                tasks.add( new Task(rs.getInt(Task.INDEX_ID),rs.getInt(Task.INDEX_STOCK_PART_ID),
+                        rs.getInt(Task.INDEX_JOB_NUM),rs.getString(Task.INDEX_TASK_DESC),rs.getInt(Task.INDEX_EST_DURATION),
+                        rs.getInt(Task.INDEX_PARTS_QTY), DBDateHelper.parseDate(rs.getString(Task.INDEX_DATE_TASK_COMPLETE))));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+        connectivity.closeConnection(con);
+        return tasks;
+    }
+
     @Override
     public void save(Task task){
 

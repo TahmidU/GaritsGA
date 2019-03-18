@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class OutstandingBalanceDAO implements IOutstandingBalance
 {
     private ArrayList<OutstandingBalance> outstandingBalances;
+    private OutstandingBalance outstandingBalance;
 
     private Connection con;
     private IDBConnectivity connectivity;
@@ -25,6 +26,7 @@ public class OutstandingBalanceDAO implements IOutstandingBalance
     public OutstandingBalanceDAO()
     {
         outstandingBalances = new ArrayList<>();
+        outstandingBalance = null;
         connectivity = new DBConnectivity();
     }
 
@@ -39,6 +41,7 @@ public class OutstandingBalanceDAO implements IOutstandingBalance
             e.printStackTrace();
         }
 
+        outstandingBalances.clear();
         String sql = "SELECT * FROM " + OutstandingBalance.TABLE_OUTSTANDING_BALANCE;
         ResultSet rs = connectivity.read(sql,con);
         try {
@@ -56,6 +59,102 @@ public class OutstandingBalanceDAO implements IOutstandingBalance
         connectivity.closeConnection(con);
 
         return outstandingBalances;
+    }
+
+    @Override
+    public OutstandingBalance getById(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + OutstandingBalance.TABLE_OUTSTANDING_BALANCE + " WHERE " + OutstandingBalance.COLUMN_ID +
+                "=" + id;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                outstandingBalance = new OutstandingBalance(rs.getInt(OutstandingBalance.INDEX_ID), rs.getInt(OutstandingBalance.INDEX_STAFF_ID),
+                        rs.getInt(OutstandingBalance.INDEX_ACCOUNT_HOLDER_ID), DBDateHelper.parseDate(rs.getString(OutstandingBalance.INDEX_DATE_AUTHORISED)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return outstandingBalance;
+    }
+
+    @Override
+    public ArrayList<OutstandingBalance> getByStaffId(int staffId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + OutstandingBalance.TABLE_OUTSTANDING_BALANCE + " WHERE " + OutstandingBalance.COLUMN_STAFF_ID +
+                "=" + staffId;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                outstandingBalances.add(new OutstandingBalance(rs.getInt(OutstandingBalance.INDEX_ID), rs.getInt(OutstandingBalance.INDEX_STAFF_ID),
+                        rs.getInt(OutstandingBalance.INDEX_ACCOUNT_HOLDER_ID), DBDateHelper.parseDate(rs.getString(OutstandingBalance.INDEX_DATE_AUTHORISED))));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return outstandingBalances;
+    }
+
+    @Override
+    public OutstandingBalance getByAccHolderId(int accountHolderId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + OutstandingBalance.TABLE_OUTSTANDING_BALANCE + " WHERE " + OutstandingBalance.COLUMN_ACCOUNT_HOLDER_ID +
+                "=" + accountHolderId;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                outstandingBalance = new OutstandingBalance(rs.getInt(OutstandingBalance.INDEX_ID), rs.getInt(OutstandingBalance.INDEX_STAFF_ID),
+                        rs.getInt(OutstandingBalance.INDEX_ACCOUNT_HOLDER_ID), DBDateHelper.parseDate(rs.getString(OutstandingBalance.INDEX_DATE_AUTHORISED)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return outstandingBalance;
     }
 
     @Override

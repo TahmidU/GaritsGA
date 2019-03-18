@@ -17,6 +17,7 @@ public class FlexDiscountBandFlexibleDiscountDAO implements IFlexDiscountBandFle
 {
 
     private ArrayList<FlexDiscountBandFlexibleDiscount> flexDiscountBandFlexibleDiscounts;
+
     private Connection con;
     private IDBConnectivity connectivity;
 
@@ -35,6 +36,7 @@ public class FlexDiscountBandFlexibleDiscountDAO implements IFlexDiscountBandFle
             e.printStackTrace();
         }
 
+        flexDiscountBandFlexibleDiscounts.clear();
         String sql = "SELECT * FROM " +FlexDiscountBandFlexibleDiscount.TABLE_FLEX_DISCOUNT_BAND_FLEX_DISCOUNT;
         ResultSet rs = connectivity.read(sql, con);
         try{
@@ -50,6 +52,69 @@ public class FlexDiscountBandFlexibleDiscountDAO implements IFlexDiscountBandFle
         connectivity.closeConnection(con);
         return flexDiscountBandFlexibleDiscounts;
     }
+
+    @Override
+    public ArrayList<FlexDiscountBandFlexibleDiscount> getByValuationBand(String band)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + FlexDiscountBandFlexibleDiscount.TABLE_FLEX_DISCOUNT_BAND_FLEX_DISCOUNT + " WHERE " +
+                FlexDiscountBandFlexibleDiscount.COLUMN_FLEX_DISCOUNT_BAND_VALUATION_BAND + "='" + band + "'";
+
+        flexDiscountBandFlexibleDiscounts.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                flexDiscountBandFlexibleDiscounts.add( new FlexDiscountBandFlexibleDiscount(rs.getInt(FlexDiscountBandFlexibleDiscount.INDEX_FLEXIBLE_DISCOUNT_ID),
+                        rs.getString(FlexDiscountBandFlexibleDiscount.INDEX_FLEX_DISCOUNT_BAND_VALUATION_BAND)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+        connectivity.closeConnection(con);
+        return flexDiscountBandFlexibleDiscounts;
+    }
+
+    @Override
+    public ArrayList<FlexDiscountBandFlexibleDiscount> getByDiscountId(int discountId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + FlexDiscountBandFlexibleDiscount.TABLE_FLEX_DISCOUNT_BAND_FLEX_DISCOUNT + " WHERE " +
+                FlexDiscountBandFlexibleDiscount.COLUMN_FLEXIBLE_DISCOUNT_ID + "=" + discountId;
+
+        flexDiscountBandFlexibleDiscounts.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                flexDiscountBandFlexibleDiscounts.add( new FlexDiscountBandFlexibleDiscount(rs.getInt(FlexDiscountBandFlexibleDiscount.INDEX_FLEXIBLE_DISCOUNT_ID),
+                        rs.getString(FlexDiscountBandFlexibleDiscount.INDEX_FLEX_DISCOUNT_BAND_VALUATION_BAND)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+        connectivity.closeConnection(con);
+        return flexDiscountBandFlexibleDiscounts;
+    }
+
     @Override
     public void save(FlexDiscountBandFlexibleDiscount flexDiscountBandFlexibleDiscount){
 

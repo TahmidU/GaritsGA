@@ -1,37 +1,41 @@
+import database.dao.DBHelper;
+import database.dao.account.AccountHolderDAO;
+import database.dao.account.CustomerAccDAO;
+import database.dao.account.LoginDetailDAO;
+import database.dao.account.StaffDAO;
 import database.dao.contracts.*;
+import database.dao.discount.*;
+import database.dao.job.*;
+import database.dao.part.PartOrderDAO;
+import database.dao.part.StockPartDAO;
+import database.dao.part.StockPartOrderDAO;
+import database.dao.payment.InvoiceDAO;
 import database.dao.payment.OutstandingBalanceDAO;
+import database.dao.reminder.InvoiceReminderDAO;
+import database.dao.reminder.MOTReminderDAO;
+import database.domain.account.AccountHolder;
+import database.domain.account.CustomerAcc;
+import database.domain.account.LoginDetail;
+import database.domain.account.Staff;
+import database.domain.discount.*;
+import database.domain.job.*;
+import database.domain.part.PartOrder;
+import database.domain.part.StockPart;
+import database.domain.part.StockPartOrder;
+import database.domain.payment.Invoice;
 import database.domain.payment.OutstandingBalance;
+import database.domain.reminder.InvoiceReminder;
+import database.domain.reminder.MOTReminder;
 import util.DBDateHelper;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class Main
 {
     public static void main(String[] arg)
     {
-
-        /*
-        Staff s = new Staff(1, "Tahmid", "Uddin", "07464081609", "tahmiduddin@hotmail.co.uk", "Admin");
-
-        IStaff test = new StaffDAO();
-        ILoginDetail test2 = new LoginDetailDAO();
-
-
-        LoginDetail ld = new LoginDetail("TahmidU", 1, "jim");
-
-        //test.delete("TahmidU");
-        //test.save(s);
-        //test2.save(ld);
-        //test.update(s);
-
-        ArrayList<LoginDetail> loginDetails;
-        loginDetails = test2.getAll();
-
-        for(LoginDetail n: loginDetails)
-        {
-            System.out.println(n.getUserName() + "\t" + n.getStaffID() + "\t" + n.getPassword());
-        }
-        */
 
         //DBHelper dbHelper = new DBHelper();
         //dbHelper.createDB();
@@ -48,15 +52,15 @@ public class Main
         MOTReminder mot = new MOTReminder(-1, 1, Date.valueOf("2019-01-05"));
         Vehicle v = new Vehicle("AAAA","AAAA2D","chicken","coop", "2SAD", "AS2DA","PINK");
         Booking b = new Booking(1,"REPAIR",DBDateHelper.parseCurrentDate(), "AAAA");
-        JobSheet js = new JobSheet(1,1,"AAAA2D",1,"Arrow to the knee",DBDateHelper.parseCurrentDate(), "happening", DBDateHelper.parseCurrentDate(),DBDateHelper.parseCurrentDate());
+        JobSheet js = new JobSheet(1,1,"AAAA",1,"Arrow to the knee",DBDateHelper.parseCurrentDate(), "happening", DBDateHelper.parseCurrentDate(),DBDateHelper.parseCurrentDate());
         Invoice i = new Invoice(1, "AAAA2D", DBDateHelper.parseCurrentDate(), 23000.15f, 1);
         InvoiceReminder ir = new InvoiceReminder(1,1,1,"second", DBDateHelper.parseCurrentDate());
         DiscountPlan dp = new DiscountPlan(1,"Fix","AAAA2D");
         FixedDiscount fp = new FixedDiscount(1,1,35f);
-        FlexibleDiscount fd = new FlexibleDiscount(1,2);
+        FlexibleDiscount fd = new FlexibleDiscount(1,1);
         FlexDiscountBand fsb = new FlexDiscountBand("A",25f);
         FlexDiscountBandFlexibleDiscount fdbfd = new FlexDiscountBandFlexibleDiscount(1,"A");
-        VariableDiscount vd = new VariableDiscount(1,2);
+        VariableDiscount vd = new VariableDiscount(1,1);
         StockPart sp = new StockPart(1,"Engine",2300f,30,"Toyota", "Coop","2018","2020");
         Task t = new Task(1,1,1,"blah",200,10,DBDateHelper.parseCurrentDate());
         PartOrder po = new PartOrder("aaa","stuff",50,130000f,DBDateHelper.parseCurrentDate(),"Toyo","10, stuff", DBDateHelper.parseCurrentDate(), "0727277","0737377");
@@ -88,6 +92,7 @@ public class Main
         IVariableTask test22 = new VariableTaskDAO();
 
 
+
         test.save(s);
         test2.save(ld);
         test3.save(ca);
@@ -111,14 +116,14 @@ public class Main
         test20.save(spo);
         test21.save(t);
         test22.save(vt);
-
+*/
         //test20.save(spo);
 
+/*
+        Booking b = new Booking(1,"MOT",DBDateHelper.parseCurrentDate(), "AAAA");
+        IBooking test5 = new BookingDAO();
+        test5.update(b);
 */
-        OutstandingBalance ob = new OutstandingBalance(1,1,1,DBDateHelper.parseCurrentDate());
-        IOutstandingBalance test5 = new OutstandingBalanceDAO();
-        test5.update(ob);
-
         /*
         ArrayList<StockPartOrder> spos;
         spos = test20.getAll();
@@ -129,6 +134,8 @@ public class Main
         }
         */
 
+        DBHelper dbHelper = new DBHelper();
+        dbHelper.restoreDB("D:\\Uni Projects\\Year 2\\GaritsGA\\backup\\18032019\\220800backupGA.db");
 
     }
 }

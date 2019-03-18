@@ -18,11 +18,14 @@ public class VariableDiscountDAO implements IVariableDiscount
 {
 
     private ArrayList<VariableDiscount> variableDiscounts;
+    private VariableDiscount variableDiscount;
+
     private Connection con;
     private IDBConnectivity connectivity;
 
     public VariableDiscountDAO(){
         variableDiscounts = new ArrayList<>();
+        variableDiscount = null;
         connectivity = new DBConnectivity();
     }
 
@@ -36,6 +39,7 @@ public class VariableDiscountDAO implements IVariableDiscount
             e.printStackTrace();
         }
 
+        variableDiscounts.clear();
         String sql = "SELECT * FROM " +VariableDiscount.TABLE_VARIABLE_DISCOUNT;
         ResultSet rs = connectivity.read(sql, con);
         try{
@@ -50,6 +54,69 @@ public class VariableDiscountDAO implements IVariableDiscount
         connectivity.closeConnection(con);
         return variableDiscounts;
     }
+
+    @Override
+    public VariableDiscount getByVariableDiscount(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + VariableDiscount.TABLE_VARIABLE_DISCOUNT + " WHERE " + VariableDiscount.COLUMN_VAR_ID +
+                "=" + id;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                variableDiscount = new VariableDiscount(rs.getInt(VariableDiscount.INDEX_VAR_ID),rs.getInt(VariableDiscount.INDEX_DISCOUNT_ID));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return variableDiscount;
+    }
+
+    @Override
+    public VariableDiscount getByDiscountId(int discountId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + VariableDiscount.TABLE_VARIABLE_DISCOUNT + " WHERE " + DiscountPlan.COLUMN_ID +
+                "=" + discountId;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                variableDiscount = new VariableDiscount(rs.getInt(VariableDiscount.INDEX_VAR_ID),rs.getInt(VariableDiscount.INDEX_DISCOUNT_ID));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return variableDiscount;
+    }
+
     @Override
     public void save(VariableDiscount variableDiscount){
 

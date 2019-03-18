@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public interface IPartOrder
 {
     ArrayList<PartOrder> getAll();
+    PartOrder getByOrderNum(String orderNum);
     void save(PartOrder partOrder);
     void update(PartOrder partOrder);
     void delete(PartOrder partOrder);

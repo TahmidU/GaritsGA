@@ -4,6 +4,7 @@ import database.DBConnectivity;
 import database.IDBConnectivity;
 import database.dao.DBHelper;
 import database.dao.contracts.IJobSheet;
+import database.domain.account.LoginDetail;
 import database.domain.job.JobSheet;
 import util.DBDateHelper;
 import util.Log;
@@ -17,6 +18,7 @@ public class JobSheetDAO implements IJobSheet
 {
 
     private ArrayList<JobSheet> jobSheets;
+    private JobSheet jobSheet;
 
     private Connection con;
     private IDBConnectivity connectivity;
@@ -24,6 +26,7 @@ public class JobSheetDAO implements IJobSheet
     public JobSheetDAO()
     {
         jobSheets = new ArrayList<>();
+        jobSheet = null;
         connectivity = new DBConnectivity();
     }
 
@@ -38,6 +41,7 @@ public class JobSheetDAO implements IJobSheet
             e.printStackTrace();
         }
 
+        jobSheets.clear();
         String sql = "SELECT * FROM " + JobSheet.TABLE_JOB_SHEET;
         ResultSet rs = connectivity.read(sql,con);
         try {
@@ -57,6 +61,141 @@ public class JobSheetDAO implements IJobSheet
         connectivity.closeConnection(con);
 
         return jobSheets;
+    }
+
+    @Override
+    public JobSheet getByJobNum(int jobNum)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + JobSheet.TABLE_JOB_SHEET + " WHERE " + JobSheet.COLUMN_JOB_NUM +
+                "=" + jobNum;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                jobSheet = new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
+                        rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)), rs.getString(JobSheet.INDEX_STATUS), DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_ALLOCATION_DATE)),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return jobSheet;
+    }
+
+    @Override
+    public ArrayList<JobSheet> getByStaffId(int staffId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + JobSheet.TABLE_JOB_SHEET + " WHERE " + JobSheet.COLUMN_STAFF_ID +
+                "=" + staffId;
+
+        jobSheets.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                jobSheets.add(new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
+                        rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)), rs.getString(JobSheet.INDEX_STATUS), DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_ALLOCATION_DATE)),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED))));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+        connectivity.closeConnection(con);
+        return jobSheets;
+    }
+
+    @Override
+    public ArrayList<JobSheet> getByVehicleReg(String vehicleReg)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + JobSheet.TABLE_JOB_SHEET + " WHERE " + JobSheet.COLUMN_VEHICLE_REG +
+                "='" + vehicleReg + "'";
+
+        jobSheets.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                jobSheets.add(new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
+                        rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)), rs.getString(JobSheet.INDEX_STATUS), DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_ALLOCATION_DATE)),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED))));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return jobSheets;
+    }
+
+    @Override
+    public JobSheet getByBookingId(int bookingId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + JobSheet.TABLE_JOB_SHEET + " WHERE " + JobSheet.COLUMN_BOOKING_ID +
+                "=" + bookingId;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                jobSheet = new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
+                        rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)), rs.getString(JobSheet.INDEX_STATUS), DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_ALLOCATION_DATE)),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return jobSheet;
     }
 
     @Override

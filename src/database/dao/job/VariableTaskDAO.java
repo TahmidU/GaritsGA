@@ -34,6 +34,7 @@ public class VariableTaskDAO implements IVariableTask
             e.printStackTrace();
         }
 
+        variableTasks.clear();
         String sql = "SELECT * FROM " + VariableTask.TABLE_VARIABLE_TASK;
         ResultSet rs = connectivity.read(sql, con);
         try{
@@ -49,6 +50,67 @@ public class VariableTaskDAO implements IVariableTask
         connectivity.closeConnection(con);
         return variableTasks;
     }
+
+    @Override
+    public ArrayList<VariableTask> getByTaskId(int taskId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + VariableTask.TABLE_VARIABLE_TASK + " WHERE " + VariableTask.COLUMN_TASK_ID +
+                "=" + taskId;
+        variableTasks.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                variableTasks.add( new VariableTask(rs.getInt(VariableTask.INDEX_TASK_ID), rs.getInt(VariableTask.INDEX_VAR_DISCOUNT_ID),
+                        rs.getFloat(VariableTask.INDEX_DISCOUNT_VAL)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+        connectivity.closeConnection(con);
+        return variableTasks;
+    }
+
+    @Override
+    public ArrayList<VariableTask> getByVariableDiscountId(int variableDiscountId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + VariableTask.TABLE_VARIABLE_TASK + " WHERE " + VariableTask.COLUMN_VAR_DISCOUNT_ID +
+                "=" + variableDiscountId;
+        variableTasks.clear();
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                variableTasks.add( new VariableTask(rs.getInt(VariableTask.INDEX_TASK_ID), rs.getInt(VariableTask.INDEX_VAR_DISCOUNT_ID),
+                        rs.getFloat(VariableTask.INDEX_DISCOUNT_VAL)));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+        connectivity.closeConnection(con);
+        return variableTasks;
+    }
+
     @Override
     public void save(VariableTask variableTask){
 

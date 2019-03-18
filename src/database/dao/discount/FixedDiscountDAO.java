@@ -20,11 +20,14 @@ import java.util.ArrayList;
 public class FixedDiscountDAO implements IFixedDiscount
 {
     private ArrayList<FixedDiscount> fixedDiscounts;
+    private FixedDiscount fixedDiscount;
+
     private Connection con;
     private IDBConnectivity connectivity;
 
     public FixedDiscountDAO(){
         fixedDiscounts = new ArrayList<>();
+        fixedDiscount = null;
         connectivity = new DBConnectivity();
     }
 
@@ -38,6 +41,7 @@ public class FixedDiscountDAO implements IFixedDiscount
             e.printStackTrace();
         }
 
+        fixedDiscounts.clear();
         String sql = "SELECT * FROM " +FixedDiscount.TABLE_FIXED_DISCOUNT;
         ResultSet rs = connectivity.read(sql, con);
         try{
@@ -52,6 +56,70 @@ public class FixedDiscountDAO implements IFixedDiscount
         }
         connectivity.closeConnection(con);
         return fixedDiscounts;
+    }
+
+    @Override
+    public FixedDiscount getById(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + FixedDiscount.TABLE_FIXED_DISCOUNT + " WHERE " + FixedDiscount.COLUMN_FIX_DISCOUNT_ID +
+                "=" + id;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                fixedDiscount = new FixedDiscount(rs.getInt(FixedDiscount.INDEX_FIX_DISCOUNT_ID), rs.getInt(FixedDiscount.INDEX_DISCOUNT_PLAN_ID),
+                        rs.getFloat(FixedDiscount.INDEX_PERCENTAGE));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return fixedDiscount;
+    }
+
+    @Override
+    public FixedDiscount getByDiscountId(int discountId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + FixedDiscount.TABLE_FIXED_DISCOUNT + " WHERE " + DiscountPlan.COLUMN_ID +
+                "=" + discountId;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                fixedDiscount = new FixedDiscount(rs.getInt(FixedDiscount.INDEX_FIX_DISCOUNT_ID), rs.getInt(FixedDiscount.INDEX_DISCOUNT_PLAN_ID),
+                        rs.getFloat(FixedDiscount.INDEX_PERCENTAGE));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return fixedDiscount;
     }
 
     @Override

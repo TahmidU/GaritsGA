@@ -17,11 +17,14 @@ public class FlexibleDiscountDAO implements IFlexibleDiscount
 {
 
     private ArrayList<FlexibleDiscount> flexibleDiscounts;
+    private FlexibleDiscount flexibleDiscount;
+
     private Connection con;
     private IDBConnectivity connectivity;
 
     public FlexibleDiscountDAO(){
         flexibleDiscounts = new ArrayList<>();
+        flexibleDiscount = null;
         connectivity = new DBConnectivity();
     }
 
@@ -35,6 +38,7 @@ public class FlexibleDiscountDAO implements IFlexibleDiscount
             e.printStackTrace();
         }
 
+        flexibleDiscounts.clear();
         String sql = "SELECT * FROM " +FlexibleDiscount.TABLE_FLEXIBLE_DISCOUNT;
         ResultSet rs = connectivity.read(sql, con);
         try{
@@ -49,6 +53,69 @@ public class FlexibleDiscountDAO implements IFlexibleDiscount
         connectivity.closeConnection(con);
         return flexibleDiscounts;
     }
+
+    @Override
+    public FlexibleDiscount getById(int id)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + FlexibleDiscount.TABLE_FLEXIBLE_DISCOUNT + " WHERE " + FlexibleDiscount.COLUMN_FLEX_DISCOUNT_ID +
+                "=" + id;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                flexibleDiscount = new FlexibleDiscount(rs.getInt(FlexibleDiscount.INDEX_FLEX_ID),rs.getInt(FlexibleDiscount.INDEX_DISCOUNT_ID));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return flexibleDiscount;
+    }
+
+    @Override
+    public FlexibleDiscount getByDiscountID(int discountId)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + FlexibleDiscount.TABLE_FLEXIBLE_DISCOUNT + " WHERE " + DiscountPlan.COLUMN_ID +
+                "=" + discountId;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                flexibleDiscount = new FlexibleDiscount(rs.getInt(FlexibleDiscount.INDEX_FLEX_ID),rs.getInt(FlexibleDiscount.INDEX_DISCOUNT_ID));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return flexibleDiscount;
+    }
+
     @Override
     public void save(FlexibleDiscount flexibleDiscount){
 

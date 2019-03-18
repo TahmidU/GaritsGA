@@ -16,6 +16,7 @@ public class StaffDAO implements IStaff
 {
 
     private ArrayList<Staff> staffs;
+    private Staff staff;
 
     private Connection con;
     private IDBConnectivity connectivity;
@@ -23,6 +24,7 @@ public class StaffDAO implements IStaff
     public StaffDAO()
     {
         staffs = new ArrayList<>();
+        staff = null;
         connectivity = new DBConnectivity();
     }
 
@@ -37,6 +39,7 @@ public class StaffDAO implements IStaff
             e.printStackTrace();
         }
 
+        staffs.clear();
         String sql = "SELECT * FROM " + Staff.TABLE_STAFF;
         ResultSet rs = connectivity.read(sql,con);
         try {
@@ -54,6 +57,37 @@ public class StaffDAO implements IStaff
         connectivity.closeConnection(con);
 
         return staffs;
+    }
+
+    @Override
+    public Staff getById(int id) {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "SELECT * FROM " + Staff.TABLE_STAFF + " WHERE " + Staff.COLUMN_ID +
+                "=" + id;
+
+
+        try{
+            ResultSet rs = connectivity.read(sql, con);
+            while(rs.next())
+            {
+                staff = new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
+                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE));
+            }
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+        return staff;
     }
 
     @Override
