@@ -50,7 +50,7 @@ public class DBHelper
     {
         conn = connectivity.connect(DB_DRIVER);
 
-        if(connectivity.checkExists(DB_NAME))
+        if(!connectivity.checkExists(DB_NAME))
         {
             connectivity.addToBatch(Staff.CREATE_TABLE_STAFF, conn);
             connectivity.addToBatch(LoginDetail.CREATE_TABLE_LOGIN, null);
@@ -78,10 +78,10 @@ public class DBHelper
 
             if(connectivity.writeBatch(conn))
             {
-                Log.write("DataSource: Database successfully created.");
+                Log.write("DBHelper: Database successfully created.");
             }else
                 {
-                    Log.write("DataSource: Error while creating the database.");
+                    Log.write("DBHelper: Error while creating the database.");
                 }
 
             connectivity.clearBatch();
@@ -89,6 +89,7 @@ public class DBHelper
             return true;
         }
 
+        Log.write("DBHelper: Database already exists.");
         connectivity.closeConnection(conn);
         return false;
     }
