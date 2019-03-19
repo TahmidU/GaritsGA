@@ -44,7 +44,8 @@ public class StaffDAO implements IStaff
         ResultSet rs = connectivity.read(sql,con);
         try {
             while (rs.next()) {
-                staffs.add(new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
+                staffs.add(new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_USER_NAME) , rs.getString(Staff.INDEX_PASSWORD),
+                        rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
                         rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE)));
             }
             Log.write("DAO: Query successful.");
@@ -77,7 +78,8 @@ public class StaffDAO implements IStaff
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
             {
-                staff = new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
+                staff = new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_USER_NAME) , rs.getString(Staff.INDEX_PASSWORD),
+                        rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
                         rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE));
             }
         }catch (SQLException e)
@@ -101,9 +103,10 @@ public class StaffDAO implements IStaff
             e.printStackTrace();
         }
 
-        String sql = "INSERT INTO " + Staff.TABLE_STAFF + "( " + Staff.COLUMN_FIRST_NAME + ", " + Staff.COLUMN_LAST_NAME + ", " +
-                Staff.COLUMN_PHONE_NUM + ", " + Staff.COLUMN_EMAIL + ", " + Staff.COLUMN_TYPE + ")" + " VALUES(?,?,?,?,?)";
-        String[] values = {staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(),
+        String sql = "INSERT INTO " + Staff.TABLE_STAFF + "( "+ Staff.COLUMN_USER_NAME + ", " + Staff.COLUMN_PASSWORD + ", " +
+                Staff.COLUMN_FIRST_NAME + ", " + Staff.COLUMN_LAST_NAME + ", " + Staff.COLUMN_PHONE_NUM + ", " +
+                Staff.COLUMN_EMAIL + ", " + Staff.COLUMN_TYPE + ")" + " VALUES(?,?,?,?,?,?,?)";
+        String[] values = {staff.getUserName(), staff.getPassword(), staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(),
         staff.getEmail(), staff.getType()};
 
         connectivity.writePrepared(sql, con, values);
@@ -122,8 +125,9 @@ public class StaffDAO implements IStaff
             e.printStackTrace();
         }
 
-        String sql = "UPDATE " + Staff.TABLE_STAFF + " SET " + Staff.COLUMN_FIRST_NAME + " =?," + Staff.COLUMN_LAST_NAME + " =?," +
-                Staff.COLUMN_PHONE_NUM + " =?," + Staff.COLUMN_EMAIL + " =?," + Staff.COLUMN_TYPE + " =?" + " WHERE " + Staff.COLUMN_ID +
+        String sql = "UPDATE " + Staff.TABLE_STAFF + " SET " + Staff.COLUMN_USER_NAME + " =?, " + Staff.COLUMN_PASSWORD + " =?, "
+                + Staff.COLUMN_FIRST_NAME + " =?," + Staff.COLUMN_LAST_NAME + " =?," + Staff.COLUMN_PHONE_NUM + " =?," +
+                Staff.COLUMN_EMAIL + " =?," + Staff.COLUMN_TYPE + " =?" + " WHERE " + Staff.COLUMN_ID +
                 " =" + staff.getId();
 
         String[] values = {staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(), staff.getEmail(), staff.getType()};

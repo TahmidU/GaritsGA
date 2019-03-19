@@ -3,7 +3,6 @@ package database.dao;
 import database.DBConnectivity;
 import database.IDBConnectivity;
 import database.domain.account.AccountHolder;
-import database.domain.account.LoginDetail;
 import database.domain.account.CustomerAcc;
 import database.domain.account.Staff;
 import database.domain.discount.*;
@@ -22,7 +21,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,12 +46,13 @@ public class DBHelper
 
     public boolean createDB()
     {
-        conn = connectivity.connect(DB_DRIVER);
+
 
         if(!connectivity.checkExists(DB_NAME))
         {
+            conn = connectivity.connect(DB_DRIVER);
+
             connectivity.addToBatch(Staff.CREATE_TABLE_STAFF, conn);
-            connectivity.addToBatch(LoginDetail.CREATE_TABLE_LOGIN, null);
             connectivity.addToBatch(CustomerAcc.CREATE_TABLE_CUSTOMER_ACC, null);
             connectivity.addToBatch(AccountHolder.CREATE_TABLE_ACCOUNT_HOLDER, null);
             connectivity.addToBatch(Invoice.CREATE_TABLE_INVOICE, null);

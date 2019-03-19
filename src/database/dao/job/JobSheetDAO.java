@@ -4,7 +4,6 @@ import database.DBConnectivity;
 import database.IDBConnectivity;
 import database.dao.DBHelper;
 import database.dao.contracts.IJobSheet;
-import database.domain.account.LoginDetail;
 import database.domain.job.JobSheet;
 import util.DBDateHelper;
 import util.Log;
