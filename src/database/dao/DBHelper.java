@@ -89,7 +89,6 @@ public class DBHelper
         }
 
         Log.write("DBHelper: Database already exists.");
-        connectivity.closeConnection(conn);
         return false;
     }
 
