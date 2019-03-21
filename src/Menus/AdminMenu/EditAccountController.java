@@ -30,7 +30,7 @@ import javafx.stage.Stage;
  *
  * @author Huntees
  */
-public class AddAccountController implements Initializable {
+public class EditAccountController implements Initializable {
 
     private final ObservableList<String> options
             = FXCollections.observableArrayList(
@@ -64,6 +64,8 @@ public class AddAccountController implements Initializable {
     @FXML
     private Label missingDetailsError;
 
+    public Staff selectedStaff;
+
     /**
      * Initializes the controller class.
      */
@@ -77,8 +79,20 @@ public class AddAccountController implements Initializable {
         loggedInAsText.setText(s);
     }
 
+    public void setSelectedStaff(Staff selectedStaff) {
+        this.selectedStaff = selectedStaff;
+        usernameText.setText(selectedStaff.getUserName());
+        firstNameText.setText(selectedStaff.getFirstName());
+        lastNameText.setText(selectedStaff.getLastName());
+        typeCombo.setValue(selectedStaff.getType());
+        phoneText.setText(selectedStaff.getPhoneNum());
+        emailText.setText(selectedStaff.getEmail());
+        passwordText.setText(selectedStaff.getPassword());
+        retypeText.setText(selectedStaff.getPassword());
+    }
+
     private void back(ActionEvent event) throws IOException {
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/AdminMenu/AdminMenu.fxml"));
         Parent root = (Parent) loader.load();
 
@@ -91,7 +105,7 @@ public class AddAccountController implements Initializable {
     }
 
     @FXML
-    private void addAccountSavePress(ActionEvent event) throws IOException {
+    private void editAccountSavePress(ActionEvent event) throws IOException {
         missingDetailsError.setText("");
         passwordMatchError.setText("");
 
@@ -104,9 +118,9 @@ public class AddAccountController implements Initializable {
             passwordMatchError.setText("Password does not match");
         } else {
             StaffDAO sDAO = new StaffDAO();
-            Staff tmp = new Staff(0, usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
+            Staff tmp = new Staff(selectedStaff.getId(), usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
                     phoneText.getText(), emailText.getText(), typeCombo.getValue());
-            sDAO.save(tmp);
+            sDAO.update(tmp);
             back(event);
         }
     }
@@ -115,5 +129,4 @@ public class AddAccountController implements Initializable {
     private void backPress(ActionEvent event) throws IOException {
         back(event);
     }
-
 }

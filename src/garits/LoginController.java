@@ -6,6 +6,12 @@
 package garits;
 
 import Menus.AdminMenu.AdminMenuController;
+import Menus.ForepersonMenu.ForepersonMenuController;
+import Menus.FranchiseeMenu.FranchiseeMenuController;
+import Menus.MechanicMenu.MechanicMenuController;
+import Menus.ReceptionistMenu.ReceptionistMenuController;
+import database.dao.account.StaffDAO;
+import database.domain.account.Staff;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,6 +41,7 @@ public class LoginController implements Initializable {
     @FXML
     private Label failedLoginText;
 
+    private Staff loggingStaff;
     public String username;
 
     /**
@@ -48,14 +55,51 @@ public class LoginController implements Initializable {
     @FXML
     private void loginPress(ActionEvent event) throws IOException {
 
-        if (verifyLogin()) {
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/AdminMenu/AdminMenu.fxml"));
+//        Parent root = (Parent) loader.load();
+//
+//        AdminMenuController controller = loader.getController();
+//        controller.setLoggedInName(username);
+//
+//        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        window.setScene(new Scene(root));
+//        window.setX(500);
+//        window.setY(200);
+        if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty() || !verifyLogin()) {
+
+            failedLoginText.setText("Wrong username or password.");
+
+        } else {
             username = usernameField.getText();
-//            Parent root = FXMLLoader.load(getClass().getResource("/Menus/AdminMenu/AdminMenu.fxml"));
-//            Scene scene = new Scene(root);
-//
-//            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//
-//            window.setScene(scene);
+            displayMenu(event);
+        }
+    }
+
+    private boolean verifyLogin() {
+        StaffDAO sDAO = new StaffDAO();
+        Staff tmp = sDAO.getByUserName(usernameField.getText());
+        loggingStaff = tmp;
+
+        if (loggingStaff == null) {
+
+            return false;
+
+        } else {
+            if (tmp.getPassword().equals(passwordField.getText())) {
+
+                return true;
+
+            } else {
+
+                return false;
+
+            }
+        }
+        //return true;
+    }
+
+    private void displayMenu(ActionEvent event) throws IOException {
+        if (loggingStaff.getType().equals("Administrator")) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/AdminMenu/AdminMenu.fxml"));
             Parent root = (Parent) loader.load();
@@ -65,15 +109,63 @@ public class LoginController implements Initializable {
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
+            window.setX(500);
+            window.setY(200);
+
+        } else if (loggingStaff.getType().equals("Franchisee")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/FranchiseeMenu/FranchiseeMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            FranchiseeMenuController controller = loader.getController();
+            controller.setLoggedInName(username);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+            window.setX(500);
+            window.setY(200);
+
+        } else if (loggingStaff.getType().equals("Foreperson")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/ForepersonMenu/ForepersonMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ForepersonMenuController controller = loader.getController();
+            controller.setLoggedInName(username);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+            window.setX(500);
+            window.setY(200);
+
+        } else if (loggingStaff.getType().equals("Mechanic")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/MechanicMenu/MechanicMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            MechanicMenuController controller = loader.getController();
+            controller.setLoggedInName(username);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+            window.setX(500);
+            window.setY(200);
+
+        } else if (loggingStaff.getType().equals("Receptionist")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/ReceptionistMenu/ReceptionistMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ReceptionistMenuController controller = loader.getController();
+            controller.setLoggedInName(username);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+            window.setX(500);
+            window.setY(200);
 
         } else {
-            failedLoginText.setText("Wrong username or password.");
+            System.out.println("Unknown role!!!");
         }
     }
-
-    private boolean verifyLogin() {
-        //return usernameField.getText().equals("admin") && passwordField.getText().equals("admin");
-        return true;
-    }
-
 }

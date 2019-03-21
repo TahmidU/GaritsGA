@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menus.AdminMenu.AdminMenuController">
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="Menus.FranchiseeMenu.FranchiseeMenuController">
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -25,7 +26,9 @@
                                     <Font name="Tahoma Bold" size="32.0" />
                                  </font>
                               </Label>
-                           </children></AnchorPane>
+                              <Label layoutX="92.0" layoutY="218.0" text="Franchisee" />
+                           </children>
+                        </AnchorPane>
                      </content>
                   </Tab>
                   <Tab text="Manage Accounts">
@@ -48,7 +51,8 @@
                               <Button layoutX="320.0" layoutY="450.0" mnemonicParsing="false" onAction="#deleteAccountPress" prefHeight="35.0" prefWidth="114.0" text="Remove Account" />
                               <Separator layoutX="15.0" layoutY="423.0" prefHeight="17.0" prefWidth="770.0" />
                               <Label fx:id="noAccountSelected" layoutX="43.0" layoutY="494.0" prefHeight="25.0" prefWidth="194.0" textFill="RED" />
-                           </children></AnchorPane>
+                           </children>
+                        </AnchorPane>
                      </content>
                   </Tab>
                   <Tab text="Manage Database">

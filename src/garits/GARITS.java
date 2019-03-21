@@ -17,18 +17,20 @@ import javafx.stage.Stage;
  * @author Huntees
  */
 public class GARITS extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        
+
         Scene scene = new Scene(root);
-        
+
         stage.setTitle("GARITS FX");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-        
+        stage.setX(600);
+        stage.setY(300);
+
         DBHelper db = new DBHelper();
         db.createDB();
     }
@@ -39,5 +41,5 @@ public class GARITS extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

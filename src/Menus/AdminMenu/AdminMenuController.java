@@ -7,6 +7,7 @@ package Menus.AdminMenu;
 
 import database.dao.account.StaffDAO;
 import database.domain.account.Staff;
+import garits.MainGUIController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
@@ -37,9 +37,11 @@ import javafx.stage.Stage;
 public class AdminMenuController implements Initializable {
 
     @FXML
+    private TabPane adminTab;
+    @FXML
     private Label loggedInAsText;
     @FXML
-    private TableView<Staff> accountTable;
+    private TableView<Staff> staffTable;
     @FXML
     private TableColumn<Staff, Integer> idCol;
     @FXML
@@ -55,11 +57,17 @@ public class AdminMenuController implements Initializable {
     @FXML
     private TableColumn<Staff, String> emailCol;
     @FXML
-    private Button addAccountButton;
+    private Label noAccountSelected;
     @FXML
-    private TabPane adminTab;
+    private TableView<?> dbTable;
     @FXML
-    private Label testLabel;
+    private TableColumn<?, ?> dateCol;
+    @FXML
+    private TableColumn<?, ?> timeCol;
+    @FXML
+    private TableColumn<?, ?> fileNameCol;
+    @FXML
+    private Label noBackupSelected;
 
     /**
      * Initializes the controller class.
@@ -79,7 +87,7 @@ public class AdminMenuController implements Initializable {
         phoneCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("phoneNum"));
         emailCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("email"));
 
-        accountTable.setItems(data);
+        staffTable.setItems(data);
     }
 
     public void setLoggedInName(String s) {
@@ -89,10 +97,6 @@ public class AdminMenuController implements Initializable {
     public void switchTab() {
         SingleSelectionModel<Tab> selectionModel = adminTab.getSelectionModel();
         selectionModel.select(1);
-    }
-
-    public void test() {
-        testLabel.setText("change detected!");
     }
 
     @FXML
@@ -108,7 +112,62 @@ public class AdminMenuController implements Initializable {
     }
 
     @FXML
-    private void editAccountPress(ActionEvent event) {
-        test();
+    private void editAccountPress(ActionEvent event) throws IOException {
+        Staff selectedStaff = null;
+        selectedStaff = staffTable.getSelectionModel().getSelectedItem();
+
+        if (selectedStaff == null) {
+            noAccountSelected.setText("No Account Selected.");
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/AdminMenu/EditAccount.fxml"));
+            Parent root = (Parent) loader.load();
+
+            EditAccountController controller = loader.getController();
+            controller.setLoggedInName(loggedInAsText.getText());
+            controller.setSelectedStaff(selectedStaff);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
+    }
+
+    @FXML
+    private void deleteAccountPress(ActionEvent event) {
+        Staff selectedStaff = null;
+        selectedStaff = staffTable.getSelectionModel().getSelectedItem();
+        staffTable.getItems().remove(selectedStaff);
+
+        if (selectedStaff == null) {
+            noAccountSelected.setText("No Account Selected.");
+        } else {
+            StaffDAO sDAO = new StaffDAO();
+            sDAO.delete(selectedStaff);
+        }
+    }
+
+    @FXML
+    private void createBackupPress(ActionEvent event) {
+    }
+
+    @FXML
+    private void restoreBackupPress(ActionEvent event) {
+//        DB selectedBackup = null;
+//        selectedBackup = dbTable.getSelectionModel().getSelectedItem();
+//
+//        if (selectedBackup == null) {
+//            noBackupSelected.setText("No Account Selected.");
+//        } else {
+//            
+//        }
+    }
+
+    @FXML
+    private void deleteBackupPress(ActionEvent event) {
+    }
+
+    @FXML
+    private void logOutPress(ActionEvent event) throws IOException {
+        MainGUIController guiController = new MainGUIController();
+        guiController.logOut(event);
     }
 }
