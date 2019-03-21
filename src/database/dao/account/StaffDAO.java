@@ -130,7 +130,8 @@ public class StaffDAO implements IStaff
                 Staff.COLUMN_EMAIL + " =?," + Staff.COLUMN_TYPE + " =?" + " WHERE " + Staff.COLUMN_ID +
                 " =" + staff.getId();
 
-        String[] values = {staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(), staff.getEmail(), staff.getType()};
+        String[] values = {staff.getUserName(), staff.getPassword()
+                ,staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(), staff.getEmail(), staff.getType()};
 
         connectivity.writePrepared(sql, con, values);
 
