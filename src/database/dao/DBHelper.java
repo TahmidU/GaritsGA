@@ -5,6 +5,7 @@ import database.IDBConnectivity;
 import database.domain.account.AccountHolder;
 import database.domain.account.CustomerAcc;
 import database.domain.account.Staff;
+import database.domain.backup.BackUp;
 import database.domain.discount.*;
 import database.domain.job.*;
 import database.domain.part.PartOrder;
@@ -22,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -30,6 +32,9 @@ public class DBHelper
     public static final String DB_NAME = "GaritsGA.db";
     public static final String DB_DRIVER =  "jdbc:sqlite:"+DB_NAME;
 
+    public static final String DB_BACKUP_NAME = "Backup.db";
+    public static final String DB_BACKUP_DRIVER = "jdbc:sqlite:"+DB_BACKUP_NAME;
+
     public static final String ON_UPDATE = " ON UPDATE CASCADE";
     public static final String ON_DELETE = " ON DELETE CASCADE";
 
@@ -37,7 +42,10 @@ public class DBHelper
     private Connection conn;
 
     private String backupLocation = "backup/";
-    private String backupName = "backupGA.db";
+    private String backupName = "BackupGA.db";
+    private String backupDir;
+    private String backupDate;
+    private String backupTime;
 
     public DBHelper()
     {
@@ -46,8 +54,6 @@ public class DBHelper
 
     public boolean createDB()
     {
-
-
         if(!connectivity.checkExists(DB_NAME))
         {
             conn = connectivity.connect(DB_DRIVER);
@@ -84,11 +90,39 @@ public class DBHelper
                 }
 
             connectivity.clearBatch();
+
+
+
             connectivity.closeConnection(conn);
             return true;
         }
 
         Log.write("DBHelper: Database already exists.");
+        return false;
+    }
+
+    public boolean createBackUpDB()
+    {
+        if(!connectivity.checkExists(DB_BACKUP_NAME))
+        {
+            conn = connectivity.connect(DB_BACKUP_DRIVER);
+
+            try {
+                conn.setAutoCommit(false);
+            } catch (SQLException e) {
+                Log.write("StaffDAO: Failed to set auto commit to false.");
+                e.printStackTrace();
+            }
+
+            Log.write("DBHelper: Backup Database does not exist. Creating one...");
+            connectivity.write(BackUp.CREATE_BACKUP_TABLE, conn);
+            Log.write("DBHelper: Backup Database successfully created.");
+
+            connectivity.closeConnection(conn);
+            return true;
+        }
+
+        Log.write("DBHelper: Backup Database already exists.");
         return false;
     }
 
@@ -103,6 +137,10 @@ public class DBHelper
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat time = new SimpleDateFormat("HHmmss");
         SimpleDateFormat DMY = new SimpleDateFormat("ddMMyyyy");
+        SimpleDateFormat timeBackUp = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat DMYBackUp = new SimpleDateFormat("dd/MM/yyyy");
+
+        backupDate = DMYBackUp.format(calendar.getTime());
 
         String timePath = backupLocation + DMY.format(calendar.getTime()) + "/";
         File timeFile = new File(timePath);
@@ -110,8 +148,11 @@ public class DBHelper
         if(!timeFile.exists())
             timeFile.mkdir();
 
+        backupTime = timeBackUp.format(calendar.getTime());
+        backupDir = timePath+time.format(calendar.getTime())+backupName;
+
         Path source = Paths.get(DB_NAME);
-        Path dest = Paths.get(timePath+time.format(calendar.getTime())+backupName);
+        Path dest = Paths.get(backupDir);
 
         try {
             Files.copy(source, dest);
@@ -126,7 +167,6 @@ public class DBHelper
 
     public boolean restoreDB(String location)
     {
-        backUpDB();
         Path source = Paths.get(location);
         Path dest = Paths.get(DB_NAME);
 
@@ -146,6 +186,15 @@ public class DBHelper
         return false;
     }
 
+    public boolean deleteDB(String location)
+    {
+        Path source = Paths.get(location);
+
+        File file = new File(source.toString());
+
+        return file.delete();
+    }
+
     public String getBackupLocation() {
         return backupLocation;
     }
@@ -160,5 +209,17 @@ public class DBHelper
 
     public void setBackupName(String backupName) {
         this.backupName = backupName;
+    }
+
+    public String getBackupDir() {
+        return backupDir;
+    }
+
+    public String getBackupDate() {
+        return backupDate;
+    }
+
+    public String getBackupTime() {
+        return backupTime;
     }
 }
