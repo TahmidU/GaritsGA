@@ -33,6 +33,8 @@ public class GARITS extends Application {
 
         DBHelper db = new DBHelper();
         db.createDB();
+        DBHelper dbH = new DBHelper();
+        dbH.createBackUpDB();
     }
 
     /**
