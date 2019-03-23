@@ -5,8 +5,11 @@
  */
 package Menus.AdminMenu;
 
+import database.dao.DBHelper;
 import database.dao.account.StaffDAO;
+import database.dao.backup.BackUpDAO;
 import database.domain.account.Staff;
+import database.domain.backup.BackUp;
 import garits.MainGUIController;
 import java.io.IOException;
 import java.net.URL;
@@ -35,7 +38,10 @@ import javafx.stage.Stage;
  * @author Huntees
  */
 public class AdminMenuController implements Initializable {
-
+    
+    private StaffDAO sDAO;
+    private BackUpDAO bDAO;
+    
     @FXML
     private TabPane adminTab;
     @FXML
@@ -59,13 +65,13 @@ public class AdminMenuController implements Initializable {
     @FXML
     private Label noAccountSelected;
     @FXML
-    private TableView<?> dbTable;
+    private TableView<BackUp> dbTable;
     @FXML
-    private TableColumn<?, ?> dateCol;
+    private TableColumn<BackUp, String> dateCol;
     @FXML
-    private TableColumn<?, ?> timeCol;
+    private TableColumn<BackUp, String> timeCol;
     @FXML
-    private TableColumn<?, ?> fileNameCol;
+    private TableColumn<BackUp, String> fileNameCol;
     @FXML
     private Label noBackupSelected;
 
@@ -75,9 +81,8 @@ public class AdminMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        StaffDAO sDAO = new StaffDAO();
-
-        ObservableList<Staff> data = FXCollections.observableArrayList(sDAO.getAll());
+        sDAO = new StaffDAO();
+        ObservableList<Staff> accountData = FXCollections.observableArrayList(sDAO.getAll());
 
         idCol.setCellValueFactory(new PropertyValueFactory<Staff, Integer>("id"));
         usernameCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("userName"));
@@ -87,7 +92,17 @@ public class AdminMenuController implements Initializable {
         phoneCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("phoneNum"));
         emailCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("email"));
 
-        staffTable.setItems(data);
+        staffTable.setItems(accountData);
+
+        bDAO = new BackUpDAO();
+        ObservableList<BackUp> backupData = FXCollections.observableArrayList(bDAO.getAll());
+
+        dateCol.setCellValueFactory(new PropertyValueFactory<BackUp, String>("dateCreated"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<BackUp, String>("timeCreated"));
+        fileNameCol.setCellValueFactory(new PropertyValueFactory<BackUp, String>("fileName"));
+        
+        dbTable.setItems(backupData);
+
     }
 
     public void setLoggedInName(String s) {
@@ -140,13 +155,18 @@ public class AdminMenuController implements Initializable {
         if (selectedStaff == null) {
             noAccountSelected.setText("No Account Selected.");
         } else {
-            StaffDAO sDAO = new StaffDAO();
             sDAO.delete(selectedStaff);
         }
     }
 
     @FXML
     private void createBackupPress(ActionEvent event) {
+        DBHelper dbH = new DBHelper();
+        dbH.backUpDB();
+        BackUp tmp = new BackUp(dbH.getBackupDir(), dbH.getBackupName(), dbH.getBackupDate(), dbH.getBackupTime());
+        bDAO.save(tmp);
+        
+        dbTable.getItems().add(tmp);
     }
 
     @FXML
