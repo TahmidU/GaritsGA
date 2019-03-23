@@ -32,7 +32,7 @@ public class DBHelper
     public static final String DB_NAME = "GaritsGA.db";
     public static final String DB_DRIVER =  "jdbc:sqlite:"+DB_NAME;
 
-    public static final String DB_BACKUP_NAME = "Backup.db";
+    public static final String DB_BACKUP_NAME = "BackupGA.db";
     public static final String DB_BACKUP_DRIVER = "jdbc:sqlite:"+DB_BACKUP_NAME;
 
     public static final String ON_UPDATE = " ON UPDATE CASCADE";
@@ -149,7 +149,9 @@ public class DBHelper
             timeFile.mkdir();
 
         backupTime = timeBackUp.format(calendar.getTime());
-        backupDir = timePath+time.format(calendar.getTime())+backupName;
+
+        backupDir = timePath+time.format(calendar.getTime())+DB_BACKUP_NAME;
+        backupName = time.format(calendar.getTime())+DB_BACKUP_NAME;
 
         Path source = Paths.get(DB_NAME);
         Path dest = Paths.get(backupDir);
