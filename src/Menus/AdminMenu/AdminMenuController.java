@@ -38,10 +38,10 @@ import javafx.stage.Stage;
  * @author Huntees
  */
 public class AdminMenuController implements Initializable {
-    
+
     private StaffDAO sDAO;
     private BackUpDAO bDAO;
-    
+
     @FXML
     private TabPane adminTab;
     @FXML
@@ -100,7 +100,7 @@ public class AdminMenuController implements Initializable {
         dateCol.setCellValueFactory(new PropertyValueFactory<BackUp, String>("dateCreated"));
         timeCol.setCellValueFactory(new PropertyValueFactory<BackUp, String>("timeCreated"));
         fileNameCol.setCellValueFactory(new PropertyValueFactory<BackUp, String>("fileName"));
-        
+
         dbTable.setItems(backupData);
 
     }
@@ -150,11 +150,11 @@ public class AdminMenuController implements Initializable {
     private void deleteAccountPress(ActionEvent event) {
         Staff selectedStaff = null;
         selectedStaff = staffTable.getSelectionModel().getSelectedItem();
-        staffTable.getItems().remove(selectedStaff);
 
         if (selectedStaff == null) {
             noAccountSelected.setText("No Account Selected.");
         } else {
+            staffTable.getItems().remove(selectedStaff);
             sDAO.delete(selectedStaff);
         }
     }
@@ -165,24 +165,40 @@ public class AdminMenuController implements Initializable {
         dbH.backUpDB();
         BackUp tmp = new BackUp(dbH.getBackupDir(), dbH.getBackupName(), dbH.getBackupDate(), dbH.getBackupTime());
         bDAO.save(tmp);
-        
+
         dbTable.getItems().add(tmp);
     }
 
     @FXML
     private void restoreBackupPress(ActionEvent event) {
-//        DB selectedBackup = null;
-//        selectedBackup = dbTable.getSelectionModel().getSelectedItem();
-//
-//        if (selectedBackup == null) {
-//            noBackupSelected.setText("No Account Selected.");
-//        } else {
-//            
-//        }
+        BackUp selectedBackup = null;
+        selectedBackup = dbTable.getSelectionModel().getSelectedItem();
+
+        if (selectedBackup == null) {
+            noBackupSelected.setText("No Backup Selected.");
+        } else {
+            DBHelper dbH = new DBHelper();
+            dbH.restoreDB(selectedBackup.getDir());
+            
+            ObservableList<Staff> accountData = FXCollections.observableArrayList(sDAO.getAll());
+            staffTable.setItems(accountData);
+            noBackupSelected.setText("Restored Sucessfully.");
+        }
     }
 
     @FXML
-    private void deleteBackupPress(ActionEvent event) {
+    private void deleteBackupPress(ActionEvent event) throws InterruptedException {
+        BackUp selectedBackup = null;
+        selectedBackup = dbTable.getSelectionModel().getSelectedItem();
+
+        if (selectedBackup == null) {
+            noBackupSelected.setText("No Backup Selected.");
+        } else {
+            dbTable.getItems().remove(selectedBackup);
+            bDAO.delete(selectedBackup);
+            DBHelper dbH = new DBHelper();
+            dbH.deleteDB(selectedBackup.getDir());
+        }
     }
 
     @FXML
