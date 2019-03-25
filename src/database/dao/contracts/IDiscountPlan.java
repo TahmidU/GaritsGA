@@ -8,7 +8,7 @@ public interface IDiscountPlan
 {
     ArrayList<DiscountPlan> getAll();
     DiscountPlan getByDiscountId(int discountId);
-    DiscountPlan getByNI(String nI);
+    DiscountPlan getByAccId(int id);
     void save(DiscountPlan discountPlan);
     void update(DiscountPlan discountPlan);
     void delete(DiscountPlan discountPlan);

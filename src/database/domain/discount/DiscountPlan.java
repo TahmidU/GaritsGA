@@ -1,7 +1,7 @@
 package database.domain.discount;
 
 import database.dao.DBHelper;
-import database.domain.account.CustomerAcc;
+import database.domain.account.AccountHolder;
 
 public class DiscountPlan
 {
@@ -9,31 +9,31 @@ public class DiscountPlan
     public static final String TABLE_DISCOUNT_PLAN = "discount_plan";
     public static final String COLUMN_ID = "discount_id";
     public static final String COLUMN_TYPE = "type";
-    public static final String COLUMN_NI = "customer_national_number";
+    public static final String COLUMN_ACC_HOLDER_ID = "acc_holder_id";
 
     //  Columns indexes.
     public static final int INDEX_ID = 1;
     public static final int INDEX_TYPE = 2;
-    public static final int INDEX_NI = 3;
+    public static final int INDEX_ACC_HOLDER_ID = 3;
 
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_DISCOUNT_PLAN = "CREATE TABLE " + TABLE_DISCOUNT_PLAN + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
-            "" + COLUMN_TYPE + " varchar(8) NOT NULL, " + COLUMN_NI + " varchar(9) NOT NULL, " +
-            "FOREIGN KEY(" + COLUMN_NI + ") " +
-            "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + ")"+ DBHelper.ON_UPDATE+");";
+            "" + COLUMN_TYPE + " varchar(8) NOT NULL, " + COLUMN_ACC_HOLDER_ID + " integer(10) NOT NULL, " +
+            "FOREIGN KEY(" + COLUMN_ACC_HOLDER_ID + ") " +
+            "REFERENCES " + AccountHolder.TABLE_ACCOUNT_HOLDER + "(" + AccountHolder.COLUMN_ID + ")"+ DBHelper.ON_UPDATE+");";
 
     //  Properties
     private int id;
     private String type;
-    private String nationalInsurance;
+    private int acc_holder_id;
 
     public DiscountPlan(){}
 
-    public DiscountPlan(int id, String type, String nationalInsurance)
+    public DiscountPlan(int id, String type, int acc_holder_id)
     {
         this.id = id;
         this.type = type;
-        this.nationalInsurance = nationalInsurance;
+        this.acc_holder_id = acc_holder_id;
     }
 
     //--------Getters and Setters--------
@@ -53,11 +53,11 @@ public class DiscountPlan
         this.type = type;
     }
 
-    public String getNationalInsurance() {
-        return nationalInsurance;
+    public int getAcc_holder_id() {
+        return acc_holder_id;
     }
 
-    public void setNationalInsurance(String nationalInsurance) {
-        this.nationalInsurance = nationalInsurance;
+    public void setAcc_holder_id(int acc_holder_id) {
+        this.acc_holder_id = acc_holder_id;
     }
 }

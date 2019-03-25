@@ -43,7 +43,7 @@ public class DiscountPlanDAO implements IDiscountPlan
         try{
             while(rs.next()){
                 discountPlans.add( new DiscountPlan(rs.getInt(DiscountPlan.INDEX_ID)
-                        ,rs.getString(DiscountPlan.INDEX_TYPE),rs.getString(DiscountPlan.INDEX_NI)));
+                        ,rs.getString(DiscountPlan.INDEX_TYPE),rs.getInt(DiscountPlan.INDEX_ACC_HOLDER_ID)));
             }
             Log.write("DAO: Query successful.");
         }catch(SQLException e){
@@ -74,7 +74,7 @@ public class DiscountPlanDAO implements IDiscountPlan
             while(rs.next())
             {
                 discountPlan = new DiscountPlan(rs.getInt(DiscountPlan.INDEX_ID)
-                        ,rs.getString(DiscountPlan.INDEX_TYPE),rs.getString(DiscountPlan.INDEX_NI));
+                        ,rs.getString(DiscountPlan.INDEX_TYPE),rs.getInt(DiscountPlan.INDEX_ACC_HOLDER_ID));
             }
         }catch (SQLException e)
         {
@@ -87,7 +87,7 @@ public class DiscountPlanDAO implements IDiscountPlan
     }
 
     @Override
-    public DiscountPlan getByNI(String nI)
+    public DiscountPlan getByAccId(int id)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);
         try {
@@ -97,8 +97,8 @@ public class DiscountPlanDAO implements IDiscountPlan
             e.printStackTrace();
         }
 
-        String sql = "SELECT * FROM " + DiscountPlan.TABLE_DISCOUNT_PLAN + " WHERE " + DiscountPlan.COLUMN_NI +
-                "='" + nI + "'";
+        String sql = "SELECT * FROM " + DiscountPlan.TABLE_DISCOUNT_PLAN + " WHERE " + DiscountPlan.COLUMN_ACC_HOLDER_ID +
+                "=" + id;
 
 
         try{
@@ -106,7 +106,7 @@ public class DiscountPlanDAO implements IDiscountPlan
             while(rs.next())
             {
                 discountPlan = new DiscountPlan(rs.getInt(DiscountPlan.INDEX_ID)
-                        ,rs.getString(DiscountPlan.INDEX_TYPE),rs.getString(DiscountPlan.INDEX_NI));
+                        ,rs.getString(DiscountPlan.INDEX_TYPE),rs.getInt(DiscountPlan.INDEX_ACC_HOLDER_ID));
             }
         }catch (SQLException e)
         {
@@ -129,8 +129,8 @@ public class DiscountPlanDAO implements IDiscountPlan
             e.printStackTrace();
         }
         String sql = "INSERT INTO " + DiscountPlan.TABLE_DISCOUNT_PLAN+
-                "( "+DiscountPlan.COLUMN_TYPE+","+DiscountPlan.COLUMN_NI+")"+ " VALUES(?,?)";
-        String[] values = {discountPlan.getType(),discountPlan.getNationalInsurance()};
+                "( "+DiscountPlan.COLUMN_TYPE+","+DiscountPlan.COLUMN_ACC_HOLDER_ID+")"+ " VALUES(?,?)";
+        String[] values = {discountPlan.getType(),String.valueOf(discountPlan.getId())};
         connectivity.writePrepared(sql, con, values);
         connectivity.closeConnection(con);
     }
@@ -144,9 +144,9 @@ public class DiscountPlanDAO implements IDiscountPlan
             e.printStackTrace();
         }
 
-        String sql = "UPDATE " + DiscountPlan.TABLE_DISCOUNT_PLAN + " SET "+DiscountPlan.COLUMN_TYPE+" =?,"+DiscountPlan.COLUMN_NI+" =?"
+        String sql = "UPDATE " + DiscountPlan.TABLE_DISCOUNT_PLAN + " SET "+DiscountPlan.COLUMN_TYPE+" =?,"+DiscountPlan.COLUMN_ACC_HOLDER_ID+" =?"
                 +" WHERE " +DiscountPlan.COLUMN_ID+ "=" +discountPlan.getId();
-        String[] values = {discountPlan.getType(),discountPlan.getNationalInsurance()};
+        String[] values = {discountPlan.getType(),String.valueOf(discountPlan.getId())};
 
         connectivity.writePrepared(sql, con, values);
         connectivity.closeConnection(con);
