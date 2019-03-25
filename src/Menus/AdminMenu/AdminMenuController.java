@@ -74,6 +74,8 @@ public class AdminMenuController implements Initializable {
     private TableColumn<BackUp, String> fileNameCol;
     @FXML
     private Label noBackupSelected;
+    @FXML
+    private Label restoreSucessful;
 
     /**
      * Initializes the controller class.
@@ -182,12 +184,12 @@ public class AdminMenuController implements Initializable {
             
             ObservableList<Staff> accountData = FXCollections.observableArrayList(sDAO.getAll());
             staffTable.setItems(accountData);
-            noBackupSelected.setText("Restored Sucessfully.");
+            restoreSucessful.setText("Successfully Restored " + selectedBackup.getFileName() + ".");
         }
     }
 
     @FXML
-    private void deleteBackupPress(ActionEvent event) throws InterruptedException {
+    private void deleteBackupPress(ActionEvent event) {
         BackUp selectedBackup = null;
         selectedBackup = dbTable.getSelectionModel().getSelectedItem();
 

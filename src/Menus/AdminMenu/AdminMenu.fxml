@@ -67,6 +67,7 @@
                               <Button layoutX="320.0" layoutY="450.0" mnemonicParsing="false" onAction="#deleteBackupPress" prefHeight="35.0" prefWidth="114.0" text="Delete Backup" />
                               <Separator layoutX="15.0" layoutY="423.0" prefHeight="17.0" prefWidth="770.0" />
                               <Label fx:id="noBackupSelected" layoutX="43.0" layoutY="494.0" prefHeight="25.0" prefWidth="194.0" textFill="RED" />
+                              <Label fx:id="restoreSucessful" layoutX="53.0" layoutY="504.0" prefHeight="25.0" prefWidth="318.0" textFill="#00a000" />
                            </children>
                         </AnchorPane>
                      </content>
