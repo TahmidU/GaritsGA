@@ -125,6 +125,38 @@ public class StaffDAO implements IStaff
     }
 
     @Override
+    public ArrayList<Staff> getByType(String type)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        staffs.clear();
+        String sql = "SELECT * FROM " + Staff.TABLE_STAFF + " WHERE " + Staff.COLUMN_TYPE + "='" + type +"'";
+        ResultSet rs = connectivity.read(sql,con);
+        try {
+            while (rs.next()) {
+                staffs.add(new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_USER_NAME) , rs.getString(Staff.INDEX_PASSWORD),
+                        rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
+                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE)));
+            }
+            Log.write("DAO: Query successful.");
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+
+        return staffs;
+    }
+
+    @Override
     public void save(Staff staff)
     {
         con = connectivity.connect(DBHelper.DB_DRIVER);

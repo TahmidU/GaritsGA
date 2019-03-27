@@ -1,7 +1,5 @@
 package database.domain.account;
 
-import database.dao.DBHelper;
-
 public class Staff
 {
     //  Table name and name of all columns.
@@ -26,7 +24,13 @@ public class Staff
     public static final int INDEX_EMAIL = 7;
     public static final int INDEX_TYPE = 8;
 
-
+    //Staff Types
+    public static final String ADMIN = "Administrator";
+    public static final String FRANCHISEE = "Franchisee";
+    public static final String FOREPERSON = "Foreperson";
+    public static final String MECHANIC = "Mechanic";
+    public static final String RECEPTIONIST = "Receptionist";
+    
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_STAFF = "CREATE TABLE " + TABLE_STAFF + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " + COLUMN_USER_NAME + " varchar(15) NOT NULL," +
             COLUMN_PASSWORD + " varchar(15) NOT NULL," + COLUMN_FIRST_NAME + " varchar(30) NOT NULL, " + COLUMN_LAST_NAME + " varchar(30) NOT NULL, " + COLUMN_PHONE_NUM + " varchar(11), " +
