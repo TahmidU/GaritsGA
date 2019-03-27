@@ -184,6 +184,7 @@ public class AdminMenuController implements Initializable {
             
             ObservableList<Staff> accountData = FXCollections.observableArrayList(sDAO.getAll());
             staffTable.setItems(accountData);
+            noBackupSelected.setText("");
             restoreSucessful.setText("Successfully Restored " + selectedBackup.getFileName() + ".");
         }
     }
