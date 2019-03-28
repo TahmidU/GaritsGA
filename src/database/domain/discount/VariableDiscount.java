@@ -1,6 +1,11 @@
 package database.domain.discount;
 
 import database.dao.DBHelper;
+import database.dao.discount.DiscountPlanDAO;
+import database.dao.job.VariableTaskDAO;
+import database.domain.job.VariableTask;
+
+import java.util.ArrayList;
 
 public class VariableDiscount
 {
@@ -21,12 +26,16 @@ public class VariableDiscount
     //  Properties
     private int varId;
     private int discountId;
+    private DiscountPlan discountPlan;
+    private ArrayList<VariableTask> variableTasks;
 
     public VariableDiscount(){}
 
     public VariableDiscount(int varId, int discountId) {
         this.varId = varId;
         this.discountId = discountId;
+        discountPlan = new DiscountPlanDAO().getByDiscountId(discountId);
+        variableTasks = new VariableTaskDAO().getByVariableDiscountId(varId);
     }
 
     //--------Getters and Setters--------
@@ -44,5 +53,21 @@ public class VariableDiscount
 
     public void setDiscountId(int discountId) {
         this.discountId = discountId;
+    }
+
+    public DiscountPlan getDiscountPlan() {
+        return discountPlan;
+    }
+
+    public void setDiscountPlan(DiscountPlan discountPlan) {
+        this.discountPlan = discountPlan;
+    }
+
+    public ArrayList<VariableTask> getVariableTasks() {
+        return variableTasks;
+    }
+
+    public void setVariableTasks(ArrayList<VariableTask> variableTasks) {
+        this.variableTasks = variableTasks;
     }
 }

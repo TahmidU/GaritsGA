@@ -1,9 +1,15 @@
 package database.domain.job;
 
 import database.dao.DBHelper;
+import database.dao.account.StaffDAO;
+import database.dao.job.BookingDAO;
+import database.dao.job.TaskDAO;
+import database.dao.payment.InvoiceDAO;
 import database.domain.account.Staff;
+import database.domain.payment.Invoice;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class JobSheet
 {
@@ -50,6 +56,12 @@ public class JobSheet
     private String status;
     private Date allocationDate;
     private Date dateCompleted;
+    private Staff staff;
+    private Booking booking;
+    private Invoice invoice;
+    private Vehicle vehicle;
+    private ArrayList<Task> tasks;
+
 
     public JobSheet(){}
 
@@ -63,6 +75,10 @@ public class JobSheet
         this.status = status;
         this.allocationDate = allocationDate;
         this.dateCompleted = dateCompleted;
+        staff = new StaffDAO().getById(staffId);
+        booking = new BookingDAO().getById(bookingId);
+        invoice = new InvoiceDAO().getByJobNum(jobNum);
+        tasks = new TaskDAO().getByJobNum(jobNum);
     }
 
     //--------Getters and Setters--------
@@ -136,5 +152,45 @@ public class JobSheet
 
     public void setDateCompleted(Date dateCompleted) {
         this.dateCompleted = dateCompleted;
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
     }
 }

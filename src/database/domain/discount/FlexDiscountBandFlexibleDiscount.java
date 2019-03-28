@@ -1,6 +1,8 @@
 package database.domain.discount;
 
 import database.dao.DBHelper;
+import database.dao.discount.FlexDiscountBandDAO;
+import database.dao.discount.FlexibleDiscountDAO;
 
 public class FlexDiscountBandFlexibleDiscount
 {
@@ -23,6 +25,8 @@ public class FlexDiscountBandFlexibleDiscount
     //  Properties
     private int flexDiscountBandFlexDiscount;
     private String flexDiscountBandValuationBand;
+    private FlexDiscountBand flexDiscountBand;
+    private FlexibleDiscount flexibleDiscount;
 
     public FlexDiscountBandFlexibleDiscount(){}
 
@@ -30,6 +34,8 @@ public class FlexDiscountBandFlexibleDiscount
     {
         this.flexDiscountBandFlexDiscount = flexDiscountBandFlexDiscount;
         this.flexDiscountBandValuationBand = flexDiscountBandValuationBand;
+        flexDiscountBand = new FlexDiscountBandDAO().getByValuationBand(flexDiscountBandValuationBand);
+        flexibleDiscount = new FlexibleDiscountDAO().getById(flexDiscountBandFlexDiscount);
     }
 
     //--------Getters and Setters--------
@@ -47,5 +53,21 @@ public class FlexDiscountBandFlexibleDiscount
 
     public void setFlexDiscountBandValuationBand(String flexDiscountBandValuationBand) {
         this.flexDiscountBandValuationBand = flexDiscountBandValuationBand;
+    }
+
+    public FlexDiscountBand getFlexDiscountBand() {
+        return flexDiscountBand;
+    }
+
+    public void setFlexDiscountBand(FlexDiscountBand flexDiscountBand) {
+        this.flexDiscountBand = flexDiscountBand;
+    }
+
+    public FlexibleDiscount getFlexibleDiscount() {
+        return flexibleDiscount;
+    }
+
+    public void setFlexibleDiscount(FlexibleDiscount flexibleDiscount) {
+        this.flexibleDiscount = flexibleDiscount;
     }
 }

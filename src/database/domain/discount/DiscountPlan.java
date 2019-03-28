@@ -1,6 +1,10 @@
 package database.domain.discount;
 
 import database.dao.DBHelper;
+import database.dao.account.AccountHolderDAO;
+import database.dao.discount.FixedDiscountDAO;
+import database.dao.discount.FlexibleDiscountDAO;
+import database.dao.discount.VariableDiscountDAO;
 import database.domain.account.AccountHolder;
 
 public class DiscountPlan
@@ -26,6 +30,10 @@ public class DiscountPlan
     private int id;
     private String type;
     private int acc_holder_id;
+    private AccountHolder accountHolder;
+    private FixedDiscount fixedDiscount;
+    private VariableDiscount variableDiscount;
+    private FlexibleDiscount flexibleDiscount;
 
     public DiscountPlan(){}
 
@@ -34,6 +42,10 @@ public class DiscountPlan
         this.id = id;
         this.type = type;
         this.acc_holder_id = acc_holder_id;
+        accountHolder = new AccountHolderDAO().getById(acc_holder_id);
+        flexibleDiscount = new FlexibleDiscountDAO().getByDiscountID(id);
+        variableDiscount = new VariableDiscountDAO().getByDiscountId(id);
+        fixedDiscount = new FixedDiscountDAO().getByDiscountId(id);
     }
 
     //--------Getters and Setters--------
@@ -59,5 +71,37 @@ public class DiscountPlan
 
     public void setAcc_holder_id(int acc_holder_id) {
         this.acc_holder_id = acc_holder_id;
+    }
+
+    public FixedDiscount getFixedDiscount() {
+        return fixedDiscount;
+    }
+
+    public void setFixedDiscount(FixedDiscount fixedDiscount) {
+        this.fixedDiscount = fixedDiscount;
+    }
+
+    public VariableDiscount getVariableDiscount() {
+        return variableDiscount;
+    }
+
+    public void setVariableDiscount(VariableDiscount variableDiscount) {
+        this.variableDiscount = variableDiscount;
+    }
+
+    public FlexibleDiscount getFlexibleDiscount() {
+        return flexibleDiscount;
+    }
+
+    public void setFlexibleDiscount(FlexibleDiscount flexibleDiscount) {
+        this.flexibleDiscount = flexibleDiscount;
+    }
+
+    public AccountHolder getAccountHolder() {
+        return accountHolder;
+    }
+
+    public void setAccountHolder(AccountHolder accountHolder) {
+        this.accountHolder = accountHolder;
     }
 }

@@ -1,6 +1,8 @@
 package database.domain.part;
 
 import database.dao.DBHelper;
+import database.dao.part.PartOrderDAO;
+import database.dao.part.StockPartDAO;
 
 public class StockPartOrder
 {
@@ -23,12 +25,16 @@ public class StockPartOrder
     //  Properties
     private String partOrderNum;
     private int stockPartId;
+    private StockPart stockPart;
+    private PartOrder partOrder;
 
     public StockPartOrder(){}
 
     public StockPartOrder(String partOrderNum, int stockPartId) {
         this.partOrderNum = partOrderNum;
         this.stockPartId = stockPartId;
+        stockPart = new StockPartDAO().getByStockPart(stockPartId);
+        partOrder = new PartOrderDAO().getByOrderNum(partOrderNum);
     }
 
     //--------Getters and Setters--------
@@ -47,5 +53,21 @@ public class StockPartOrder
 
     public void setStockPartId(int stockPartId) {
         this.stockPartId = stockPartId;
+    }
+
+    public StockPart getStockPart() {
+        return stockPart;
+    }
+
+    public void setStockPart(StockPart stockPart) {
+        this.stockPart = stockPart;
+    }
+
+    public PartOrder getPartOrder() {
+        return partOrder;
+    }
+
+    public void setPartOrder(PartOrder partOrder) {
+        this.partOrder = partOrder;
     }
 }

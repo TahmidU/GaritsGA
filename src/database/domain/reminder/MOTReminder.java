@@ -1,6 +1,7 @@
 package database.domain.reminder;
 
 import database.dao.DBHelper;
+import database.dao.account.AccountHolderDAO;
 import database.domain.account.AccountHolder;
 
 import java.sql.Date;
@@ -28,6 +29,7 @@ public class MOTReminder
     private int id;
     private int accountHolderId;
     private Date renewalDate;
+    private AccountHolder accountHolder;
 
     public MOTReminder(){}
 
@@ -35,6 +37,7 @@ public class MOTReminder
         this.id = id;
         this.accountHolderId = accountHolderId;
         this.renewalDate = renewalDate;
+        accountHolder = new AccountHolderDAO().getById(accountHolderId);
     }
 
     //--------Getters and Setters--------
@@ -60,5 +63,13 @@ public class MOTReminder
 
     public void setRenewalDate(Date renewalDate) {
         this.renewalDate = renewalDate;
+    }
+
+    public AccountHolder getAccountHolder() {
+        return accountHolder;
+    }
+
+    public void setAccountHolder(AccountHolder accountHolder) {
+        this.accountHolder = accountHolder;
     }
 }

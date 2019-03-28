@@ -1,8 +1,9 @@
 package database.domain.job;
 
 import database.dao.DBHelper;
+import database.dao.discount.VariableDiscountDAO;
+import database.dao.job.TaskDAO;
 import database.domain.discount.VariableDiscount;
-import database.domain.job.Task;
 
 public class VariableTask
 {
@@ -27,6 +28,8 @@ public class VariableTask
     private int taskId;
     private int varDiscountId;
     private float discountVal;
+    private Task task;
+    private VariableDiscount variableDiscount;
 
     public VariableTask(){}
 
@@ -34,6 +37,8 @@ public class VariableTask
         this.taskId = taskId;
         this.varDiscountId = varDiscountId;
         this.discountVal = discountVal;
+        task = new TaskDAO().getById(taskId);
+        variableDiscount = new VariableDiscountDAO().getByVariableDiscount(varDiscountId);
     }
 
     //--------Getters and Setters--------

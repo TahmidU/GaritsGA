@@ -1,6 +1,10 @@
 package database.domain.discount;
 
 import database.dao.DBHelper;
+import database.dao.discount.DiscountPlanDAO;
+import database.dao.discount.FlexDiscountBandFlexibleDiscountDAO;
+
+import java.util.ArrayList;
 
 public class FlexibleDiscount
 {
@@ -20,12 +24,16 @@ public class FlexibleDiscount
     //  Properties
     private int flexId;
     private int discountId;
+    private DiscountPlan discountPlan;
+    private ArrayList<FlexDiscountBandFlexibleDiscount> flexDiscountBandFlexibleDiscounts;
 
     public FlexibleDiscount(){}
 
     public FlexibleDiscount(int flexId, int discountId) {
         this.flexId = flexId;
         this.discountId = discountId;
+        discountPlan = new DiscountPlanDAO().getByDiscountId(discountId);
+        flexDiscountBandFlexibleDiscounts = new FlexDiscountBandFlexibleDiscountDAO().getByDiscountId(flexId);
     }
 
     //--------Getters and Setters--------
@@ -43,5 +51,13 @@ public class FlexibleDiscount
 
     public void setDiscountId(int discountId) {
         this.discountId = discountId;
+    }
+
+    public DiscountPlan getDiscountPlan() {
+        return discountPlan;
+    }
+
+    public void setDiscountPlan(DiscountPlan discountPlan) {
+        this.discountPlan = discountPlan;
     }
 }

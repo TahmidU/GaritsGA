@@ -1,8 +1,17 @@
 package database.domain.account;
 
 import database.dao.DBHelper;
+import database.dao.discount.DiscountPlanDAO;
+import database.dao.payment.OutstandingBalanceDAO;
+import database.dao.reminder.InvoiceReminderDAO;
+import database.dao.reminder.MOTReminderDAO;
+import database.domain.discount.DiscountPlan;
+import database.domain.payment.OutstandingBalance;
+import database.domain.reminder.InvoiceReminder;
+import database.domain.reminder.MOTReminder;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class AccountHolder extends CustomerAcc
 {
@@ -27,6 +36,10 @@ public class AccountHolder extends CustomerAcc
     private int id;
     private String nationalInsurance;
     private Date dateJoined;
+    private ArrayList<MOTReminder> motReminders;
+    private ArrayList<InvoiceReminder> invoiceReminders;
+    private OutstandingBalance outstandingBalance;
+    private DiscountPlan discountPlan;
 
     public AccountHolder(){}
 
@@ -35,6 +48,10 @@ public class AccountHolder extends CustomerAcc
         this.id = id;
         this.nationalInsurance = nationalInsurance;
         this.dateJoined = dateJoined;
+        motReminders = new MOTReminderDAO().getByAccountHolderId(id);
+        invoiceReminders = new InvoiceReminderDAO().getByAccountHolderId(id);
+        outstandingBalance = new OutstandingBalanceDAO().getByAccHolderId(id);
+        discountPlan = new DiscountPlanDAO().getByAccId(id);
     }
 
 
@@ -63,5 +80,37 @@ public class AccountHolder extends CustomerAcc
 
     public void setDateJoined(Date dateJoined) {
         this.dateJoined = dateJoined;
+    }
+
+    public ArrayList<MOTReminder> getMotReminders() {
+        return motReminders;
+    }
+
+    public void setMotReminders(ArrayList<MOTReminder> motReminders) {
+        this.motReminders = motReminders;
+    }
+
+    public ArrayList<InvoiceReminder> getInvoiceReminders() {
+        return invoiceReminders;
+    }
+
+    public void setInvoiceReminders(ArrayList<InvoiceReminder> invoiceReminders) {
+        this.invoiceReminders = invoiceReminders;
+    }
+
+    public OutstandingBalance getOutstandingBalance() {
+        return outstandingBalance;
+    }
+
+    public void setOutstandingBalance(OutstandingBalance outstandingBalance) {
+        this.outstandingBalance = outstandingBalance;
+    }
+
+    public DiscountPlan getDiscountPlan() {
+        return discountPlan;
+    }
+
+    public void setDiscountPlan(DiscountPlan discountPlan) {
+        this.discountPlan = discountPlan;
     }
 }

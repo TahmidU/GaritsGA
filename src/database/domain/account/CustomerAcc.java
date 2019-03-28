@@ -1,6 +1,12 @@
 package database.domain.account;
 
-import database.dao.DBHelper;
+import database.dao.account.AccountHolderDAO;
+import database.dao.job.VehicleDAO;
+import database.dao.payment.InvoiceDAO;
+import database.domain.job.Vehicle;
+import database.domain.payment.Invoice;
+
+import java.util.ArrayList;
 
 public class CustomerAcc
 {
@@ -38,6 +44,9 @@ public class CustomerAcc
     private String postCode;
     private String email;
     private String phoneNumber;
+    private ArrayList<Invoice> invoices;
+    private ArrayList<Vehicle> vehicles;
+    private AccountHolder accountHolder;
 
     public CustomerAcc(){}
 
@@ -51,6 +60,9 @@ public class CustomerAcc
         this.postCode = postCode;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        invoices = new InvoiceDAO().getByNI(nationalInsurance);
+        vehicles = new VehicleDAO().getByNI(nationalInsurance);
+        accountHolder = new AccountHolderDAO().getByNI(nationalInsurance);
     }
 
     //--------Getters and Setters--------
@@ -108,5 +120,29 @@ public class CustomerAcc
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public ArrayList<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(ArrayList<Invoice> invoices) {
+        this.invoices = invoices;
+    }
+
+    public ArrayList<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(ArrayList<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public AccountHolder getAccountHolder() {
+        return accountHolder;
+    }
+
+    public void setAccountHolder(AccountHolder accountHolder) {
+        this.accountHolder = accountHolder;
     }
 }

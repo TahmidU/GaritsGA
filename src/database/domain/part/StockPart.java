@@ -1,6 +1,10 @@
 package database.domain.part;
 
-import database.dao.DBHelper;
+import database.dao.job.TaskDAO;
+import database.dao.part.StockPartOrderDAO;
+import database.domain.job.Task;
+
+import java.util.ArrayList;
 
 public class StockPart
 {
@@ -40,6 +44,8 @@ public class StockPart
     private String vehicleType;
     private String startYr;
     private String endYr;
+    private ArrayList<Task> tasks;
+    private ArrayList<StockPartOrder> stockPartOrders;
 
     public StockPart(){}
 
@@ -52,6 +58,9 @@ public class StockPart
         this.vehicleType = vehicleType;
         this.startYr = startYr;
         this.endYr = endYr;
+        tasks = new TaskDAO().getByStockPartId(partId);
+        stockPartOrders = new StockPartOrderDAO().getByStockPartId(partId);
+
     }
 
     //--------Getters and Setters--------
@@ -117,5 +126,21 @@ public class StockPart
 
     public void setEndYr(String endYr) {
         this.endYr = endYr;
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public ArrayList<StockPartOrder> getStockPartOrders() {
+        return stockPartOrders;
+    }
+
+    public void setStockPartOrders(ArrayList<StockPartOrder> stockPartOrders) {
+        this.stockPartOrders = stockPartOrders;
     }
 }

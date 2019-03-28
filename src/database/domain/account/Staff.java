@@ -1,5 +1,12 @@
 package database.domain.account;
 
+import database.dao.job.JobSheetDAO;
+import database.dao.payment.OutstandingBalanceDAO;
+import database.domain.job.JobSheet;
+import database.domain.payment.OutstandingBalance;
+
+import java.util.ArrayList;
+
 public class Staff
 {
     //  Table name and name of all columns.
@@ -45,6 +52,8 @@ public class Staff
     private String phoneNum;
     private String email;
     private String type;
+    private ArrayList<JobSheet> jobSheets;
+    private ArrayList<OutstandingBalance> outstandingBalances;
 
     public Staff(){}
 
@@ -58,6 +67,8 @@ public class Staff
         this.phoneNum = phoneNum;
         this.email = email;
         this.type = type;
+        jobSheets = new JobSheetDAO().getByStaffId(id);
+        outstandingBalances = new OutstandingBalanceDAO().getByStaffId(id);
     }
 
     //--------Getters and Setters--------
@@ -123,5 +134,21 @@ public class Staff
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public ArrayList<JobSheet> getJobSheets() {
+        return jobSheets;
+    }
+
+    public void setJobSheets(ArrayList<JobSheet> jobSheets) {
+        this.jobSheets = jobSheets;
+    }
+
+    public ArrayList<OutstandingBalance> getOutstandingBalances() {
+        return outstandingBalances;
+    }
+
+    public void setOutstandingBalances(ArrayList<OutstandingBalance> outstandingBalances) {
+        this.outstandingBalances = outstandingBalances;
     }
 }

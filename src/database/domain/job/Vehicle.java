@@ -1,7 +1,12 @@
 package database.domain.job;
 
 import database.dao.DBHelper;
+import database.dao.account.CustomerAccDAO;
+import database.dao.job.BookingDAO;
+import database.dao.job.JobSheetDAO;
 import database.domain.account.CustomerAcc;
+
+import java.util.ArrayList;
 
 public class Vehicle
 {
@@ -40,6 +45,9 @@ public class Vehicle
     private String engineSerial;
     private String chassisNum;
     private String color;
+    private ArrayList<Booking> bookings;
+    private ArrayList<JobSheet> jobSheets;
+    private CustomerAcc customerAcc;
 
     public Vehicle(){}
 
@@ -51,6 +59,9 @@ public class Vehicle
         this.engineSerial = engineSerial;
         this.chassisNum = chassisNum;
         this.color = color;
+        bookings = new BookingDAO().getByVehicleReg(vehicleRegistration);
+        jobSheets = new JobSheetDAO().getByVehicleReg(vehicleRegistration);
+        customerAcc = new CustomerAccDAO().getByNI(nationalInsurance);
     }
 
     //--------Getters and Setters--------
@@ -108,5 +119,29 @@ public class Vehicle
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public ArrayList<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(ArrayList<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public ArrayList<JobSheet> getJobSheets() {
+        return jobSheets;
+    }
+
+    public void setJobSheets(ArrayList<JobSheet> jobSheets) {
+        this.jobSheets = jobSheets;
+    }
+
+    public CustomerAcc getCustomerAcc() {
+        return customerAcc;
+    }
+
+    public void setCustomerAcc(CustomerAcc customerAcc) {
+        this.customerAcc = customerAcc;
     }
 }

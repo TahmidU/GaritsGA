@@ -1,6 +1,8 @@
 package database.domain.discount;
 
-import database.dao.DBHelper;
+import database.dao.discount.FlexDiscountBandFlexibleDiscountDAO;
+
+import java.util.ArrayList;
 
 public class FlexDiscountBand
 {
@@ -20,12 +22,14 @@ public class FlexDiscountBand
     //  Properties
     private String flexBandId;
     private float bandDiscount;
+    private ArrayList<FlexDiscountBandFlexibleDiscount> flexDiscountBandFlexibleDiscounts;
 
     public FlexDiscountBand(){}
 
     public FlexDiscountBand(String flexBandId, float bandDiscount) {
         this.flexBandId = flexBandId;
         this.bandDiscount = bandDiscount;
+        flexDiscountBandFlexibleDiscounts = new FlexDiscountBandFlexibleDiscountDAO().getByValuationBand(flexBandId);
     }
 
     //--------Getters and Setters--------
@@ -43,5 +47,13 @@ public class FlexDiscountBand
 
     public void setBandDiscount(float bandDiscount) {
         this.bandDiscount = bandDiscount;
+    }
+
+    public ArrayList<FlexDiscountBandFlexibleDiscount> getFlexDiscountBandFlexibleDiscounts() {
+        return flexDiscountBandFlexibleDiscounts;
+    }
+
+    public void setFlexDiscountBandFlexibleDiscounts(ArrayList<FlexDiscountBandFlexibleDiscount> flexDiscountBandFlexibleDiscounts) {
+        this.flexDiscountBandFlexibleDiscounts = flexDiscountBandFlexibleDiscounts;
     }
 }

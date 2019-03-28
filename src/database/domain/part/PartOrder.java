@@ -1,8 +1,9 @@
 package database.domain.part;
 
-import database.dao.DBHelper;
+import database.dao.part.StockPartOrderDAO;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class PartOrder
 {
@@ -48,6 +49,7 @@ public class PartOrder
     private Date dayDelivered;
     private String telephone;
     private String fax;
+    private ArrayList<StockPartOrder> stockPartOrders;
 
     public PartOrder(){}
 
@@ -62,6 +64,7 @@ public class PartOrder
         this.dayDelivered = dayDelivered;
         this.telephone = telephone;
         this.fax = fax;
+        stockPartOrders = new StockPartOrderDAO().getByPartOrderNum(orderNum);
     }
 
     //--------Getters and Setters--------

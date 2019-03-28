@@ -1,6 +1,8 @@
 package database.domain.reminder;
 
 import database.dao.DBHelper;
+import database.dao.account.AccountHolderDAO;
+import database.dao.payment.InvoiceDAO;
 import database.domain.payment.Invoice;
 import database.domain.account.AccountHolder;
 
@@ -36,6 +38,8 @@ public class InvoiceReminder
     private int accHolderId;
     private String type;
     private Date dateCreated;
+    private Invoice invoice;
+    private AccountHolder accountHolder;
 
     public InvoiceReminder(){}
 
@@ -45,6 +49,8 @@ public class InvoiceReminder
         this.accHolderId = accHolderId;
         this.type = type;
         this.dateCreated = dateCreated;
+        invoice = new InvoiceDAO().getById(invoiceId);
+        accountHolder = new AccountHolderDAO().getById(accHolderId);
     }
 
     //--------Getters and Setters--------
@@ -86,5 +92,21 @@ public class InvoiceReminder
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public AccountHolder getAccountHolder() {
+        return accountHolder;
+    }
+
+    public void setAccountHolder(AccountHolder accountHolder) {
+        this.accountHolder = accountHolder;
     }
 }

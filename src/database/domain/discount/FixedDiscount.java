@@ -1,6 +1,7 @@
 package database.domain.discount;
 
 import database.dao.DBHelper;
+import database.dao.discount.DiscountPlanDAO;
 
 public class FixedDiscount
 {
@@ -23,6 +24,7 @@ public class FixedDiscount
     private int fixedDiscountId;
     private int discountPlanId;
     private float percentage;
+    private DiscountPlan discountPlan;
 
     public FixedDiscount(){}
 
@@ -31,6 +33,7 @@ public class FixedDiscount
         this.fixedDiscountId = fixedDiscountId;
         this.discountPlanId = discountPlanId;
         this.percentage = percentage;
+        discountPlan = new DiscountPlanDAO().getByDiscountId(discountPlanId);
     }
 
     //--------Getters and Setters--------
@@ -56,5 +59,13 @@ public class FixedDiscount
 
     public void setPercentage(float percentage) {
         this.percentage = percentage;
+    }
+
+    public DiscountPlan getDiscountPlan() {
+        return discountPlan;
+    }
+
+    public void setDiscountPlan(DiscountPlan discountPlan) {
+        this.discountPlan = discountPlan;
     }
 }

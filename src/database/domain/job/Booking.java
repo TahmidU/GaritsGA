@@ -1,6 +1,7 @@
 package database.domain.job;
 
 import database.dao.DBHelper;
+import database.dao.job.JobSheetDAO;
 import database.dao.job.VehicleDAO;
 
 import java.sql.Date;
@@ -35,6 +36,7 @@ public class Booking
     private String vehicleRegistrationNumber;
     private String name;
     private Vehicle vehicle;
+    private JobSheet jobSheet;
 
     public Booking(){}
 
@@ -45,6 +47,7 @@ public class Booking
         this.vehicleRegistrationNumber = vehicleRegistrationNumber;
         this.name = name;
         vehicle = new VehicleDAO().getByRegNum(vehicleRegistrationNumber);
+        jobSheet = new JobSheetDAO().getByBookingId(id);
     }
 
     //--------Getters and Setters--------
@@ -94,5 +97,13 @@ public class Booking
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public JobSheet getJobSheet() {
+        return jobSheet;
+    }
+
+    public void setJobSheet(JobSheet jobSheet) {
+        this.jobSheet = jobSheet;
     }
 }

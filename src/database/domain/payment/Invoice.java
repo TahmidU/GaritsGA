@@ -1,10 +1,15 @@
 package database.domain.payment;
 
 import database.dao.DBHelper;
+import database.dao.account.CustomerAccDAO;
+import database.dao.job.JobSheetDAO;
+import database.dao.reminder.InvoiceReminderDAO;
 import database.domain.account.CustomerAcc;
 import database.domain.job.JobSheet;
+import database.domain.reminder.InvoiceReminder;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Invoice
 {
@@ -36,6 +41,9 @@ public class Invoice
     private Date dateCreated;
     private float totalAmount;
     private int jobNum;
+    private JobSheet jobSheet;
+    private CustomerAcc customerAcc;
+    private ArrayList<InvoiceReminder> invoiceReminders;
 
     public Invoice(){}
 
@@ -45,6 +53,9 @@ public class Invoice
         this.dateCreated = dateCreated;
         this.totalAmount = totalAmount;
         this.jobNum = jobNum;
+        jobSheet = new JobSheetDAO().getByJobNum(jobNum);
+        customerAcc = new CustomerAccDAO().getByNI(nationalInsurance);
+        invoiceReminders = new InvoiceReminderDAO().getByInvoiceId(id);
     }
 
     //--------Getters and Setters--------
@@ -86,5 +97,29 @@ public class Invoice
 
     public void setJobNum(int jobNum) {
         this.jobNum = jobNum;
+    }
+
+    public JobSheet getJobSheet() {
+        return jobSheet;
+    }
+
+    public void setJobSheet(JobSheet jobSheet) {
+        this.jobSheet = jobSheet;
+    }
+
+    public CustomerAcc getCustomerAcc() {
+        return customerAcc;
+    }
+
+    public void setCustomerAcc(CustomerAcc customerAcc) {
+        this.customerAcc = customerAcc;
+    }
+
+    public ArrayList<InvoiceReminder> getInvoiceReminders() {
+        return invoiceReminders;
+    }
+
+    public void setInvoiceReminders(ArrayList<InvoiceReminder> invoiceReminders) {
+        this.invoiceReminders = invoiceReminders;
     }
 }

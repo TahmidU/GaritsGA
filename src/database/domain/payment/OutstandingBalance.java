@@ -1,6 +1,8 @@
 package database.domain.payment;
 
 import database.dao.DBHelper;
+import database.dao.account.AccountHolderDAO;
+import database.dao.account.StaffDAO;
 import database.domain.account.AccountHolder;
 import database.domain.account.Staff;
 
@@ -34,6 +36,8 @@ public class OutstandingBalance
     private int staffId;
     private int accHolderId;
     private Date dateAuthorised;
+    private Staff staff;
+    private AccountHolder accountHolder;
 
     public OutstandingBalance(){}
 
@@ -42,6 +46,8 @@ public class OutstandingBalance
         this.staffId = staffId;
         this.accHolderId = accHolderId;
         this.dateAuthorised = dateAuthorised;
+        staff = new StaffDAO().getById(staffId);
+        accountHolder = new AccountHolderDAO().getById(accHolderId);
     }
 
     //--------Getters and Setters--------
@@ -75,5 +81,21 @@ public class OutstandingBalance
 
     public void setDateAuthorised(Date dateAuthorised) {
         this.dateAuthorised = dateAuthorised;
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public AccountHolder getAccountHolder() {
+        return accountHolder;
+    }
+
+    public void setAccountHolder(AccountHolder accountHolder) {
+        this.accountHolder = accountHolder;
     }
 }

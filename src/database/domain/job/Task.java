@@ -1,9 +1,12 @@
 package database.domain.job;
 
 import database.dao.DBHelper;
+import database.dao.job.VariableTaskDAO;
+import database.dao.part.StockPartDAO;
 import database.domain.part.StockPart;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Task
 {
@@ -41,6 +44,8 @@ public class Task
     private int estDuration;
     private int partQty;
     private Date dateTaskComplete;
+    private StockPart stockPart;
+    private ArrayList<VariableTask> variableTasks;
 
     public Task(){}
 
@@ -52,6 +57,8 @@ public class Task
         this.estDuration = estDuration;
         this.partQty = partQty;
         this.dateTaskComplete = dateTaskComplete;
+        stockPart = new StockPartDAO().getByStockPart(stockPartId);
+        variableTasks = new VariableTaskDAO().getByTaskId(id);
     }
 
     //--------Getters and Setters--------
@@ -109,5 +116,21 @@ public class Task
 
     public void setDateTaskComplete(Date dateTaskComplete) {
         this.dateTaskComplete = dateTaskComplete;
+    }
+
+    public StockPart getStockPart() {
+        return stockPart;
+    }
+
+    public void setStockPart(StockPart stockPart) {
+        this.stockPart = stockPart;
+    }
+
+    public ArrayList<VariableTask> getVariableTasks() {
+        return variableTasks;
+    }
+
+    public void setVariableTasks(ArrayList<VariableTask> variableTasks) {
+        this.variableTasks = variableTasks;
     }
 }
