@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menus.AdminMenu.AddAccountController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menus.admin_menu.EditAccountController">
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
             <TabPane layoutX="-5.0" layoutY="20.0" prefHeight="570.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
-                  <Tab text="Add Account">
+                  <Tab text="Edit Account">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -39,7 +39,7 @@
                                  </font>
                               </Label>
                               <PasswordField fx:id="retypeText" layoutX="498.0" layoutY="277.0" />
-                              <Button layoutX="657.0" layoutY="440.0" mnemonicParsing="false" onAction="#addAccountSavePress" prefHeight="45.0" prefWidth="84.0" text="Save" />
+                              <Button layoutX="657.0" layoutY="440.0" mnemonicParsing="false" onAction="#editAccountSavePress" prefHeight="45.0" prefWidth="84.0" text="Save" />
                               <Separator layoutX="419.0" layoutY="5.0" orientation="VERTICAL" prefHeight="531.0" prefWidth="13.0" />
                               <Label layoutX="494.0" layoutY="44.0" prefHeight="37.0" prefWidth="128.0" text="Login Details">
                                  <font>

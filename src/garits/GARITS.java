@@ -6,6 +6,8 @@
 package garits;
 
 import database.dao.DBHelper;
+import database.dao.account.StaffDAO;
+import database.domain.account.Staff;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,9 +34,12 @@ public class GARITS extends Application {
         stage.setY(300);
 
         DBHelper db = new DBHelper();
-        db.createDB();
-        DBHelper dbH = new DBHelper();
-        dbH.createBackUpDB();
+        if(db.createDB())
+        {
+            //Default Administrator account created if database did not exist.
+            new StaffDAO().save(new Staff(1,"SYSDBA","Masterkey", "Administrator", "Administrator", "n/a", "n/a", "Administrator"));
+        }
+        db.createBackUpDB();
     }
 
     /**

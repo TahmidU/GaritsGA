@@ -5,16 +5,13 @@
  */
 package garits;
 
-import Menus.AdminMenu.AdminMenuController;
-import Menus.ForepersonMenu.ForepersonMenuController;
-import Menus.FranchiseeMenu.FranchiseeMenuController;
-import Menus.MechanicMenu.MechanicMenuController;
-import Menus.ReceptionistMenu.ReceptionistMenuController;
+import menus.admin_menu.AdminMenuController;
+import menus.foreperson_menu.ForepersonMenuController;
+import menus.franchisee_menu.FranchiseeMenuController;
+import menus.mechanic_menu.MechanicMenuController;
+import menus.receptionist_menu.ReceptionistMenuController;
 import database.dao.account.StaffDAO;
 import database.domain.account.Staff;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +23,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -86,7 +87,7 @@ public class LoginController implements Initializable {
 
         } else {
             if (tmp.getPassword().equals(passwordField.getText())) {
-
+                CurrentUser.getInstance().setUserName(usernameField.getText());
                 return true;
 
             } else {
@@ -101,7 +102,7 @@ public class LoginController implements Initializable {
     private void displayMenu(ActionEvent event) throws IOException {
         if (loggingStaff.getType().equals("Administrator")) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/AdminMenu/AdminMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/admin_menu/AdminMenu.fxml"));
             Parent root = (Parent) loader.load();
 
             AdminMenuController controller = loader.getController();
@@ -114,7 +115,7 @@ public class LoginController implements Initializable {
 
         } else if (loggingStaff.getType().equals("Franchisee")) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/FranchiseeMenu/FranchiseeMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/franchisee_menu/FranchiseeMenu.fxml"));
             Parent root = (Parent) loader.load();
 
             FranchiseeMenuController controller = loader.getController();
@@ -127,7 +128,7 @@ public class LoginController implements Initializable {
 
         } else if (loggingStaff.getType().equals("Foreperson")) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/ForepersonMenu/ForepersonMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
             Parent root = (Parent) loader.load();
 
             ForepersonMenuController controller = loader.getController();
@@ -140,7 +141,7 @@ public class LoginController implements Initializable {
 
         } else if (loggingStaff.getType().equals("Mechanic")) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/MechanicMenu/MechanicMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/mechanic_menu/MechanicMenu.fxml"));
             Parent root = (Parent) loader.load();
 
             MechanicMenuController controller = loader.getController();
@@ -153,7 +154,7 @@ public class LoginController implements Initializable {
 
         } else if (loggingStaff.getType().equals("Receptionist")) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Menus/ReceptionistMenu/ReceptionistMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
             Parent root = (Parent) loader.load();
 
             ReceptionistMenuController controller = loader.getController();

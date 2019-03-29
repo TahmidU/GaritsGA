@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="Menus.ForepersonMenu.ForepersonMenuController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="menus.franchisee_menu.FranchiseeMenuController">
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -26,7 +26,7 @@
                                     <Font name="Tahoma Bold" size="32.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="92.0" layoutY="218.0" text="Foreperson" />
+                              <Label layoutX="92.0" layoutY="218.0" text="Franchisee" />
                            </children>
                         </AnchorPane>
                      </content>
