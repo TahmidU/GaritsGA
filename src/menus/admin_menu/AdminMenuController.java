@@ -146,23 +146,27 @@ public class AdminMenuController implements Initializable {
     }
 
     @FXML
-    private void deleteAccountPress(ActionEvent event) {
+    private void deleteAccountPress(ActionEvent event) throws IOException {
         Staff selectedStaff = null;
         selectedStaff = staffTable.getSelectionModel().getSelectedItem();
 
         if (selectedStaff == null) {
             noAccountSelected.setText("No Account Selected.");
         } else {
-            if(CurrentUser.getInstance().getUserName().equals(selectedStaff.getUserName()))
-            {
+
+            if (CurrentUser.getInstance().getUserName().equals(selectedStaff.getUserName())) {
                 noAccountSelected.setText("You cannot delete yourself.");
                 return;
-            }else
-                {
+
+            } else {
+                MainGUIController guiController = new MainGUIController();
+                guiController.popupConfirmation(event, "Are you sure you want to delete this account?");
+
+                if (guiController.popupController.getConfirm()) {
                     staffTable.getItems().remove(selectedStaff);
                     sDAO.delete(selectedStaff);
                 }
-
+            }
         }
     }
 
@@ -177,41 +181,56 @@ public class AdminMenuController implements Initializable {
     }
 
     @FXML
-    private void restoreBackupPress(ActionEvent event) {
+    private void restoreBackupPress(ActionEvent event) throws IOException {
         BackUp selectedBackup = null;
         selectedBackup = dbTable.getSelectionModel().getSelectedItem();
 
         if (selectedBackup == null) {
             noBackupSelected.setText("No Backup Selected.");
         } else {
-            DBHelper dbH = new DBHelper();
-            dbH.restoreDB(selectedBackup.getDir());
-            
-            ObservableList<Staff> accountData = FXCollections.observableArrayList(sDAO.getAll());
-            staffTable.setItems(accountData);
-            noBackupSelected.setText("");
-            restoreSucessful.setText("Successfully Restored " + selectedBackup.getFileName() + ".");
+            MainGUIController guiController = new MainGUIController();
+            guiController.popupConfirmation(event, "Are you sure you want to restore database to this backup?");
+
+            if (guiController.popupController.getConfirm()) {
+                DBHelper dbH = new DBHelper();
+                dbH.restoreDB(selectedBackup.getDir());
+
+                ObservableList<Staff> accountData = FXCollections.observableArrayList(sDAO.getAll());
+                staffTable.setItems(accountData);
+                noBackupSelected.setText("");
+                restoreSucessful.setText("Successfully Restored " + selectedBackup.getFileName() + ".");
+            }
         }
     }
 
     @FXML
-    private void deleteBackupPress(ActionEvent event) {
+    private void deleteBackupPress(ActionEvent event) throws IOException {
         BackUp selectedBackup = null;
         selectedBackup = dbTable.getSelectionModel().getSelectedItem();
 
         if (selectedBackup == null) {
             noBackupSelected.setText("No Backup Selected.");
         } else {
-            dbTable.getItems().remove(selectedBackup);
-            bDAO.delete(selectedBackup);
-            DBHelper dbH = new DBHelper();
-            dbH.deleteDB(selectedBackup.getDir());
+            MainGUIController guiController = new MainGUIController();
+            guiController.popupConfirmation(event, "Are you sure you want to delete this backup?");
+
+            if (guiController.popupController.getConfirm()) {
+                dbTable.getItems().remove(selectedBackup);
+                bDAO.delete(selectedBackup);
+                DBHelper dbH = new DBHelper();
+                dbH.deleteDB(selectedBackup.getDir());
+            }
         }
     }
 
     @FXML
     private void logOutPress(ActionEvent event) throws IOException {
+
         MainGUIController guiController = new MainGUIController();
-        guiController.logOut(event);
+        guiController.popupConfirmation(event, "Are you sure you want to logout? Unsaved changes will not be stored.");
+
+        if (guiController.popupController.getConfirm()) {
+            guiController.logOut(event);
+        }
     }
 }

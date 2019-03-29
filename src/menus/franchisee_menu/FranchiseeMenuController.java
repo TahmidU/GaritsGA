@@ -95,8 +95,13 @@ public class FranchiseeMenuController implements Initializable {
 
     @FXML
     private void logOutPress(ActionEvent event) throws IOException {
+
         MainGUIController guiController = new MainGUIController();
-        guiController.logOut(event);
+        guiController.popupConfirmation(event, "Are you sure you want to logout? Unsaved changes will not be stored.");
+
+        if (guiController.popupController.getConfirm()) {
+            guiController.logOut(event);
+        }
     }
 
 }

@@ -51,7 +51,7 @@ public class Booking
     }
 
     public void setId(int id) {
-        id = id;
+        this.id = id;
     }
 
     public String getJobType() {

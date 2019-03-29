@@ -14,7 +14,7 @@
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
-            <TabPane fx:id="adminTab" layoutX="-5.0" layoutY="20.0" prefHeight="570.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="receptionistTab" layoutX="-5.0" layoutY="20.0" prefHeight="570.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
                   <Tab text="Home">
                      <content>
@@ -30,24 +30,22 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Manage Accounts">
+                  <Tab text="Make Booking">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="staffTable" layoutX="12.0" layoutY="14.0" prefHeight="392.0" prefWidth="782.0">
+                              <TableView fx:id="bookingTable" layoutX="12.0" layoutY="14.0" prefHeight="392.0" prefWidth="782.0">
                                  <columns>
-                                    <TableColumn fx:id="idCol" prefWidth="56.0" text="ID" />
-                                    <TableColumn fx:id="usernameCol" prefWidth="101.0" text="Username" />
-                                    <TableColumn fx:id="roleCol" prefWidth="102.0" text="Role" />
-                                    <TableColumn fx:id="firstNameCol" prefWidth="98.0" text="First Name" />
-                                    <TableColumn fx:id="lastNameCol" prefWidth="106.0" text="Last Name" />
-                                    <TableColumn fx:id="phoneCol" prefWidth="132.0" text="Phone" />
-                                    <TableColumn fx:id="emailCol" prefWidth="186.0" text="Email" />
+                                    <TableColumn fx:id="idCol" prefWidth="106.0" text="ID" />
+                                    <TableColumn fx:id="dateBookedCol" prefWidth="167.0" text="Date Booked" />
+                                    <TableColumn fx:id="jobTypeCol" prefWidth="119.0" text="Job Type" />
+                                    <TableColumn fx:id="vehicleNoCol" prefWidth="204.0" text="Vehicle Reg. No" />
+                                    <TableColumn fx:id="nameCol" prefWidth="184.0" text="Name" />
                                  </columns>
                               </TableView>
-                              <Button layoutX="43.0" layoutY="450.0" mnemonicParsing="false" onAction="#addAccountPress" prefHeight="35.0" prefWidth="114.0" text="Add Account" />
-                              <Button layoutX="181.0" layoutY="450.0" mnemonicParsing="false" onAction="#editAccountPress" prefHeight="35.0" prefWidth="114.0" text="Edit Account" />
-                              <Button layoutX="320.0" layoutY="450.0" mnemonicParsing="false" onAction="#deleteAccountPress" prefHeight="35.0" prefWidth="114.0" text="Remove Account" />
+                              <Button layoutX="43.0" layoutY="450.0" mnemonicParsing="false" onAction="#makeBookingPress" prefHeight="35.0" prefWidth="114.0" text="Make Booking" />
+                              <Button layoutX="181.0" layoutY="450.0" mnemonicParsing="false" onAction="#editBookingPress" prefHeight="35.0" prefWidth="114.0" text="Edit Booking" />
+                              <Button layoutX="320.0" layoutY="450.0" mnemonicParsing="false" onAction="#cancelBookingPress" prefHeight="35.0" prefWidth="114.0" text="Cancel Booking" />
                               <Separator layoutX="15.0" layoutY="423.0" prefHeight="17.0" prefWidth="770.0" />
                               <Label fx:id="noAccountSelected" layoutX="43.0" layoutY="494.0" prefHeight="25.0" prefWidth="194.0" textFill="RED" />
                            </children>
