@@ -44,8 +44,7 @@ public class BookingDAO implements IBooking
         try{
             while(rs.next()){
                 bookings.add( new Booking(rs.getInt(Booking.INDEX_ID),rs.getString(Booking.INDEX_JOB_TYPE),
-                        DBDateHelper.parseDate(rs.getString(Booking.INDEX_DATE_BOOKED)),rs.getString(Booking.INDEX_VEHICLE_REG),
-                        rs.getString(Booking.INDEX_NAME)));
+                        DBDateHelper.parseDate(rs.getString(Booking.INDEX_DATE_BOOKED)),rs.getString(Booking.INDEX_VEHICLE_REG)));
             }
             Log.write("DAO: Query successful.");
         }catch(SQLException e){
@@ -75,7 +74,7 @@ public class BookingDAO implements IBooking
             while(rs.next())
             {
                 booking = new Booking(rs.getInt(Booking.INDEX_ID),rs.getString(Booking.INDEX_JOB_TYPE),
-                        DBDateHelper.parseDate(rs.getString(Booking.INDEX_DATE_BOOKED)),rs.getString(Booking.INDEX_VEHICLE_REG), rs.getString(Booking.INDEX_NAME));
+                        DBDateHelper.parseDate(rs.getString(Booking.INDEX_DATE_BOOKED)),rs.getString(Booking.INDEX_VEHICLE_REG));
             }
         }catch (SQLException e)
         {
@@ -107,7 +106,7 @@ public class BookingDAO implements IBooking
             while(rs.next())
             {
                 bookings.add( new Booking(rs.getInt(Booking.INDEX_ID),rs.getString(Booking.INDEX_JOB_TYPE),
-                        DBDateHelper.parseDate(rs.getString(Booking.INDEX_DATE_BOOKED)),rs.getString(Booking.INDEX_VEHICLE_REG), rs.getString(Booking.INDEX_NAME)));
+                        DBDateHelper.parseDate(rs.getString(Booking.INDEX_DATE_BOOKED)),rs.getString(Booking.INDEX_VEHICLE_REG)));
             }
         }catch (SQLException e)
         {
@@ -130,9 +129,8 @@ public class BookingDAO implements IBooking
             e.printStackTrace();
         }
         String sql = "INSERT INTO " + Booking.TABLE_BOOKING+"( "+Booking.COLUMN_JOB_TYPE+","+Booking.COLUMN_DATE_BOOKED+","+Booking.COLUMN_VEHICLE_REG
-                + "," + Booking.COLUMN_NAME + ")" + " VALUES(?,?,?,?)";
-        String[] values = {String.valueOf(booking.getJobType()),String.valueOf(booking.getDateBooked()),String.valueOf(booking.getVehicleRegistrationNumber()),
-        booking.getName()};
+                + ")" + " VALUES(?,?,?)";
+        String[] values = {String.valueOf(booking.getJobType()),String.valueOf(booking.getDateBooked()),String.valueOf(booking.getVehicleRegistrationNumber())};
         connectivity.writePrepared(sql, con, values);
         connectivity.closeConnection(con);
     }
@@ -147,9 +145,8 @@ public class BookingDAO implements IBooking
         }
 
         String sql = "UPDATE " + Booking.TABLE_BOOKING + " SET "+Booking.COLUMN_JOB_TYPE+" =?,"+Booking.COLUMN_DATE_BOOKED+" =?,"+
-                Booking.COLUMN_VEHICLE_REG+" =?,"+ Booking.COLUMN_NAME+" =?"+" WHERE " +Booking.COLUMN_ID+ "=" +booking.getId();
-        String[] values = {String.valueOf(booking.getJobType()),String.valueOf(booking.getDateBooked()),String.valueOf(booking.getVehicleRegistrationNumber()),
-        booking.getName()};
+                Booking.COLUMN_VEHICLE_REG+" =?"+" WHERE " +Booking.COLUMN_ID+ "=" +booking.getId();
+        String[] values = {String.valueOf(booking.getJobType()),String.valueOf(booking.getDateBooked()),String.valueOf(booking.getVehicleRegistrationNumber())};
 
         connectivity.writePrepared(sql, con, values);
         connectivity.closeConnection(con);
