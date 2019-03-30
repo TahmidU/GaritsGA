@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -17,30 +15,24 @@
          <children>
             <TabPane layoutX="-5.0" layoutY="20.0" prefHeight="570.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
-                  <Tab text="Add Account">
+                  <Tab text="Add Vehicle">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Separator layoutX="419.0" layoutY="5.0" orientation="VERTICAL" prefHeight="531.0" prefWidth="13.0" />
-                              <Label layoutX="494.0" layoutY="44.0" prefHeight="37.0" prefWidth="128.0" text="Login Details">
+                              <TextField fx:id="usernameText" layoutX="58.0" layoutY="352.0" />
+                              <Label layoutX="60.0" layoutY="327.0" prefHeight="25.0" prefWidth="78.0" text="Username">
                                  <font>
-                                    <Font name="Tahoma Bold" size="18.0" />
+                                    <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Separator layoutX="463.0" layoutY="77.0" prefHeight="4.0" prefWidth="206.0" />
+                              <Button layoutX="657.0" layoutY="440.0" mnemonicParsing="false" onAction="#addAccountSavePress" prefHeight="45.0" prefWidth="84.0" text="Save" />
                               <TextField fx:id="firstNameText" layoutX="58.0" layoutY="127.0" />
-                              <Label layoutX="60.0" layoutY="102.0" prefHeight="25.0" prefWidth="78.0" text="First Name">
+                              <Label layoutX="60.0" layoutY="102.0" prefHeight="25.0" prefWidth="144.0" text="Vehicle Reg. No">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="lastNameText" layoutX="241.0" layoutY="127.0" />
-                              <Label layoutX="243.0" layoutY="102.0" prefHeight="25.0" prefWidth="78.0" text="Last Name">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="54.0" layoutY="44.0" prefHeight="37.0" prefWidth="128.0" text="Staff Details">
+                              <Label layoutX="54.0" layoutY="44.0" prefHeight="37.0" prefWidth="149.0" text="Vehicle Details">
                                  <font>
                                     <Font name="Tahoma Bold" size="18.0" />
                                  </font>
@@ -58,33 +50,8 @@
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="60.0" layoutY="326.0" prefHeight="25.0" prefWidth="78.0" text="Type">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <ComboBox fx:id="typeCombo" layoutX="58.0" layoutY="351.0" prefWidth="150.0" />
-                              <TextField fx:id="usernameText" layoutX="498.0" layoutY="127.0" />
-                              <Label layoutX="500.0" layoutY="102.0" prefHeight="25.0" prefWidth="78.0" text="Username">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="498.0" layoutY="175.0" text="Password">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <PasswordField fx:id="passwordText" layoutX="498.0" layoutY="200.0" />
-                              <Label layoutX="498.0" layoutY="252.0" text="Retype Password">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <PasswordField fx:id="retypeText" layoutX="498.0" layoutY="277.0" />
                               <Label fx:id="passwordMatchError" layoutX="500.0" layoutY="303.0" prefHeight="24.0" prefWidth="146.0" textFill="RED" />
                               <Label fx:id="missingDetailsError" layoutX="604.0" layoutY="408.0" prefHeight="24.0" prefWidth="146.0" textFill="RED" />
-                              <Button layoutX="657.0" layoutY="440.0" mnemonicParsing="false" onAction="#addAccountSavePress" prefHeight="45.0" prefWidth="84.0" text="Save" />
                               <Button layoutX="57.0" layoutY="440.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
                            </children>
                         </AnchorPane>

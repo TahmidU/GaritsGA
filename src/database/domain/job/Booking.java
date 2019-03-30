@@ -14,16 +14,23 @@ public class Booking
     public static final String COLUMN_JOB_TYPE = "job_type";
     public static final String COLUMN_DATE_BOOKED = "date_booked";
     public static final String COLUMN_VEHICLE_REG = "vehicle_registration_number";
+    public static final String COLUMN_FIRST_NAME = "first_name";
+    public static final String COLUMN_LAST_NAME = "last_name";
+    public static final String COLUMN_CHECK_IN = "check_in";
 
     //  Columns indexes.
     public static final int INDEX_ID = 1;
     public static final int INDEX_JOB_TYPE = 2;
     public static final int INDEX_DATE_BOOKED = 3;
     public static final int INDEX_VEHICLE_REG = 4;
+    public static final int INDEX_FIRST_NAME = 5;
+    public static final int INDEX_LAST_NAME = 6;
+    public static final int INDEX_CHECK_IN = 7;
 
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_BOOKING = "CREATE TABLE " + TABLE_BOOKING + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_JOB_TYPE + " varchar(10) NOT NULL, " + COLUMN_DATE_BOOKED + " date NOT NULL, " + COLUMN_VEHICLE_REG + " varchar(7) NOT NULL, " +
+            COLUMN_FIRST_NAME + " varchar(50), " + COLUMN_LAST_NAME + " varchar(50), " + COLUMN_CHECK_IN + " varchar(10), " +
             "FOREIGN KEY(" + COLUMN_VEHICLE_REG + ") " + "REFERENCES " + Vehicle.TABLE_VEHICLE + "(" + Vehicle.COLUMN_VEHICLE_REG + ")"+ DBHelper.ON_UPDATE+");";
 
     //  Properties
@@ -31,16 +38,22 @@ public class Booking
     private String jobType;
     private Date dateBooked;
     private String vehicleRegistrationNumber;
+    private String firstName;
+    private String lastName;
+    private String checkIn;
     private Vehicle vehicle;
     private JobSheet jobSheet;
 
     public Booking(){}
 
-    public Booking(int id, String jobType, Date dateBooked, String vehicleRegistrationNumber) {
+    public Booking(int id, String jobType, Date dateBooked, String vehicleRegistrationNumber, String firstName, String lastName, String checkIn) {
         this.id = id;
         this.jobType = jobType;
         this.dateBooked = dateBooked;
         this.vehicleRegistrationNumber = vehicleRegistrationNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.checkIn = checkIn;
         vehicle = new VehicleDAO().getByRegNum(vehicleRegistrationNumber);
         jobSheet = new JobSheetDAO().getByBookingId(id);
     }
@@ -92,5 +105,29 @@ public class Booking
 
     public void setJobSheet(JobSheet jobSheet) {
         this.jobSheet = jobSheet;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(String checkIn) {
+        this.checkIn = checkIn;
     }
 }

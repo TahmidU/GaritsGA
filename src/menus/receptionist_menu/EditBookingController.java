@@ -6,9 +6,7 @@
 package menus.receptionist_menu;
 
 import database.dao.job.BookingDAO;
-import database.dao.job.VehicleDAO;
 import database.domain.job.Booking;
-import garits.MainGUIController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,7 +31,7 @@ import util.DBDateHelper;
  *
  * @author Huntees
  */
-public class MakeBookingController implements Initializable {
+public class EditBookingController implements Initializable {
 
     private final ObservableList<String> options
             = FXCollections.observableArrayList(
@@ -56,6 +54,8 @@ public class MakeBookingController implements Initializable {
     @FXML
     private Label loggedInAsText;
 
+    public Booking selectedBooking;
+
     /**
      * Initializes the controller class.
      */
@@ -69,6 +69,16 @@ public class MakeBookingController implements Initializable {
         loggedInAsText.setText(s);
     }
 
+    public void setSelectedBooking(Booking selectedBooking) {
+        this.selectedBooking = selectedBooking;
+        firstNameText.setText(selectedBooking.getFirstName());
+        lastNameText.setText(selectedBooking.getLastName());
+        vehicleRegText.setText(selectedBooking.getVehicleRegistrationNumber());
+        jobCombo.setValue(selectedBooking.getJobType());
+        dateBox.setValue(selectedBooking.getDateBooked().toLocalDate());
+    }
+    
+    @FXML
     private void back(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
@@ -81,9 +91,9 @@ public class MakeBookingController implements Initializable {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
     }
-
+    
     @FXML
-    private void makeBookingSavePress(ActionEvent event) throws IOException {
+    private void editBookingSavePress(ActionEvent event) throws IOException {
         missingDetailsError.setText("");
 
         if (firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty() || vehicleRegText.getText().isEmpty()
@@ -92,9 +102,9 @@ public class MakeBookingController implements Initializable {
             missingDetailsError.setText("Missing Details");
         } else {
             BookingDAO bDAO = new BookingDAO();
-            Booking tmp = new Booking(0, jobCombo.getValue(), DBDateHelper.parseDate(dateBox.getValue().toString()),
+            Booking tmp = new Booking(selectedBooking.getId(), jobCombo.getValue(), DBDateHelper.parseDate(dateBox.getValue().toString()),
                     vehicleRegText.getText(), firstNameText.getText(), lastNameText.getText(), "No");
-            bDAO.save(tmp);
+            bDAO.update(tmp);
             back(event);
         }
     }
@@ -103,5 +113,4 @@ public class MakeBookingController implements Initializable {
     private void backPress(ActionEvent event) throws IOException {
         back(event);
     }
-
 }

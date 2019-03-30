@@ -137,7 +137,7 @@ public class DBConnectivity implements IDBConnectivity
     {
         try {
             Connection connection = DriverManager.getConnection(con);
-            connection.createStatement().execute("pragma foreign_keys=ON");
+            //connection.createStatement().execute("pragma foreign_keys=ON");
             return connection;
         } catch (SQLException e) {
             e.printStackTrace();

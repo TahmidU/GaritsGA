@@ -5,7 +5,11 @@
  */
 package menus.receptionist_menu;
 
+import database.dao.DBHelper;
 import database.dao.job.BookingDAO;
+import database.dao.job.VehicleDAO;
+import database.domain.account.Staff;
+import database.domain.backup.BackUp;
 import database.domain.job.Booking;
 import garits.MainGUIController;
 import java.io.IOException;
@@ -32,7 +36,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import menus.admin_menu.AddAccountController;
 
 /**
  * FXML Controller class
@@ -42,7 +45,6 @@ import menus.admin_menu.AddAccountController;
 public class ReceptionistMenuController implements Initializable {
 
     BookingDAO bDAO;
-
     @FXML
     private TabPane receptionistTab;
     @FXML
@@ -56,9 +58,13 @@ public class ReceptionistMenuController implements Initializable {
     @FXML
     private TableColumn<Booking, String> vehicleNoCol;
     @FXML
-    private TableColumn<Booking, String> nameCol;
+    private TableColumn<Booking, String> firstNameCol;
     @FXML
-    private Label noAccountSelected;
+    private TableColumn<Booking, String> lastNameCol;
+    @FXML
+    private TableColumn<Booking, String> checkedInCol;
+    @FXML
+    private Label noBookingSelected;
     @FXML
     private TableView<?> dbTable;
     @FXML
@@ -84,13 +90,15 @@ public class ReceptionistMenuController implements Initializable {
         dateBookedCol.setCellValueFactory(new PropertyValueFactory<Booking, Date>("dateBooked"));
         jobTypeCol.setCellValueFactory(new PropertyValueFactory<Booking, String>("jobType"));
         vehicleNoCol.setCellValueFactory(new PropertyValueFactory<Booking, String>("vehicleRegistrationNumber"));
-        //nameCol.setCellValueFactory(new PropertyValueFactory<Booking, String>("name"));
-        nameCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Booking, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Booking, String> nameCol) {
-                return new ReadOnlyStringWrapper(nameCol.getValue().getVehicle().getCustomerAcc().getFirstName());
-            }
-        });
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<Booking, String>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<Booking, String>("lastName"));
+        checkedInCol.setCellValueFactory(new PropertyValueFactory<Booking, String>("checkIn"));
+//        nameCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Booking, String>, ObservableValue<String>>() {
+//            @Override
+//            public ObservableValue<String> call(TableColumn.CellDataFeatures<Booking, String> nameCol) {
+//                return new ReadOnlyStringWrapper(nameCol.getValue().getVehicle().getCustomerAcc().getFirstName());
+//            }
+//        });
 
         bookingTable.setItems(bookingData);
     }
@@ -117,23 +125,74 @@ public class ReceptionistMenuController implements Initializable {
     }
 
     @FXML
-    private void editBookingPress(ActionEvent event) {
+    private void editBookingPress(ActionEvent event) throws IOException {
+        Booking selectedBooking = null;
+        selectedBooking = bookingTable.getSelectionModel().getSelectedItem();
+
+        if (selectedBooking == null) {
+            noBookingSelected.setText("No Booking Selected.");
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/EditBooking.fxml"));
+            Parent root = (Parent) loader.load();
+
+            EditBookingController controller = loader.getController();
+            controller.setLoggedInName(loggedInAsText.getText());
+            controller.setSelectedBooking(selectedBooking);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     @FXML
-    private void cancelBookingPress(ActionEvent event) {
+    private void cancelBookingPress(ActionEvent event) throws IOException {
+        Booking selectedBooking = null;
+        selectedBooking = bookingTable.getSelectionModel().getSelectedItem();
+
+        if (selectedBooking == null) {
+            noBookingSelected.setText("No Booking Selected.");
+        } else {
+            MainGUIController guiController = new MainGUIController();
+            guiController.popupConfirmation(event, "Are you sure you want to cancel this booking?");
+
+            if (guiController.popupController.getConfirm()) {
+                bookingTable.getItems().remove(selectedBooking);
+                bDAO.delete(selectedBooking);
+            }
+        }
     }
 
     @FXML
-    private void createBackupPress(ActionEvent event) {
+    private void checkInPress(ActionEvent event
+    ) {
+//        VehicleDAO vDAO = new VehicleDAO();
+//        if (vDAO.getByRegNum(vehicleRegText.getText()) == null) {
+//            MainGUIController guiController = new MainGUIController();
+//            guiController.popupConfirmation(event, "Vehicle does not exist in database. Create new record?");
+//
+//            if (guiController.popupController.getConfirm()) {
+//
+//            }
     }
 
     @FXML
-    private void restoreBackupPress(ActionEvent event) {
+    private void generateJobSheetPress(ActionEvent event
+    ) {
     }
 
     @FXML
-    private void deleteBackupPress(ActionEvent event) {
+    private void createBackupPress(ActionEvent event
+    ) {
+    }
+
+    @FXML
+    private void restoreBackupPress(ActionEvent event
+    ) {
+    }
+
+    @FXML
+    private void deleteBackupPress(ActionEvent event
+    ) {
     }
 
     @FXML

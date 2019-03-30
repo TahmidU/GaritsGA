@@ -106,9 +106,6 @@ public class AddAccountController implements Initializable {
         } else if(new StaffDAO().getByUserName(usernameText.getText()) != null)
         {
             passwordMatchError.setText("Username already exists");
-        }else if(phoneText.getText().length() < 11 || phoneText.getText().length() > 11)
-        {
-            missingDetailsError.setText("Invalid phone number");
         } else {
             StaffDAO sDAO = new StaffDAO();
             Staff tmp = new Staff(0, usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
@@ -122,5 +119,4 @@ public class AddAccountController implements Initializable {
     private void backPress(ActionEvent event) throws IOException {
         back(event);
     }
-
 }

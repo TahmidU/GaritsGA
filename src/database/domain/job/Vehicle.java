@@ -32,8 +32,8 @@ public class Vehicle
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_VEHICLE = "CREATE TABLE " + TABLE_VEHICLE + " (" + COLUMN_VEHICLE_REG + " varchar(7) NOT NULL, " +
         "" + COLUMN_NI + " varchar(9) NOT NULL, " + COLUMN_MAKE + " varchar(50) NOT NULL, " +
-        "" + COLUMN_MODEL + " varchar(50) NOT NULL, " + COLUMN_ENGINE_SERIAL + " varchar(11) NOT NULL UNIQUE, " +
-        "" + COLUMN_CHASSIS_NUM + " varchar(11) NOT NULL UNIQUE, " + COLUMN_COLOR + " varchar(10) NOT NULL, " +
+        "" + COLUMN_MODEL + " varchar(50) NOT NULL, " + COLUMN_ENGINE_SERIAL + " varchar(11) UNIQUE, " +
+        "" + COLUMN_CHASSIS_NUM + " varchar(11) UNIQUE, " + COLUMN_COLOR + " varchar(10) NOT NULL, " +
         "PRIMARY KEY (" + COLUMN_VEHICLE_REG + "), FOREIGN KEY(" + COLUMN_NI + ") " +
         "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + ")"+ DBHelper.ON_UPDATE+");";
 

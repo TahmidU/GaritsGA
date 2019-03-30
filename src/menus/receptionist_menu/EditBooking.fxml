@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menus.receptionist_menu.MakeBookingController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menus.receptionist_menu.EditBookingController">
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
             <TabPane layoutX="-5.0" layoutY="20.0" prefHeight="570.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
-                  <Tab text="Make Booking">
+                  <Tab text="Edit Booking">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -57,7 +57,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="657.0" layoutY="440.0" mnemonicParsing="false" onAction="#makeBookingSavePress" prefHeight="45.0" prefWidth="84.0" text="Save" />
+                              <Button layoutX="657.0" layoutY="440.0" mnemonicParsing="false" onAction="#editBookingSavePress" prefHeight="45.0" prefWidth="84.0" text="Save" />
                               <Label fx:id="missingDetailsError" layoutX="607.0" layoutY="410.0" prefHeight="24.0" prefWidth="146.0" textFill="RED" />
                               <Button layoutX="57.0" layoutY="440.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
                            </children>

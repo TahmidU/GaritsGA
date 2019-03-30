@@ -15,7 +15,7 @@ public class DBDateHelper
     {
         return Date.valueOf(s);
     }
-
+    
     public static String getInFormat(String format, Date date)
     {
         return new SimpleDateFormat(format).format(date);
