@@ -5,6 +5,7 @@
  */
 package garits;
 
+import garits.singleton.CurrentUser;
 import menus.admin_menu.AdminMenuController;
 import menus.foreperson_menu.ForepersonMenuController;
 import menus.franchisee_menu.FranchiseeMenuController;

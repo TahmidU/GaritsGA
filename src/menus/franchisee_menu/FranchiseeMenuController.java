@@ -9,7 +9,7 @@ import database.dao.account.StaffDAO;
 import database.dao.backup.BackUpDAO;
 import database.domain.account.Staff;
 import database.domain.backup.BackUp;
-import garits.CurrentUser;
+import garits.singleton.CurrentUser;
 import garits.MainGUIController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

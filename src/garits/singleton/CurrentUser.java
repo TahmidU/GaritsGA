@@ -1,4 +1,4 @@
-package garits;
+package garits.singleton;
 
 public class CurrentUser
 {
@@ -18,6 +18,6 @@ public class CurrentUser
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        CurrentUser.userName = userName;
     }
 }
