@@ -7,9 +7,6 @@ package menus.admin_menu;
 
 import database.dao.account.StaffDAO;
 import database.domain.account.Staff;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,6 +21,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -102,6 +103,12 @@ public class AddAccountController implements Initializable {
             missingDetailsError.setText("Missing Details");
         } else if (!passwordText.getText().equals(retypeText.getText())) {
             passwordMatchError.setText("Password does not match");
+        } else if(new StaffDAO().getByUserName(usernameText.getText()) != null)
+        {
+            passwordMatchError.setText("Username already exists");
+        }else if(phoneText.getText().length() < 11 || phoneText.getText().length() > 11)
+        {
+            missingDetailsError.setText("Invalid phone number");
         } else {
             StaffDAO sDAO = new StaffDAO();
             Staff tmp = new Staff(0, usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
