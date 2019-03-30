@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="menus.franchisee_menu.FranchiseeMenuController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menus.franchisee_menu.FranchiseeMenuController">
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -39,18 +38,18 @@
                                  <columns>
                                     <TableColumn fx:id="idCol" prefWidth="56.0" text="ID" />
                                     <TableColumn fx:id="usernameCol" prefWidth="101.0" text="Username" />
+                                    <TableColumn fx:id="passwordCol" prefWidth="186.0" text="Password" />
                                     <TableColumn fx:id="roleCol" prefWidth="102.0" text="Role" />
                                     <TableColumn fx:id="firstNameCol" prefWidth="98.0" text="First Name" />
                                     <TableColumn fx:id="lastNameCol" prefWidth="106.0" text="Last Name" />
                                     <TableColumn fx:id="phoneCol" prefWidth="132.0" text="Phone" />
-                                    <TableColumn fx:id="emailCol" prefWidth="186.0" text="Email" />
                                  </columns>
                               </TableView>
                               <Button layoutX="43.0" layoutY="450.0" mnemonicParsing="false" onAction="#addAccountPress" prefHeight="35.0" prefWidth="114.0" text="Add Account" />
                               <Button layoutX="181.0" layoutY="450.0" mnemonicParsing="false" onAction="#editAccountPress" prefHeight="35.0" prefWidth="114.0" text="Edit Account" />
                               <Button layoutX="320.0" layoutY="450.0" mnemonicParsing="false" onAction="#deleteAccountPress" prefHeight="35.0" prefWidth="114.0" text="Remove Account" />
                               <Separator layoutX="15.0" layoutY="423.0" prefHeight="17.0" prefWidth="770.0" />
-                              <Label fx:id="noAccountSelected" layoutX="43.0" layoutY="494.0" prefHeight="25.0" prefWidth="194.0" textFill="RED" />
+                              <Label fx:id="noAccountSelected" layoutX="43.0" layoutY="494.0" prefHeight="25.0" prefWidth="250.0" textFill="RED" />
                            </children>
                         </AnchorPane>
                      </content>
