@@ -37,7 +37,14 @@ public class GARITS extends Application {
         if(db.createDB())
         {
             //Default Administrator account created if database did not exist.
-            new StaffDAO().save(new Staff(1,"SYSDBA","Masterkey", "Administrator", "Administrator", "n/a", "n/a", "Administrator"));
+            new StaffDAO().save(new Staff(0,"SYSDBA","Masterkey", "Administrator", "Administrator", "n/a", "n/a", "Administrator"));
+            new StaffDAO().save(new Staff(1,"alain","12345", "Alain", "Aspire", "83297482", "alain@gmail.com", "Administrator"));
+            new StaffDAO().save(new Staff(2,"tahmid","123", "Tahmid", "Aspire", "23894290", "tahmid@gmail.com", "Franchisee"));
+            new StaffDAO().save(new Staff(3,"cameron","123", "Cameron", "Aspire", "23940872304", "cameron@gmail.com", "Foreperson"));
+            new StaffDAO().save(new Staff(4,"mahat","123", "Mahat", "Aspire", "4328974924", "mahat@gmail.com", "Mechanic"));
+            new StaffDAO().save(new Staff(5,"manar","123", "Manar", "Aspire", "329842234", "manar@gmail.com", "Receptionist"));
+            new StaffDAO().save(new Staff(6,"1","1", "Receptionist", "1", "1", "1", "Receptionist"));
+            
         }
         db.createBackUpDB();
     }

@@ -54,8 +54,8 @@ public class Booking
         this.firstName = firstName;
         this.lastName = lastName;
         this.checkIn = checkIn;
-        vehicle = new VehicleDAO().getByRegNum(vehicleRegistrationNumber);
         jobSheet = new JobSheetDAO().getByBookingId(id);
+        vehicle = new VehicleDAO().getByRegNum(vehicleRegistrationNumber);
     }
 
     //--------Getters and Setters--------
@@ -91,7 +91,7 @@ public class Booking
         this.vehicleRegistrationNumber = vehicleRegistrationNumber;
     }
 
-    public Vehicle getVehicle() {
+    public Vehicle getVehicle() {  
         return vehicle;
     }
 

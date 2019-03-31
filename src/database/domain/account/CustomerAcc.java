@@ -145,4 +145,8 @@ public class CustomerAcc
     public void setAccountHolder(AccountHolder accountHolder) {
         this.accountHolder = accountHolder;
     }
+    
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }

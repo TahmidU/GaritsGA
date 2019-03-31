@@ -58,7 +58,7 @@ public class AdminMenuController implements Initializable {
     @FXML
     private TableColumn<Staff, String> phoneCol;
     @FXML
-    private TableColumn<Staff, String> passwordCol;
+    private TableColumn<Staff, String> emailCol;
     @FXML
     private Label noAccountSelected;
     @FXML
@@ -73,6 +73,7 @@ public class AdminMenuController implements Initializable {
     private Label noBackupSelected;
     @FXML
     private Label restoreSucessful;
+  
 
     /**
      * Initializes the controller class.
@@ -89,7 +90,7 @@ public class AdminMenuController implements Initializable {
         firstNameCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("firstName"));
         lastNameCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("lastName"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("phoneNum"));
-        passwordCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("password"));
+        emailCol.setCellValueFactory(new PropertyValueFactory<Staff, String>("email"));
 
         staffTable.setItems(accountData);
 

@@ -59,9 +59,6 @@ public class Vehicle
         this.engineSerial = engineSerial;
         this.chassisNum = chassisNum;
         this.color = color;
-        bookings = new BookingDAO().getByVehicleReg(vehicleRegistration);
-        jobSheets = new JobSheetDAO().getByVehicleReg(vehicleRegistration);
-        customerAcc = new CustomerAccDAO().getByNI(nationalInsurance);
     }
 
     //--------Getters and Setters--------
@@ -126,10 +123,12 @@ public class Vehicle
     }
 
     public void setBookings(ArrayList<Booking> bookings) {
+        bookings = new BookingDAO().getByVehicleReg(vehicleRegistration);
         this.bookings = bookings;
     }
 
     public ArrayList<JobSheet> getJobSheets() {
+        jobSheets = new JobSheetDAO().getByVehicleReg(vehicleRegistration);
         return jobSheets;
     }
 
@@ -138,6 +137,7 @@ public class Vehicle
     }
 
     public CustomerAcc getCustomerAcc() {
+        customerAcc = new CustomerAccDAO().getByNI(nationalInsurance);
         return customerAcc;
     }
 

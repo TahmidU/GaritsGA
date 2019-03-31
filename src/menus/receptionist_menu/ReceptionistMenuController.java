@@ -5,19 +5,16 @@
  */
 package menus.receptionist_menu;
 
-import database.dao.DBHelper;
 import database.dao.job.BookingDAO;
 import database.dao.job.VehicleDAO;
-import database.domain.account.Staff;
-import database.domain.backup.BackUp;
 import database.domain.job.Booking;
+import database.domain.job.Vehicle;
 import garits.MainGUIController;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,7 +32,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -163,16 +159,35 @@ public class ReceptionistMenuController implements Initializable {
     }
 
     @FXML
-    private void checkInPress(ActionEvent event
-    ) {
-//        VehicleDAO vDAO = new VehicleDAO();
-//        if (vDAO.getByRegNum(vehicleRegText.getText()) == null) {
-//            MainGUIController guiController = new MainGUIController();
-//            guiController.popupConfirmation(event, "Vehicle does not exist in database. Create new record?");
-//
-//            if (guiController.popupController.getConfirm()) {
-//
-//            }
+    private void checkInPress(ActionEvent event) throws IOException {
+        Booking selectedBooking = null;
+        selectedBooking = bookingTable.getSelectionModel().getSelectedItem();
+
+        if (selectedBooking == null) {
+            noBookingSelected.setText("No Booking Selected.");
+        } else {
+
+            VehicleDAO vDAO = new VehicleDAO();
+
+            if (vDAO.getByRegNum(selectedBooking.getVehicleRegistrationNumber()) == null) {
+                MainGUIController guiController = new MainGUIController();
+                guiController.popupConfirmation(event, "Vehicle does not exist in database, a blank record will be created and a customer account will need to be associated. Continue?");
+
+                if (guiController.popupController.getConfirm()) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/AssociateVehicle.fxml"));
+                    Parent root = (Parent) loader.load();
+
+                    AssociateVehicleController controller = loader.getController();
+                    controller.setLoggedInName(loggedInAsText.getText());
+                    controller.setSelectedBooking(selectedBooking);
+
+                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    window.setScene(new Scene(root));
+                }
+            } else {
+                System.out.println("Vehicle detected.");
+            }
+        }
     }
 
     @FXML
@@ -204,6 +219,21 @@ public class ReceptionistMenuController implements Initializable {
         if (guiController.popupController.getConfirm()) {
             guiController.logOut(event);
         }
+    }
+
+    @FXML
+    private void TEST(ActionEvent event) {
+//        Booking selectedBooking = bookingTable.getSelectionModel().getSelectedItem();
+//        
+//        VehicleDAO vDAO = new VehicleDAO();
+//        
+//        ArrayList<Vehicle> vehicles = vDAO.getAll();
+//        for (int i = 0; i < 1; ++i) {
+//            System.out.println(vehicles.get(i).getCustomerAcc().getFirstName());
+//        }
+
+    Vehicle test = new Vehicle("test", "test", "N/A1", "N/A1", "N/A1" ,"N/A1", "N/A1");
+    System.out.println(test.getCustomerAcc().getFirstName());
     }
 
 }
