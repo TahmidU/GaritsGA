@@ -33,7 +33,7 @@ public class FixedDiscount
         this.fixedDiscountId = fixedDiscountId;
         this.discountPlanId = discountPlanId;
         this.percentage = percentage;
-        discountPlan = new DiscountPlanDAO().getByDiscountId(discountPlanId);
+
     }
 
     //--------Getters and Setters--------
@@ -46,6 +46,7 @@ public class FixedDiscount
     }
 
     public int getDiscountPlanId() {
+        discountPlan = new DiscountPlanDAO().getByDiscountId(discountPlanId);
         return discountPlanId;
     }
 

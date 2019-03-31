@@ -60,9 +60,9 @@ public class CustomerAcc
         this.postCode = postCode;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        invoices = new InvoiceDAO().getByNI(nationalInsurance);
-        vehicles = new VehicleDAO().getByNI(nationalInsurance);
-        accountHolder = new AccountHolderDAO().getByNI(nationalInsurance);
+
+
+
     }
 
     //--------Getters and Setters--------
@@ -123,6 +123,7 @@ public class CustomerAcc
     }
 
     public ArrayList<Invoice> getInvoices() {
+        invoices = new InvoiceDAO().getByNI(nationalInsurance);
         return invoices;
     }
 
@@ -131,6 +132,7 @@ public class CustomerAcc
     }
 
     public ArrayList<Vehicle> getVehicles() {
+        vehicles = new VehicleDAO().getByNI(nationalInsurance);
         return vehicles;
     }
 
@@ -139,6 +141,7 @@ public class CustomerAcc
     }
 
     public AccountHolder getAccountHolder() {
+        accountHolder = new AccountHolderDAO().getByNI(nationalInsurance);
         return accountHolder;
     }
 

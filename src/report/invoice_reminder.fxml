@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="report.InvoiceReminder">
+   <children>
+      <Label fx:id="customerAddressLabel" layoutX="50.0" layoutY="15.0" text="\%s,&#10;%s,&#10;%s,&#10;%s&#10;">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
+      <Label fx:id="garitsAddressLabel" layoutX="450.0" layoutY="15.0" text="Quick Fix Fitters,&#10;19 High St,&#10;Ashford,&#10;Kent CT16 8YY" textOverrun="CLIP">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
+      <Label fx:id="DateLabel" layoutX="450.0" layoutY="90.0" text="\%s">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="DearLabel" layoutX="50.0" layoutY="100.0" text="Dear %s,">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="InvoiceTitleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="201.0" layoutY="140.0" text="\%s REMINDER - INVOICE NO.: %s" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="VehicleRegistrationNoLabel" alignment="CENTER" layoutX="151.0" layoutY="160.0" text="Vehicle Registration No.: %s         Total Amount: %s" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="DescriptionLabel" layoutX="39.0" layoutY="190.0" text="According to our records, its appears that we have not yet recieved payment of the above invoice, which was posted&#10;to you on %s. for work done on the vehicle(s) listed above.&#10;&#10;We would appreciate payment at your earlist convenience.&#10;&#10;If you have already sent a payment to us recently, please accept our apologies.&#10;&#10;Your sincerely,&#10;&#10;&#10;G. Lancaster">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="signatureImage" fitHeight="34.0" fitWidth="67.0" layoutX="38.0" layoutY="308.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
 </AnchorPane>

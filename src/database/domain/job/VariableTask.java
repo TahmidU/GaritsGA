@@ -37,8 +37,8 @@ public class VariableTask
         this.taskId = taskId;
         this.varDiscountId = varDiscountId;
         this.discountVal = discountVal;
-        task = new TaskDAO().getById(taskId);
-        variableDiscount = new VariableDiscountDAO().getByVariableDiscount(varDiscountId);
+
+
     }
 
     //--------Getters and Setters--------
@@ -64,5 +64,23 @@ public class VariableTask
 
     public void setDiscountVal(float discountVal) {
         this.discountVal = discountVal;
+    }
+
+    public Task getTask() {
+        task = new TaskDAO().getById(taskId);
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    public VariableDiscount getVariableDiscount() {
+        variableDiscount = new VariableDiscountDAO().getByVariableDiscount(varDiscountId);
+        return variableDiscount;
+    }
+
+    public void setVariableDiscount(VariableDiscount variableDiscount) {
+        this.variableDiscount = variableDiscount;
     }
 }

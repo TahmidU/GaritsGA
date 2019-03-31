@@ -67,8 +67,8 @@ public class Staff
         this.phoneNum = phoneNum;
         this.email = email;
         this.type = type;
-        jobSheets = new JobSheetDAO().getByStaffId(id);
-        outstandingBalances = new OutstandingBalanceDAO().getByStaffId(id);
+
+
     }
 
     //--------Getters and Setters--------
@@ -137,6 +137,7 @@ public class Staff
     }
 
     public ArrayList<JobSheet> getJobSheets() {
+        jobSheets = new JobSheetDAO().getByStaffId(id);
         return jobSheets;
     }
 
@@ -145,6 +146,7 @@ public class Staff
     }
 
     public ArrayList<OutstandingBalance> getOutstandingBalances() {
+        outstandingBalances = new OutstandingBalanceDAO().getByStaffId(id);
         return outstandingBalances;
     }
 

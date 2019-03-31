@@ -64,7 +64,7 @@ public class PartOrder
         this.dayDelivered = dayDelivered;
         this.telephone = telephone;
         this.fax = fax;
-        stockPartOrders = new StockPartOrderDAO().getByPartOrderNum(orderNum);
+
     }
 
     //--------Getters and Setters--------
@@ -146,5 +146,14 @@ public class PartOrder
 
     public void setFax(String fax) {
         this.fax = fax;
+    }
+
+    public ArrayList<StockPartOrder> getStockPartOrders() {
+        stockPartOrders = new StockPartOrderDAO().getByPartOrderNum(orderNum);
+        return stockPartOrders;
+    }
+
+    public void setStockPartOrders(ArrayList<StockPartOrder> stockPartOrders) {
+        this.stockPartOrders = stockPartOrders;
     }
 }

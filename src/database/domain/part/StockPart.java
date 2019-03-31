@@ -58,8 +58,8 @@ public class StockPart
         this.vehicleType = vehicleType;
         this.startYr = startYr;
         this.endYr = endYr;
-        tasks = new TaskDAO().getByStockPartId(partId);
-        stockPartOrders = new StockPartOrderDAO().getByStockPartId(partId);
+
+
 
     }
 
@@ -129,6 +129,7 @@ public class StockPart
     }
 
     public ArrayList<Task> getTasks() {
+        tasks = new TaskDAO().getByStockPartId(partId);
         return tasks;
     }
 
@@ -137,6 +138,7 @@ public class StockPart
     }
 
     public ArrayList<StockPartOrder> getStockPartOrders() {
+        stockPartOrders = new StockPartOrderDAO().getByStockPartId(partId);
         return stockPartOrders;
     }
 

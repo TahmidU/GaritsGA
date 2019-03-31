@@ -46,8 +46,8 @@ public class OutstandingBalance
         this.staffId = staffId;
         this.accHolderId = accHolderId;
         this.dateAuthorised = dateAuthorised;
-        staff = new StaffDAO().getById(staffId);
-        accountHolder = new AccountHolderDAO().getById(accHolderId);
+
+
     }
 
     //--------Getters and Setters--------
@@ -84,6 +84,7 @@ public class OutstandingBalance
     }
 
     public Staff getStaff() {
+        staff = new StaffDAO().getById(staffId);
         return staff;
     }
 
@@ -92,6 +93,7 @@ public class OutstandingBalance
     }
 
     public AccountHolder getAccountHolder() {
+        accountHolder = new AccountHolderDAO().getById(accHolderId);
         return accountHolder;
     }
 

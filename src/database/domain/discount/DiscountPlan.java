@@ -42,10 +42,10 @@ public class DiscountPlan
         this.id = id;
         this.type = type;
         this.acc_holder_id = acc_holder_id;
-        accountHolder = new AccountHolderDAO().getById(acc_holder_id);
-        flexibleDiscount = new FlexibleDiscountDAO().getByDiscountID(id);
-        variableDiscount = new VariableDiscountDAO().getByDiscountId(id);
-        fixedDiscount = new FixedDiscountDAO().getByDiscountId(id);
+
+
+
+
     }
 
     //--------Getters and Setters--------
@@ -66,6 +66,7 @@ public class DiscountPlan
     }
 
     public int getAcc_holder_id() {
+        accountHolder = new AccountHolderDAO().getById(acc_holder_id);
         return acc_holder_id;
     }
 
@@ -74,6 +75,7 @@ public class DiscountPlan
     }
 
     public FixedDiscount getFixedDiscount() {
+        flexibleDiscount = new FlexibleDiscountDAO().getByDiscountID(id);
         return fixedDiscount;
     }
 
@@ -82,6 +84,7 @@ public class DiscountPlan
     }
 
     public VariableDiscount getVariableDiscount() {
+        variableDiscount = new VariableDiscountDAO().getByDiscountId(id);
         return variableDiscount;
     }
 
@@ -90,6 +93,7 @@ public class DiscountPlan
     }
 
     public FlexibleDiscount getFlexibleDiscount() {
+        fixedDiscount = new FixedDiscountDAO().getByDiscountId(id);
         return flexibleDiscount;
     }
 

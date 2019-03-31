@@ -34,8 +34,8 @@ public class FlexDiscountBandFlexibleDiscount
     {
         this.flexDiscountBandFlexDiscount = flexDiscountBandFlexDiscount;
         this.flexDiscountBandValuationBand = flexDiscountBandValuationBand;
-        flexDiscountBand = new FlexDiscountBandDAO().getByValuationBand(flexDiscountBandValuationBand);
-        flexibleDiscount = new FlexibleDiscountDAO().getById(flexDiscountBandFlexDiscount);
+
+
     }
 
     //--------Getters and Setters--------
@@ -56,6 +56,7 @@ public class FlexDiscountBandFlexibleDiscount
     }
 
     public FlexDiscountBand getFlexDiscountBand() {
+        flexDiscountBand = new FlexDiscountBandDAO().getByValuationBand(flexDiscountBandValuationBand);
         return flexDiscountBand;
     }
 
@@ -64,6 +65,7 @@ public class FlexDiscountBandFlexibleDiscount
     }
 
     public FlexibleDiscount getFlexibleDiscount() {
+        flexibleDiscount = new FlexibleDiscountDAO().getById(flexDiscountBandFlexDiscount);
         return flexibleDiscount;
     }
 

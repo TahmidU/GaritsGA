@@ -37,7 +37,7 @@ public class MOTReminder
         this.id = id;
         this.accountHolderId = accountHolderId;
         this.renewalDate = renewalDate;
-        accountHolder = new AccountHolderDAO().getById(accountHolderId);
+
     }
 
     //--------Getters and Setters--------
@@ -66,6 +66,7 @@ public class MOTReminder
     }
 
     public AccountHolder getAccountHolder() {
+        accountHolder = new AccountHolderDAO().getById(accountHolderId);
         return accountHolder;
     }
 

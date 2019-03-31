@@ -53,9 +53,9 @@ public class Invoice
         this.dateCreated = dateCreated;
         this.totalAmount = totalAmount;
         this.jobNum = jobNum;
-        jobSheet = new JobSheetDAO().getByJobNum(jobNum);
-        customerAcc = new CustomerAccDAO().getByNI(nationalInsurance);
-        invoiceReminders = new InvoiceReminderDAO().getByInvoiceId(id);
+
+
+
     }
 
     //--------Getters and Setters--------
@@ -100,6 +100,7 @@ public class Invoice
     }
 
     public JobSheet getJobSheet() {
+        jobSheet = new JobSheetDAO().getByJobNum(jobNum);
         return jobSheet;
     }
 
@@ -108,6 +109,7 @@ public class Invoice
     }
 
     public CustomerAcc getCustomerAcc() {
+        customerAcc = new CustomerAccDAO().getByNI(nationalInsurance);
         return customerAcc;
     }
 
@@ -116,6 +118,7 @@ public class Invoice
     }
 
     public ArrayList<InvoiceReminder> getInvoiceReminders() {
+        invoiceReminders = new InvoiceReminderDAO().getByInvoiceId(id);
         return invoiceReminders;
     }
 

@@ -29,7 +29,7 @@ public class FlexDiscountBand
     public FlexDiscountBand(String flexBandId, float bandDiscount) {
         this.flexBandId = flexBandId;
         this.bandDiscount = bandDiscount;
-        flexDiscountBandFlexibleDiscounts = new FlexDiscountBandFlexibleDiscountDAO().getByValuationBand(flexBandId);
+
     }
 
     //--------Getters and Setters--------
@@ -50,6 +50,7 @@ public class FlexDiscountBand
     }
 
     public ArrayList<FlexDiscountBandFlexibleDiscount> getFlexDiscountBandFlexibleDiscounts() {
+        flexDiscountBandFlexibleDiscounts = new FlexDiscountBandFlexibleDiscountDAO().getByValuationBand(flexBandId);
         return flexDiscountBandFlexibleDiscounts;
     }
 

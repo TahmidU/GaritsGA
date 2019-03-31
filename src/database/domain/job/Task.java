@@ -57,8 +57,8 @@ public class Task
         this.estDuration = estDuration;
         this.partQty = partQty;
         this.dateTaskComplete = dateTaskComplete;
-        stockPart = new StockPartDAO().getByStockPart(stockPartId);
-        variableTasks = new VariableTaskDAO().getByTaskId(id);
+
+
     }
 
     //--------Getters and Setters--------
@@ -119,6 +119,7 @@ public class Task
     }
 
     public StockPart getStockPart() {
+        stockPart = new StockPartDAO().getByStockPart(stockPartId);
         return stockPart;
     }
 
@@ -127,6 +128,7 @@ public class Task
     }
 
     public ArrayList<VariableTask> getVariableTasks() {
+        variableTasks = new VariableTaskDAO().getByTaskId(id);
         return variableTasks;
     }
 

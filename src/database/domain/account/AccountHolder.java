@@ -48,10 +48,6 @@ public class AccountHolder extends CustomerAcc
         this.id = id;
         this.nationalInsurance = nationalInsurance;
         this.dateJoined = dateJoined;
-        motReminders = new MOTReminderDAO().getByAccountHolderId(id);
-        invoiceReminders = new InvoiceReminderDAO().getByAccountHolderId(id);
-        outstandingBalance = new OutstandingBalanceDAO().getByAccHolderId(id);
-        discountPlan = new DiscountPlanDAO().getByAccId(id);
     }
 
 
@@ -83,6 +79,8 @@ public class AccountHolder extends CustomerAcc
     }
 
     public ArrayList<MOTReminder> getMotReminders() {
+
+        motReminders = new MOTReminderDAO().getByAccountHolderId(id);
         return motReminders;
     }
 
@@ -91,6 +89,8 @@ public class AccountHolder extends CustomerAcc
     }
 
     public ArrayList<InvoiceReminder> getInvoiceReminders() {
+
+        invoiceReminders = new InvoiceReminderDAO().getByAccountHolderId(id);
         return invoiceReminders;
     }
 
@@ -99,6 +99,8 @@ public class AccountHolder extends CustomerAcc
     }
 
     public OutstandingBalance getOutstandingBalance() {
+
+        outstandingBalance = new OutstandingBalanceDAO().getByAccHolderId(id);
         return outstandingBalance;
     }
 
@@ -107,6 +109,8 @@ public class AccountHolder extends CustomerAcc
     }
 
     public DiscountPlan getDiscountPlan() {
+
+        discountPlan = new DiscountPlanDAO().getByAccId(id);
         return discountPlan;
     }
 

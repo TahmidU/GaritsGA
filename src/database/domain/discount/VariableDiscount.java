@@ -34,8 +34,8 @@ public class VariableDiscount
     public VariableDiscount(int varId, int discountId) {
         this.varId = varId;
         this.discountId = discountId;
-        discountPlan = new DiscountPlanDAO().getByDiscountId(discountId);
-        variableTasks = new VariableTaskDAO().getByVariableDiscountId(varId);
+
+
     }
 
     //--------Getters and Setters--------
@@ -56,6 +56,7 @@ public class VariableDiscount
     }
 
     public DiscountPlan getDiscountPlan() {
+        discountPlan = new DiscountPlanDAO().getByDiscountId(discountId);
         return discountPlan;
     }
 
@@ -64,6 +65,7 @@ public class VariableDiscount
     }
 
     public ArrayList<VariableTask> getVariableTasks() {
+        variableTasks = new VariableTaskDAO().getByVariableDiscountId(varId);
         return variableTasks;
     }
 

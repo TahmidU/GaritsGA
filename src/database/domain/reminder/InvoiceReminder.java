@@ -49,8 +49,8 @@ public class InvoiceReminder
         this.accHolderId = accHolderId;
         this.type = type;
         this.dateCreated = dateCreated;
-        invoice = new InvoiceDAO().getById(invoiceId);
-        accountHolder = new AccountHolderDAO().getById(accHolderId);
+
+
     }
 
     //--------Getters and Setters--------
@@ -95,6 +95,7 @@ public class InvoiceReminder
     }
 
     public Invoice getInvoice() {
+        invoice = new InvoiceDAO().getById(invoiceId);
         return invoice;
     }
 
@@ -103,6 +104,7 @@ public class InvoiceReminder
     }
 
     public AccountHolder getAccountHolder() {
+        accountHolder = new AccountHolderDAO().getById(accHolderId);
         return accountHolder;
     }
 

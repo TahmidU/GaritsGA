@@ -32,8 +32,8 @@ public class FlexibleDiscount
     public FlexibleDiscount(int flexId, int discountId) {
         this.flexId = flexId;
         this.discountId = discountId;
-        discountPlan = new DiscountPlanDAO().getByDiscountId(discountId);
-        flexDiscountBandFlexibleDiscounts = new FlexDiscountBandFlexibleDiscountDAO().getByDiscountId(flexId);
+
+
     }
 
     //--------Getters and Setters--------
@@ -46,6 +46,7 @@ public class FlexibleDiscount
     }
 
     public int getDiscountId() {
+
         return discountId;
     }
 
@@ -54,10 +55,20 @@ public class FlexibleDiscount
     }
 
     public DiscountPlan getDiscountPlan() {
+        discountPlan = new DiscountPlanDAO().getByDiscountId(discountId);
         return discountPlan;
     }
 
     public void setDiscountPlan(DiscountPlan discountPlan) {
         this.discountPlan = discountPlan;
+    }
+
+    public ArrayList<FlexDiscountBandFlexibleDiscount> getFlexDiscountBandFlexibleDiscounts() {
+        flexDiscountBandFlexibleDiscounts = new FlexDiscountBandFlexibleDiscountDAO().getByDiscountId(flexId);
+        return flexDiscountBandFlexibleDiscounts;
+    }
+
+    public void setFlexDiscountBandFlexibleDiscounts(ArrayList<FlexDiscountBandFlexibleDiscount> flexDiscountBandFlexibleDiscounts) {
+        this.flexDiscountBandFlexibleDiscounts = flexDiscountBandFlexibleDiscounts;
     }
 }

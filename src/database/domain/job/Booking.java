@@ -54,8 +54,8 @@ public class Booking
         this.firstName = firstName;
         this.lastName = lastName;
         this.checkIn = checkIn;
-        jobSheet = new JobSheetDAO().getByBookingId(id);
-        vehicle = new VehicleDAO().getByRegNum(vehicleRegistrationNumber);
+
+
     }
 
     //--------Getters and Setters--------
@@ -91,7 +91,8 @@ public class Booking
         this.vehicleRegistrationNumber = vehicleRegistrationNumber;
     }
 
-    public Vehicle getVehicle() {  
+    public Vehicle getVehicle() {
+        vehicle = new VehicleDAO().getByRegNum(vehicleRegistrationNumber);
         return vehicle;
     }
 
@@ -99,7 +100,9 @@ public class Booking
         this.vehicle = vehicle;
     }
 
-    public JobSheet getJobSheet() {
+    public JobSheet getJobSheet()
+    {
+        jobSheet = new JobSheetDAO().getByBookingId(id);
         return jobSheet;
     }
 

@@ -93,6 +93,44 @@ public class CustomerAccDAO implements ICustomerAcc
         return customerAcc;
     }
 
+    public ArrayList<CustomerAcc> SearchAllFields(String search)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        customerAccs.clear();
+        String sql = "SELECT * FROM " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + " WHERE "
+                + CustomerAcc.COLUMN_NI + " LIKE '%" + search + "%' OR "
+                + CustomerAcc.COLUMN_FIRST_NAME + " LIKE '%"+search+ "%' OR "
+                + CustomerAcc.COLUMN_LAST_NAME + " LIKE '%"+search+"%' OR "
+                + CustomerAcc.COLUMN_ADDRESS + " LIKE '%"+search+"%' OR "
+                + CustomerAcc.COLUMN_POSTCODE + " LIKE '%"+search+"%' OR "
+                + CustomerAcc.COLUMN_PHONE + " LIKE '%"+search+"%' OR "
+                + CustomerAcc.COLUMN_EMAIL + " LIKE '%"+search+"%'";
+        ResultSet rs = connectivity.read(sql,con);
+        try {
+            while (rs.next()) {
+                customerAccs.add(new CustomerAcc(rs.getString(CustomerAcc.INDEX_NI), rs.getString(CustomerAcc.INDEX_FIRST_NAME),
+                        rs.getString(CustomerAcc.INDEX_LAST_NAME), rs.getString(CustomerAcc.INDEX_ADDRESS), rs.getString(CustomerAcc.INDEX_POSTCODE),
+                        rs.getString(CustomerAcc.INDEX_EMAIL), rs.getString(CustomerAcc.INDEX_PHONE)));
+            }
+            Log.write("DAO: Query successful.");
+        }catch (SQLException e)
+        {
+            Log.write("DAO: Failed to retrieve data from database.");
+            e.printStackTrace();
+        }
+
+        connectivity.closeConnection(con);
+
+        return customerAccs;
+    }
+
     @Override
     public void save(CustomerAcc customerAcc)
     {

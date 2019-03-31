@@ -33,8 +33,8 @@ public class StockPartOrder
     public StockPartOrder(String partOrderNum, int stockPartId) {
         this.partOrderNum = partOrderNum;
         this.stockPartId = stockPartId;
-        stockPart = new StockPartDAO().getByStockPart(stockPartId);
-        partOrder = new PartOrderDAO().getByOrderNum(partOrderNum);
+
+
     }
 
     //--------Getters and Setters--------
@@ -56,6 +56,7 @@ public class StockPartOrder
     }
 
     public StockPart getStockPart() {
+        stockPart = new StockPartDAO().getByStockPart(stockPartId);
         return stockPart;
     }
 
@@ -64,6 +65,7 @@ public class StockPartOrder
     }
 
     public PartOrder getPartOrder() {
+        partOrder = new PartOrderDAO().getByOrderNum(partOrderNum);
         return partOrder;
     }
 

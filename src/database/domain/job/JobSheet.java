@@ -75,10 +75,10 @@ public class JobSheet
         this.status = status;
         this.allocationDate = allocationDate;
         this.dateCompleted = dateCompleted;
-        staff = new StaffDAO().getById(staffId);
-        booking = new BookingDAO().getById(bookingId);
-        invoice = new InvoiceDAO().getByJobNum(jobNum);
-        tasks = new TaskDAO().getByJobNum(jobNum);
+
+
+
+
     }
 
     //--------Getters and Setters--------
@@ -155,6 +155,7 @@ public class JobSheet
     }
 
     public Staff getStaff() {
+        staff = new StaffDAO().getById(staffId);
         return staff;
     }
 
@@ -163,6 +164,7 @@ public class JobSheet
     }
 
     public Booking getBooking() {
+        booking = new BookingDAO().getById(bookingId);
         return booking;
     }
 
@@ -171,6 +173,7 @@ public class JobSheet
     }
 
     public Invoice getInvoice() {
+        invoice = new InvoiceDAO().getByJobNum(jobNum);
         return invoice;
     }
 
@@ -187,6 +190,7 @@ public class JobSheet
     }
 
     public ArrayList<Task> getTasks() {
+        tasks = new TaskDAO().getByJobNum(jobNum);
         return tasks;
     }
 
