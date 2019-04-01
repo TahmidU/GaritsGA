@@ -45,7 +45,8 @@ public class StockPartDAO implements IStockPart
                 stockParts.add( new StockPart(rs.getInt(StockPart.INDEX_PART_ID),rs.getString(StockPart.INDEX_PART_NAME),
                         rs.getFloat(StockPart.INDEX_PRICE),rs.getInt(StockPart.INDEX_LOW_THRES),
                         rs.getString(StockPart.INDEX_MANUFACTURER),rs.getString(StockPart.INDEX_VEHICLE_TYPE),
-                        rs.getString(StockPart.INDEX_START_YEAR),rs.getString(StockPart.INDEX_END_YEAR)));
+                        rs.getString(StockPart.INDEX_START_YEAR),rs.getString(StockPart.INDEX_END_YEAR),
+                        rs.getInt(StockPart.INDEX_QUANTITY)));
             }
             Log.write("DAO: Query successful.");
         }catch(SQLException e){
@@ -78,7 +79,8 @@ public class StockPartDAO implements IStockPart
                 stockPart = new StockPart(rs.getInt(StockPart.INDEX_PART_ID),rs.getString(StockPart.INDEX_PART_NAME),
                         rs.getFloat(StockPart.INDEX_PRICE),rs.getInt(StockPart.INDEX_LOW_THRES),
                         rs.getString(StockPart.INDEX_MANUFACTURER),rs.getString(StockPart.INDEX_VEHICLE_TYPE),
-                        rs.getString(StockPart.INDEX_START_YEAR),rs.getString(StockPart.INDEX_END_YEAR));
+                        rs.getString(StockPart.INDEX_START_YEAR),rs.getString(StockPart.INDEX_END_YEAR),
+                        rs.getInt(StockPart.INDEX_QUANTITY));
             }
         }catch (SQLException e)
         {
@@ -102,9 +104,9 @@ public class StockPartDAO implements IStockPart
         }
         String sql = "INSERT INTO " + StockPart.TABLE_STOCK_PART+"( "+StockPart.COLUMN_PART_NAME+","+StockPart.COLUMN_PRICE+","+
                 StockPart.COLUMN_LOW_THRES+","+StockPart.COLUMN_MANUFACTURER+","+StockPart.COLUMN_VEHICLE_TYPE+","+
-                StockPart.COLUMN_START_YEAR+","+StockPart.COLUMN_END_YEAR+")"+ " VALUES(?,?,?,?,?,?,?)";
+                StockPart.COLUMN_START_YEAR+","+StockPart.COLUMN_END_YEAR+","+StockPart.COLUMN_QUANTITY+")"+ " VALUES(?,?,?,?,?,?,?,?)";
         String[] values = {String.valueOf(stockPart.getPartName()),String.valueOf(stockPart.getPrice()),String.valueOf(stockPart.getThreshold()),
-                String.valueOf(stockPart.getManufacturer()),stockPart.getVehicleType(),stockPart.getStartYr(),stockPart.getEndYr()};
+                String.valueOf(stockPart.getManufacturer()),stockPart.getVehicleType(),stockPart.getStartYr(),stockPart.getEndYr(), String.valueOf(stockPart.getQuantity())};
         connectivity.writePrepared(sql, con, values);
         connectivity.closeConnection(con);
     }
@@ -120,9 +122,9 @@ public class StockPartDAO implements IStockPart
 
         String sql = "UPDATE " + StockPart.TABLE_STOCK_PART + " SET "+StockPart.COLUMN_PART_NAME+" =?,"+StockPart.COLUMN_PRICE+
                 " =?,"+StockPart.COLUMN_LOW_THRES+" =?,"+StockPart.COLUMN_MANUFACTURER+" =?,"+StockPart.COLUMN_VEHICLE_TYPE+" =?,"+
-                StockPart.COLUMN_START_YEAR+" =?,"+StockPart.COLUMN_END_YEAR+" =?"+" WHERE " +StockPart.COLUMN_PART_ID+ "=" +stockPart.getPartId();
+                StockPart.COLUMN_START_YEAR+" =?,"+StockPart.COLUMN_END_YEAR+" =?,"+ StockPart.COLUMN_QUANTITY +" =? "+" WHERE " +StockPart.COLUMN_PART_ID+ "=" +stockPart.getPartId();
         String[] values = {String.valueOf(stockPart.getPartName()),String.valueOf(stockPart.getPrice()),String.valueOf(stockPart.getThreshold()),
-                String.valueOf(stockPart.getManufacturer()),stockPart.getVehicleType(),stockPart.getStartYr(),stockPart.getEndYr()};
+                String.valueOf(stockPart.getManufacturer()),stockPart.getVehicleType(),stockPart.getStartYr(),stockPart.getEndYr(), String.valueOf(stockPart.getQuantity())};
 
         connectivity.writePrepared(sql, con, values);
         connectivity.closeConnection(con);

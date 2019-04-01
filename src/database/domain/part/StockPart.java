@@ -18,6 +18,7 @@ public class StockPart
     public static final String COLUMN_VEHICLE_TYPE = "vehicle_type";
     public static final String COLUMN_START_YEAR = "start_year";
     public static final String COLUMN_END_YEAR = "end_year";
+    public static final String COLUMN_QUANTITY = "quantity";
 
     //  Columns indexes.
     public static final int INDEX_PART_ID = 1;
@@ -28,12 +29,13 @@ public class StockPart
     public static final int INDEX_VEHICLE_TYPE = 6;
     public static final int INDEX_START_YEAR = 7;
     public static final int INDEX_END_YEAR = 8;
+    public static final int INDEX_QUANTITY = 9;
 
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_STOCK_PART = "CREATE TABLE " + TABLE_STOCK_PART + " (" + COLUMN_PART_ID + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_PART_NAME + " varchar(50) NOT NULL, " + COLUMN_PRICE + " float(10) NOT NULL, " + COLUMN_LOW_THRES + " integer(10) NOT NULL, " +
             "" + COLUMN_MANUFACTURER + " varchar(50) NOT NULL, " + COLUMN_VEHICLE_TYPE + " varchar(50) NOT NULL, " +
-            "" + COLUMN_START_YEAR + " varchar(4) NOT NULL, " + COLUMN_END_YEAR + " varchar(4) NOT NULL);";
+            "" + COLUMN_START_YEAR + " varchar(4) NOT NULL, " + COLUMN_END_YEAR + " varchar(4) NOT NULL, " + COLUMN_QUANTITY + " integer(10) NOT NULL);";
 
     //  Properties
     private int partId;
@@ -44,12 +46,13 @@ public class StockPart
     private String vehicleType;
     private String startYr;
     private String endYr;
+    private int quantity;
     private ArrayList<Task> tasks;
     private ArrayList<StockPartOrder> stockPartOrders;
 
     public StockPart(){}
 
-    public StockPart(int partId, String partName, float price, int threshold, String manufacturer, String vehicleType, String startYr, String endYr) {
+    public StockPart(int partId, String partName, float price, int threshold, String manufacturer, String vehicleType, String startYr, String endYr, int quantity) {
         this.partId = partId;
         this.partName = partName;
         this.price = price;
@@ -58,9 +61,7 @@ public class StockPart
         this.vehicleType = vehicleType;
         this.startYr = startYr;
         this.endYr = endYr;
-
-
-
+        this.quantity = quantity;
     }
 
     //--------Getters and Setters--------
@@ -144,5 +145,13 @@ public class StockPart
 
     public void setStockPartOrders(ArrayList<StockPartOrder> stockPartOrders) {
         this.stockPartOrders = stockPartOrders;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
