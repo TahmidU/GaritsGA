@@ -9,6 +9,7 @@ import util.DBDateHelper;
 import util.Log;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -45,12 +46,18 @@ public class JobSheetDAO implements IJobSheet
         ResultSet rs = connectivity.read(sql,con);
         try {
             while (rs.next()) {
+                String dateComplete = rs.getString(JobSheet.INDEX_DATE_COMPLETED);
+                Date date = null;
+                if(dateComplete != null)
+                {
+                    date = DBDateHelper.parseDate(dateComplete);
+                }
                 jobSheets.add(new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
                         rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID),
                         rs.getString(JobSheet.INDEX_PROBLEM_DESC),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
                         rs.getString(JobSheet.INDEX_STATUS),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED))));
+                       date));
             }
             Log.write("DAO: Query successful.");
         }catch (SQLException e)
@@ -218,10 +225,35 @@ public class JobSheetDAO implements IJobSheet
         String sql = "INSERT INTO " + JobSheet.TABLE_JOB_SHEET + "( "
                 + JobSheet.COLUMN_STAFF_ID + "," + JobSheet.COLUMN_VEHICLE_REG + "," + JobSheet.COLUMN_BOOKING_ID
                 + "," + JobSheet.COLUMN_PROBLEM_DESC + "," + JobSheet.COLUMN_DATE_CREATED + "," + JobSheet.COLUMN_STATUS + "," +
-                "," + JobSheet.COLUMN_DATE_COMPLETED + ")" + " VALUES(?,?,?,?,?,?,?)";
+                JobSheet.COLUMN_DATE_COMPLETED + ")" + " VALUES(?,?,?,?,?,?,?)";
+        System.out.println(sql);
         String[] values = {Integer.toString(jobSheet.getStaffId()), jobSheet.getVehicleReg(),
          Integer.toString(jobSheet.getBookingId()), jobSheet.getProblemDesc(), String.valueOf(jobSheet.getDateCreated()),
          jobSheet.getStatus(), String.valueOf(jobSheet.getDateCompleted())};
+
+        connectivity.writePrepared(sql, con, values);
+
+        connectivity.closeConnection(con);
+    }
+
+    public void saveWithoutDate(JobSheet jobSheet)
+    {
+        con = connectivity.connect(DBHelper.DB_DRIVER);
+        try {
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            Log.write("DAO: Failed to set auto commit to false.");
+            e.printStackTrace();
+        }
+
+        String sql = "INSERT INTO " + JobSheet.TABLE_JOB_SHEET + "( "
+                + JobSheet.COLUMN_STAFF_ID + "," + JobSheet.COLUMN_VEHICLE_REG + "," + JobSheet.COLUMN_BOOKING_ID
+                + "," + JobSheet.COLUMN_PROBLEM_DESC + "," + JobSheet.COLUMN_DATE_CREATED + "," + JobSheet.COLUMN_STATUS +
+                ")" + " VALUES(?,?,?,?,?,?)";
+        System.out.println(sql);
+        String[] values = {Integer.toString(jobSheet.getStaffId()), jobSheet.getVehicleReg(),
+                Integer.toString(jobSheet.getBookingId()), jobSheet.getProblemDesc(), String.valueOf(jobSheet.getDateCreated()),
+                jobSheet.getStatus()};
 
         connectivity.writePrepared(sql, con, values);
 

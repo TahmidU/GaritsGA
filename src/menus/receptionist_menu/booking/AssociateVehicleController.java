@@ -6,6 +6,7 @@
 package menus.receptionist_menu.booking;
 
 import database.dao.account.CustomerAccDAO;
+import database.dao.job.BookingDAO;
 import database.dao.job.VehicleDAO;
 import database.domain.account.CustomerAcc;
 import database.domain.job.Booking;
@@ -27,7 +28,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -170,6 +170,12 @@ public class AssociateVehicleController implements Initializable {
             Vehicle tmp = new Vehicle(selectedBooking.getVehicleRegistrationNumber(), selectedCustomer.getNationalInsurance(),
                     null, null, null , null, null);
             vDAO.save(tmp);
+            
+            BookingDAO bDAO = new BookingDAO();
+            Booking bookingTMP = new Booking(selectedBooking.getId(), selectedBooking.getJobType(), selectedBooking.getDateBooked(),
+            selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getFirstName(), selectedBooking.getLastName(),
+            "Yes");
+            bDAO.update(bookingTMP);
             back(event);
         }
     }

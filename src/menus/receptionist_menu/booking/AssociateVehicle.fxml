@@ -21,53 +21,53 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label layoutX="42.0" layoutY="5.0" prefHeight="37.0" prefWidth="210.0" text="Customer New Details">
+                              <Label layoutX="42.0" layoutY="5.0" prefHeight="37.0" prefWidth="210.0" text="Add New Customer ">
                                  <font>
                                     <Font name="Tahoma Bold" size="18.0" />
                                  </font>
                               </Label>
                               <Separator layoutX="11.0" layoutY="38.0" prefHeight="4.0" prefWidth="255.0" />
-                              <Label layoutX="27.0" layoutY="69.0" prefHeight="25.0" prefWidth="78.0" text="First Name">
+                              <Label layoutX="24.0" layoutY="53.0" prefHeight="25.0" prefWidth="78.0" text="First Name">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="firstNameText" layoutX="25.0" layoutY="94.0" />
-                              <Label layoutX="210.0" layoutY="69.0" prefHeight="25.0" prefWidth="78.0" text="Last Name">
+                              <TextField fx:id="firstNameText" layoutX="22.0" layoutY="78.0" />
+                              <Label layoutX="207.0" layoutY="53.0" prefHeight="25.0" prefWidth="78.0" text="Last Name">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="lastNameText" layoutX="210.0" layoutY="94.0" />
-                              <Label layoutX="29.0" layoutY="125.0" prefHeight="25.0" prefWidth="116.0" text="Phone Number">
+                              <TextField fx:id="lastNameText" layoutX="207.0" layoutY="78.0" />
+                              <Label layoutX="26.0" layoutY="109.0" prefHeight="25.0" prefWidth="116.0" text="Phone Number">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="phoneText" layoutX="25.0" layoutY="150.0" />
-                              <Label layoutX="212.0" layoutY="125.0" prefHeight="25.0" prefWidth="118.0" text="Email">
+                              <TextField fx:id="phoneText" layoutX="22.0" layoutY="134.0" />
+                              <Label layoutX="209.0" layoutY="109.0" prefHeight="25.0" prefWidth="118.0" text="Email">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="emailText" layoutX="210.0" layoutY="150.0" />
-                              <Label layoutX="29.0" layoutY="188.0" prefHeight="25.0" prefWidth="206.0" text="National Insurance Number">
+                              <TextField fx:id="emailText" layoutX="207.0" layoutY="134.0" />
+                              <Label layoutX="26.0" layoutY="172.0" prefHeight="25.0" prefWidth="206.0" text="National Insurance Number">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="nationalInsuranceText" layoutX="27.0" layoutY="213.0" prefHeight="25.0" prefWidth="236.0" />
-                              <Label layoutX="29.0" layoutY="245.0" prefHeight="25.0" prefWidth="116.0" text="Address">
+                              <TextField fx:id="nationalInsuranceText" layoutX="24.0" layoutY="197.0" prefHeight="25.0" prefWidth="236.0" />
+                              <Label layoutX="26.0" layoutY="229.0" prefHeight="25.0" prefWidth="116.0" text="Address">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="237.0" layoutY="245.0" prefHeight="25.0" prefWidth="118.0" text="Postcode">
+                              <Label layoutX="234.0" layoutY="229.0" prefHeight="25.0" prefWidth="118.0" text="Postcode">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="postcodeText" layoutX="236.0" layoutY="270.0" prefHeight="25.0" prefWidth="137.0" />
+                              <TextField fx:id="postcodeText" layoutX="233.0" layoutY="254.0" prefHeight="25.0" prefWidth="137.0" />
                               <Separator layoutX="377.0" layoutY="7.0" orientation="VERTICAL" prefHeight="531.0" prefWidth="13.0" />
                               <Label fx:id="missingDetailsError" layoutX="212.0" layoutY="428.0" prefHeight="35.0" prefWidth="146.0" textFill="RED" wrapText="true" />
                               <Button layoutX="268.0" layoutY="473.0" mnemonicParsing="false" onAction="#addCustomerSavePress" prefHeight="45.0" prefWidth="84.0" text="Add Customer" textAlignment="CENTER" wrapText="true" />
@@ -87,7 +87,7 @@
                               <TextField fx:id="searchBar" layoutX="421.0" layoutY="364.0" onAction="#search" />
                               <Button layoutX="683.0" layoutY="473.0" mnemonicParsing="false" onAction="#associateVehiclePress" prefHeight="45.0" prefWidth="84.0" text="Associate Vehicle" textAlignment="CENTER" wrapText="true" />
                               <Label fx:id="noCustomerSelectedError" layoutX="617.0" layoutY="428.0" prefHeight="35.0" prefWidth="146.0" textFill="RED" wrapText="true" />
-                              <TextField fx:id="addressText" alignment="TOP_LEFT" layoutX="27.0" layoutY="270.0" prefHeight="126.0" prefWidth="201.0" />
+                              <TextField fx:id="addressText" alignment="TOP_LEFT" layoutX="24.0" layoutY="254.0" prefHeight="146.0" prefWidth="201.0" />
                            </children>
                         </AnchorPane>
                      </content>

@@ -40,8 +40,6 @@ public class EditCustomerController implements Initializable {
     @FXML
     private TextField emailText;
     @FXML
-    private TextField nationalInsuranceText;
-    @FXML
     private TextField postcodeText;
     @FXML
     private TextField addressText;
@@ -68,7 +66,6 @@ public class EditCustomerController implements Initializable {
         lastNameText.setText(selectedCustomer.getLastName());
         phoneText.setText(selectedCustomer.getPhoneNumber());
         emailText.setText(selectedCustomer.getEmail());
-        nationalInsuranceText.setText(selectedCustomer.getNationalInsurance());
         postcodeText.setText(selectedCustomer.getPostCode());
         addressText.setText(selectedCustomer.getAddressLine());
     }
@@ -80,7 +77,7 @@ public class EditCustomerController implements Initializable {
 
         ReceptionistMenuController controller = loader.getController();
         controller.setLoggedInName(loggedInAsText.getText());
-        controller.switchTab(2);
+        controller.switchTab(5);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
@@ -92,17 +89,11 @@ public class EditCustomerController implements Initializable {
         CustomerAccDAO caDAO = new CustomerAccDAO();
 
         if (firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty() || phoneText.getText().isEmpty()
-                || emailText.getText().isEmpty() || nationalInsuranceText.getText().isEmpty() || addressText.getText().isEmpty()
-                || postcodeText.getText().isEmpty()) {
+                || emailText.getText().isEmpty() || addressText.getText().isEmpty() || postcodeText.getText().isEmpty()) {
 
             missingDetailsError.setText("Missing Details");
-        } else if ((!nationalInsuranceText.getText().equals(selectedCustomer.getNationalInsurance()))
-                && caDAO.getByNI(nationalInsuranceText.getText()) != null) {
-            
-            missingDetailsError.setText("National Insurance Number Already Exists");
         } else {
-            //problem here-------------------------------------------------------------------
-            CustomerAcc tmp = new CustomerAcc(nationalInsuranceText.getText(), firstNameText.getText(), lastNameText.getText(), addressText.getText(), postcodeText.getText(),
+            CustomerAcc tmp = new CustomerAcc(selectedCustomer.getNationalInsurance(), firstNameText.getText(), lastNameText.getText(), addressText.getText(), postcodeText.getText(),
                     emailText.getText(), phoneText.getText());
             caDAO.update(tmp);
             back(event);

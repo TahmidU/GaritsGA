@@ -8,8 +8,8 @@ import database.domain.account.CustomerAcc;
 
 import java.util.ArrayList;
 
-public class Vehicle
-{
+public class Vehicle {
+
     //  Table name and name of all columns.
     public static final String TABLE_VEHICLE = "vehicle";
     public static final String COLUMN_VEHICLE_REG = "registration_number";
@@ -30,12 +30,12 @@ public class Vehicle
     public static final int INDEX_COLOR = 7;
 
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_VEHICLE = "CREATE TABLE " + TABLE_VEHICLE + " (" + COLUMN_VEHICLE_REG + " varchar(7) NOT NULL, " +
-        "" + COLUMN_NI + " varchar(9) NOT NULL, " + COLUMN_MAKE + " varchar(50), " +
-        "" + COLUMN_MODEL + " varchar(50), " + COLUMN_ENGINE_SERIAL + " varchar(11) UNIQUE, " +
-        "" + COLUMN_CHASSIS_NUM + " varchar(11) UNIQUE, " + COLUMN_COLOR + " varchar(10), " +
-        "PRIMARY KEY (" + COLUMN_VEHICLE_REG + "), FOREIGN KEY(" + COLUMN_NI + ") " +
-        "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + ")"+ DBHelper.ON_UPDATE+");";
+    public static final String CREATE_TABLE_VEHICLE = "CREATE TABLE " + TABLE_VEHICLE + " (" + COLUMN_VEHICLE_REG + " varchar(7) NOT NULL, "
+            + "" + COLUMN_NI + " varchar(9) NOT NULL, " + COLUMN_MAKE + " varchar(50), "
+            + "" + COLUMN_MODEL + " varchar(50), " + COLUMN_ENGINE_SERIAL + " varchar(11), "
+            + "" + COLUMN_CHASSIS_NUM + " varchar(11), " + COLUMN_COLOR + " varchar(10), "
+            + "PRIMARY KEY (" + COLUMN_VEHICLE_REG + "), FOREIGN KEY(" + COLUMN_NI + ") "
+            + "REFERENCES " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + "(" + CustomerAcc.COLUMN_NI + ")" + DBHelper.ON_UPDATE + ");";
 
     //  Properties
     private String vehicleRegistration;
@@ -49,7 +49,8 @@ public class Vehicle
     private ArrayList<JobSheet> jobSheets;
     private CustomerAcc customerAcc;
 
-    public Vehicle(){}
+    public Vehicle() {
+    }
 
     public Vehicle(String vehicleRegistration, String nationalInsurance, String make, String model, String engineSerial, String chassisNum, String color) {
         this.vehicleRegistration = vehicleRegistration;
@@ -143,5 +144,9 @@ public class Vehicle
 
     public void setCustomerAcc(CustomerAcc customerAcc) {
         this.customerAcc = customerAcc;
+    }
+
+    public String getVehicleName() {
+        return make + " " + model;
     }
 }

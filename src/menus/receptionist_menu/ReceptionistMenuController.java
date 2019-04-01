@@ -11,14 +11,22 @@ import menus.receptionist_menu.booking.EditBookingController;
 import menus.receptionist_menu.booking.MakeBookingController;
 import database.dao.account.CustomerAccDAO;
 import database.dao.job.BookingDAO;
+import database.dao.job.JobSheetDAO;
 import database.dao.job.VehicleDAO;
+import database.dao.part.StockPartDAO;
+import database.dao.payment.InvoiceDAO;
 import database.domain.account.CustomerAcc;
 import database.domain.job.Booking;
+import database.domain.job.JobSheet;
 import database.domain.job.Vehicle;
+import database.domain.part.StockPart;
+import database.domain.payment.Invoice;
 import garits.MainGUIController;
+import garits.singleton.BookingSingleton;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
@@ -37,12 +45,17 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import menus.receptionist_menu.customer.EditCustomerController;
 import menus.receptionist_menu.customer.ViewCustomerController;
 import menus.receptionist_menu.vehicle.AddVehicleController;
+import menus.receptionist_menu.vehicle.EditVehicleController;
+import menus.receptionist_menu.vehicle.ViewVehicleController;
+import util.DBDateHelper;
 
 /**
  * FXML Controller class
@@ -52,13 +65,28 @@ import menus.receptionist_menu.vehicle.AddVehicleController;
 public class ReceptionistMenuController implements Initializable {
 
     BookingDAO bDAO;
+    ObservableList<Booking> bookingData;
+
+    JobSheetDAO jsDAO;
+    ObservableList<JobSheet> jobData;
+
+    InvoiceDAO iDAO;
+    ObservableList<Invoice> invoiceData;
+
+    StockPartDAO spDAO;
+    ObservableList<StockPart> partData;
+
     CustomerAccDAO caDAO;
+    ObservableList<CustomerAcc> customerData;
+
     VehicleDAO vDAO;
+    ObservableList<Vehicle> vehicleData;
 
     @FXML
     private Label loggedInAsText;
     @FXML
     private TabPane receptionistTab;
+
     @FXML
     private TableView<Booking> bookingTable;
     @FXML
@@ -77,6 +105,31 @@ public class ReceptionistMenuController implements Initializable {
     private TableColumn<Booking, String> bookingCheckedInCol;
     @FXML
     private Label noBookingSelected;
+    @FXML
+    private Label bookingSuccessful;
+
+    @FXML
+    private TableView<JobSheet> jobTable;
+    @FXML
+    private TableColumn<JobSheet, Integer> jobNoCol;
+    @FXML
+    private TableColumn<JobSheet, Date> jobDateCheckedCol;
+    @FXML
+    private TableColumn<JobSheet, String> jobTypeCol;
+    @FXML
+    private TableColumn<JobSheet, String> jobVehicleRegCol;
+    @FXML
+    private TableColumn<JobSheet, String> jobMechanicCol;
+    @FXML
+    private TableColumn<JobSheet, Date> jobDateCompletedCol;
+    @FXML
+    private TextField jobStatusText;
+    @FXML
+    private TextField jobProblemText;
+    @FXML
+    private Label noJobSelected;
+    @FXML
+    private Label jobSuccessful;
 
     @FXML
     private TableView<CustomerAcc> customerTable;
@@ -114,7 +167,7 @@ public class ReceptionistMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         bDAO = new BookingDAO();
-        ObservableList<Booking> bookingData = FXCollections.observableArrayList(bDAO.getAll());
+        bookingData = FXCollections.observableArrayList(bDAO.getAll());
 
         bookingIDCol.setCellValueFactory(new PropertyValueFactory<Booking, Integer>("id"));
         bookingDateBookedCol.setCellValueFactory(new PropertyValueFactory<Booking, Date>("dateBooked"));
@@ -126,8 +179,43 @@ public class ReceptionistMenuController implements Initializable {
 
         bookingTable.setItems(bookingData);
 
+        jsDAO = new JobSheetDAO();
+        jobData = FXCollections.observableArrayList(jsDAO.getAll());
+
+        jobNoCol.setCellValueFactory(new PropertyValueFactory<JobSheet, Integer>("jobNum"));
+        jobDateCheckedCol.setCellValueFactory(new PropertyValueFactory<JobSheet, Date>("dateCreated"));
+        jobTypeCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<JobSheet, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<JobSheet, String> jobTypeCol) {
+                return new ReadOnlyStringWrapper(jobTypeCol.getValue().getBooking().getJobType());
+            }
+        });
+        jobVehicleRegCol.setCellValueFactory(new PropertyValueFactory<JobSheet, String>("vehicleReg"));
+
+        jobMechanicCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<JobSheet, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<JobSheet, String> jobMechanicCol) {
+                if (jobMechanicCol.getValue().getStaff() == null) {
+                    return new ReadOnlyStringWrapper(null);
+                } else {
+                    return new ReadOnlyStringWrapper(jobMechanicCol.getValue().getStaff().getFullName());
+                }
+            }
+        });
+        jobDateCompletedCol.setCellValueFactory(new PropertyValueFactory<JobSheet, Date>("dateCompleted"));
+
+        jobTable.setItems(jobData);
+
+        iDAO = new InvoiceDAO();
+        invoiceData = FXCollections.observableArrayList(iDAO.getAll());
+
+        //invoiceTable.setItems(invoiceData);
+        spDAO = new StockPartDAO();
+        partData = FXCollections.observableArrayList(spDAO.getAll());
+
+        //partTable.setItems(partData);
         caDAO = new CustomerAccDAO();
-        ObservableList<CustomerAcc> customerData = FXCollections.observableArrayList(caDAO.getAll());
+        customerData = FXCollections.observableArrayList(caDAO.getAll());
 
         customerNationalInsuranceCol.setCellValueFactory(new PropertyValueFactory<CustomerAcc, String>("nationalInsurance"));
         customerFirstNameCol.setCellValueFactory(new PropertyValueFactory<CustomerAcc, String>("firstName"));
@@ -138,7 +226,7 @@ public class ReceptionistMenuController implements Initializable {
         customerTable.setItems(customerData);
 
         vDAO = new VehicleDAO();
-        ObservableList<Vehicle> vehicleData = FXCollections.observableArrayList(vDAO.getAll());
+        vehicleData = FXCollections.observableArrayList(vDAO.getAll());
 
         vehicleRegCol.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleRegistration"));
         vehicleMakeCol.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("make"));
@@ -185,6 +273,7 @@ public class ReceptionistMenuController implements Initializable {
         selectedBooking = bookingTable.getSelectionModel().getSelectedItem();
 
         if (selectedBooking == null) {
+            bookingSuccessful.setText("");
             noBookingSelected.setText("No Booking Selected.");
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/booking/EditBooking.fxml"));
@@ -223,32 +312,122 @@ public class ReceptionistMenuController implements Initializable {
         selectedBooking = bookingTable.getSelectionModel().getSelectedItem();
 
         if (selectedBooking == null) {
+            bookingSuccessful.setText("");
             noBookingSelected.setText("No Booking Selected.");
-        } else {
-            if (vDAO.getByRegNum(selectedBooking.getVehicleRegistrationNumber()) == null) {
-                MainGUIController guiController = new MainGUIController();
-                guiController.popupConfirmation(event, "Vehicle does not exist in database, a blank record will be created and a customer account will need to be associated. Continue?");
 
-                if (guiController.popupController.getConfirm()) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/booking/AssociateVehicle.fxml"));
-                    Parent root = (Parent) loader.load();
+        } else if (vDAO.getByRegNum(selectedBooking.getVehicleRegistrationNumber()) == null) {
+            MainGUIController guiController = new MainGUIController();
+            guiController.popupConfirmation(event, "Vehicle does not exist in database, a blank record will be created and a customer account will need to be associated. Continue?");
 
-                    AssociateVehicleController controller = loader.getController();
-                    controller.setLoggedInName(loggedInAsText.getText());
-                    controller.setSelectedBooking(selectedBooking);
+            if (guiController.popupController.getConfirm()) {
+                BookingSingleton.getInstance().setBooking(selectedBooking);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/booking/AssociateVehicle.fxml"));
+                Parent root = (Parent) loader.load();
 
-                    Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    window.setScene(new Scene(root));
-                }
-            } else {
-                //MORE TO DO HERE
-                System.out.println("Vehicle detected.");
+                AssociateVehicleController controller = loader.getController();
+                controller.setLoggedInName(loggedInAsText.getText());
+                controller.setSelectedBooking(selectedBooking);
+
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setScene(new Scene(root));
             }
+        } else {
+            if (selectedBooking.getCheckIn().equals("No")) {
+
+                Booking bookingTMP = new Booking(selectedBooking.getId(), selectedBooking.getJobType(), selectedBooking.getDateBooked(),
+                        selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getFirstName(), selectedBooking.getLastName(),
+                        "Yes");
+                bDAO.update(bookingTMP);
+                bookingSuccessful.setText("Check-In Sucessful!");
+
+            } else {
+                Booking bookingTMP = new Booking(selectedBooking.getId(), selectedBooking.getJobType(), selectedBooking.getDateBooked(),
+                        selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getFirstName(), selectedBooking.getLastName(),
+                        "No");
+                bDAO.update(bookingTMP);
+                bookingSuccessful.setText("Check-In Undone!");
+            }
+            noBookingSelected.setText("");
+            bookingData = FXCollections.observableArrayList(bDAO.getAll());
+            bookingTable.setItems(bookingData);
         }
     }
 
     @FXML
     private void generateJobSheetPress(ActionEvent event) {
+        Booking selectedBooking = null;
+        selectedBooking = bookingTable.getSelectionModel().getSelectedItem();
+
+        if (selectedBooking == null) {
+            bookingSuccessful.setText("");
+            noBookingSelected.setText("No Booking Selected.");
+
+        } else if (selectedBooking.getCheckIn().equals("No")) {
+            bookingSuccessful.setText("");
+            noBookingSelected.setText("Booking Needs To Be Checked-In First.");
+
+        } else {
+            JobSheet jobTMP = new JobSheet(0, -1, selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getId(),
+                    "To be added by Mechanic", DBDateHelper.parseCurrentDate(), "To be added by Mechanic", null);
+            jsDAO.saveWithoutDate(jobTMP);
+
+            jobData = FXCollections.observableArrayList(jsDAO.getAll());
+            jobTable.setItems(jobData);
+            bookingSuccessful.setText("Job Sheet Successfuly Generated!");
+        }
+    }
+
+    /*
+    -----------------------------------------------Job Section------------------------------------------------------------
+     */
+    @FXML
+    private void editJobPress(ActionEvent event) {
+    }
+
+    @FXML
+    private void deleteJobPress(ActionEvent event) {
+    }
+
+    @FXML
+    private void viewJobPress(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void generateInvoicePress(ActionEvent event) {
+    }
+
+    @FXML
+    private void jobViewingDescription(MouseEvent event) {
+        JobSheet selectedJob = null;
+        selectedJob = jobTable.getSelectionModel().getSelectedItem();
+
+        if (selectedJob == null) {
+            jobStatusText.setText("");
+            jobProblemText.setText("");
+        } else {
+            jobStatusText.setText(selectedJob.getStatus());
+            jobProblemText.setText(selectedJob.getProblemDesc());
+        }
+    }
+
+    /*
+    -----------------------------------------------Invoice Section------------------------------------------------------------
+     */
+    @FXML
+    private void editInvoicePress(ActionEvent event) throws IOException {
+    }
+
+    @FXML
+    private void deleteInvoicePress(ActionEvent event) throws IOException {
+    }
+
+    @FXML
+    private void viewInvoicePress(ActionEvent event) throws IOException {
+    }
+
+    @FXML
+    private void invoicePlaceholder(ActionEvent event) throws IOException {
     }
 
     /*
@@ -295,11 +474,24 @@ public class ReceptionistMenuController implements Initializable {
             noCustomerSelected.setText("No Customer Selected.");
         } else {
             MainGUIController guiController = new MainGUIController();
-            guiController.popupConfirmation(event, "Are you sure you want to remove this customer?");
+            guiController.popupConfirmation(event, "Are you sure you want to remove this customer? All associated vehicles will be removed as well.");
 
             if (guiController.popupController.getConfirm()) {
+
+                //Delete customer's vehicles first
+                ArrayList<Vehicle> vehicles = vDAO.getByNI(selectedCustomer.getNationalInsurance());
+                for (int i = 0; i < vehicles.size(); ++i) {
+                    vDAO.delete(vehicles.get(i));
+                }
+
+                //refresh vehicle table
+                vehicleData = FXCollections.observableArrayList(vDAO.getAll());
+                vehicleTable.setItems(vehicleData);
+
+                //finally deletes customer
                 customerTable.getItems().remove(selectedCustomer);
                 caDAO.delete(selectedCustomer);
+
             }
         }
     }
@@ -340,7 +532,23 @@ public class ReceptionistMenuController implements Initializable {
     }
 
     @FXML
-    private void editVehiclePress(ActionEvent event) {
+    private void editVehiclePress(ActionEvent event) throws IOException {
+        Vehicle selectedVehicle = null;
+        selectedVehicle = vehicleTable.getSelectionModel().getSelectedItem();
+
+        if (selectedVehicle == null) {
+            noVehicleSelected.setText("No Vehicle Selected.");
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/vehicle/EditVehicle.fxml"));
+            Parent root = (Parent) loader.load();
+
+            EditVehicleController controller = loader.getController();
+            controller.setLoggedInName(loggedInAsText.getText());
+            controller.setSelectedVehicle(selectedVehicle);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     @FXML
@@ -369,15 +577,15 @@ public class ReceptionistMenuController implements Initializable {
         if (selectedVehicle == null) {
             noVehicleSelected.setText("No Vehicle Selected.");
         } else {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/vehicle/ViewVehicle.fxml"));
-//            Parent root = (Parent) loader.load();
-//
-//            ViewCustomerController controller = loader.getController();
-//            controller.setLoggedInName(loggedInAsText.getText());
-//            controller.setSelectedVehicle(selectedVehicle);
-//
-//            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//            window.setScene(new Scene(root));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/vehicle/ViewVehicle.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ViewVehicleController controller = loader.getController();
+            controller.setLoggedInName(loggedInAsText.getText());
+            controller.setSelectedVehicle(selectedVehicle);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
         }
     }
 
@@ -390,19 +598,6 @@ public class ReceptionistMenuController implements Initializable {
         if (guiController.popupController.getConfirm()) {
             guiController.logOut(event);
         }
-    }
-
-    @FXML
-    private void TEST(ActionEvent event) {
-        Booking selectedBooking = bookingTable.getSelectionModel().getSelectedItem();
-//        
-//        VehicleDAO vDAO = new VehicleDAO();
-//        
-//        ArrayList<Vehicle> vehicles = vDAO.getAll();
-//        for (int i = 0; i < 1; ++i) {
-//            System.out.println(vehicles.get(i).getCustomerAcc().getFirstName());
-//        }
-        System.out.println(selectedBooking.getVehicle().getVehicleRegistration());
     }
 
 }

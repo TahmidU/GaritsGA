@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="menus.receptionist_menu.customer.ViewCustomerController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menus.receptionist_menu.customer.ViewCustomerController">
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -72,10 +71,10 @@
                               <TextField fx:id="postcodeText" editable="false" layoutX="309.0" layoutY="321.0" />
                               <Button layoutX="46.0" layoutY="473.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
                               <Label layoutX="510.0" layoutY="65.0" prefHeight="58.0" prefWidth="143.0" text="Additional Info here" />
-                              <TableView layoutX="486.0" layoutY="298.0" prefHeight="193.0" prefWidth="294.0">
+                              <TableView fx:id="vehicleTable" layoutX="486.0" layoutY="298.0" prefHeight="193.0" prefWidth="294.0">
                                 <columns>
-                                  <TableColumn prefWidth="155.0" text="Vehicle" />
-                                  <TableColumn prefWidth="138.0" text="C2" />
+                                  <TableColumn fx:id="vehicleNameCol" prefWidth="150.0" text="Vehicle" />
+                                  <TableColumn fx:id="vehicleRegCol" prefWidth="143.0" text="Vehicle Reg. No" />
                                 </columns>
                               </TableView>
                            </children>

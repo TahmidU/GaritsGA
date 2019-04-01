@@ -7,8 +7,8 @@ import database.domain.payment.OutstandingBalance;
 
 import java.util.ArrayList;
 
-public class Staff
-{
+public class Staff {
+
     //  Table name and name of all columns.
     public static final String TABLE_STAFF = "staff";
     public static final String COLUMN_ID = "id";
@@ -19,7 +19,6 @@ public class Staff
     public static final String COLUMN_PHONE_NUM = "phone_number";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_TYPE = "type";
-
 
     //  Columns indexes.
     public static final int INDEX_ID = 1;
@@ -37,11 +36,11 @@ public class Staff
     public static final String FOREPERSON = "Foreperson";
     public static final String MECHANIC = "Mechanic";
     public static final String RECEPTIONIST = "Receptionist";
-    
+
     //  Create Table SQL Statement.
-    public static final String CREATE_TABLE_STAFF = "CREATE TABLE " + TABLE_STAFF + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " + COLUMN_USER_NAME + " varchar(15) NOT NULL," +
-            COLUMN_PASSWORD + " varchar(15) NOT NULL," + COLUMN_FIRST_NAME + " varchar(30) NOT NULL, " + COLUMN_LAST_NAME + " varchar(30) NOT NULL, " + COLUMN_PHONE_NUM + " varchar(11), " +
-            "" + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_TYPE + " varchar(15) NOT NULL);";
+    public static final String CREATE_TABLE_STAFF = "CREATE TABLE " + TABLE_STAFF + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " + COLUMN_USER_NAME + " varchar(15) NOT NULL,"
+            + COLUMN_PASSWORD + " varchar(15) NOT NULL," + COLUMN_FIRST_NAME + " varchar(30) NOT NULL, " + COLUMN_LAST_NAME + " varchar(30) NOT NULL, " + COLUMN_PHONE_NUM + " varchar(11), "
+            + "" + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_TYPE + " varchar(15) NOT NULL);";
 
     //  Properties
     private int id;
@@ -55,10 +54,10 @@ public class Staff
     private ArrayList<JobSheet> jobSheets;
     private ArrayList<OutstandingBalance> outstandingBalances;
 
-    public Staff(){}
+    public Staff() {
+    }
 
-    public Staff(int id, String userName, String password, String firstName, String lastName, String phoneNum, String email, String type)
-    {
+    public Staff(int id, String userName, String password, String firstName, String lastName, String phoneNum, String email, String type) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -67,7 +66,6 @@ public class Staff
         this.phoneNum = phoneNum;
         this.email = email;
         this.type = type;
-
 
     }
 
@@ -152,5 +150,9 @@ public class Staff
 
     public void setOutstandingBalances(ArrayList<OutstandingBalance> outstandingBalances) {
         this.outstandingBalances = outstandingBalances;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 }

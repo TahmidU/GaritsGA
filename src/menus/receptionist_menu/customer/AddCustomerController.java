@@ -68,7 +68,7 @@ public class AddCustomerController implements Initializable {
 
         ReceptionistMenuController controller = loader.getController();
         controller.setLoggedInName(loggedInAsText.getText());
-        controller.switchTab(2);
+        controller.switchTab(5);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));

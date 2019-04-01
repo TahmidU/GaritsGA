@@ -5,11 +5,18 @@
  */
 package menus.receptionist_menu.customer;
 
-import database.dao.account.CustomerAccDAO;
+import database.dao.job.VehicleDAO;
 import database.domain.account.CustomerAcc;
+import database.domain.job.JobSheet;
+import database.domain.job.Vehicle;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,8 +25,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import menus.receptionist_menu.ReceptionistMenuController;
 
 /**
@@ -47,13 +58,18 @@ public class ViewCustomerController implements Initializable {
     private TextField addressText;
     @FXML
     private Label loggedInAsText;
+    @FXML
+    private TableView<Vehicle> vehicleTable;
+    @FXML
+    private TableColumn<Vehicle, String> vehicleNameCol;
+    @FXML
+    private TableColumn<Vehicle, String> vehicleRegCol;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
     }
 
     public void setLoggedInName(String s) {
@@ -69,6 +85,19 @@ public class ViewCustomerController implements Initializable {
         nationalInsuranceText.setText(selectedCustomer.getNationalInsurance());
         postcodeText.setText(selectedCustomer.getPostCode());
         addressText.setText(selectedCustomer.getAddressLine());
+
+        VehicleDAO vDAO = new VehicleDAO();
+        ObservableList<Vehicle> vehicleData = FXCollections.observableArrayList(vDAO.getByNI(selectedCustomer.getNationalInsurance()));
+
+        vehicleNameCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Vehicle, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Vehicle, String> vehicleNameCol) {
+                return new ReadOnlyStringWrapper(vehicleNameCol.getValue().getVehicleName());
+            }
+        });
+        vehicleRegCol.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleRegistration"));
+
+        vehicleTable.setItems(vehicleData);
     }
 
     private void back(ActionEvent event) throws IOException {
@@ -78,7 +107,7 @@ public class ViewCustomerController implements Initializable {
 
         ReceptionistMenuController controller = loader.getController();
         controller.setLoggedInName(loggedInAsText.getText());
-        controller.switchTab(2);
+        controller.switchTab(5);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));

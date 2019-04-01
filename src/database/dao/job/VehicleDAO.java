@@ -70,7 +70,7 @@ public class VehicleDAO implements IVehicle {
         String sql = "SELECT * FROM " + Vehicle.TABLE_VEHICLE + " WHERE " + Vehicle.COLUMN_VEHICLE_REG +
                 "='" + regNum + "'";
 
-
+        vehicle = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

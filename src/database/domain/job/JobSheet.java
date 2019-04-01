@@ -32,8 +32,7 @@ public class JobSheet
     public static final int INDEX_PROBLEM_DESC = 5;
     public static final int INDEX_DATE_CREATED = 6;
     public static final int INDEX_STATUS = 7;
-    public static final int INDEX_ALLOCATION_DATE = 8;
-    public static final int INDEX_DATE_COMPLETED = 9;
+    public static final int INDEX_DATE_COMPLETED = 8;
 
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_JOB_SHEET = "CREATE TABLE " + TABLE_JOB_SHEET + " (" + COLUMN_JOB_NUM + " INTEGER NOT NULL PRIMARY KEY , " +
@@ -73,10 +72,6 @@ public class JobSheet
         this.dateCreated = dateCreated;
         this.status = status;
         this.dateCompleted = dateCompleted;
-
-
-
-
     }
 
     //--------Getters and Setters--------
