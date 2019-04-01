@@ -46,8 +46,10 @@ public class JobSheetDAO implements IJobSheet
         try {
             while (rs.next()) {
                 jobSheets.add(new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
-                        rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)), rs.getString(JobSheet.INDEX_STATUS), DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_ALLOCATION_DATE)),
+                        rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID),
+                        rs.getString(JobSheet.INDEX_PROBLEM_DESC),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
+                        rs.getString(JobSheet.INDEX_STATUS),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED))));
             }
             Log.write("DAO: Query successful.");
@@ -82,8 +84,10 @@ public class JobSheetDAO implements IJobSheet
             while(rs.next())
             {
                 jobSheet = new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
-                        rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)), rs.getString(JobSheet.INDEX_STATUS), DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_ALLOCATION_DATE)),
+                        rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID),
+                        rs.getString(JobSheet.INDEX_PROBLEM_DESC),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
+                        rs.getString(JobSheet.INDEX_STATUS),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED)));
             }
         }catch (SQLException e)
@@ -117,7 +121,8 @@ public class JobSheetDAO implements IJobSheet
             {
                 jobSheets.add(new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
                         rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)), rs.getString(JobSheet.INDEX_STATUS), DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_ALLOCATION_DATE)),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
+                        rs.getString(JobSheet.INDEX_STATUS),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED))));
             }
         }catch (SQLException e)
@@ -150,7 +155,8 @@ public class JobSheetDAO implements IJobSheet
             {
                 jobSheets.add(new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
                         rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)), rs.getString(JobSheet.INDEX_STATUS), DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_ALLOCATION_DATE)),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
+                        rs.getString(JobSheet.INDEX_STATUS),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED))));
             }
         }catch (SQLException e)
@@ -184,7 +190,8 @@ public class JobSheetDAO implements IJobSheet
             {
                 jobSheet = new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
                         rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)), rs.getString(JobSheet.INDEX_STATUS), DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_ALLOCATION_DATE)),
+                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
+                        rs.getString(JobSheet.INDEX_STATUS),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED)));
             }
         }catch (SQLException e)
@@ -211,10 +218,10 @@ public class JobSheetDAO implements IJobSheet
         String sql = "INSERT INTO " + JobSheet.TABLE_JOB_SHEET + "( "
                 + JobSheet.COLUMN_STAFF_ID + "," + JobSheet.COLUMN_VEHICLE_REG + "," + JobSheet.COLUMN_BOOKING_ID
                 + "," + JobSheet.COLUMN_PROBLEM_DESC + "," + JobSheet.COLUMN_DATE_CREATED + "," + JobSheet.COLUMN_STATUS + "," +
-                JobSheet.COLUMN_ALLOCATION_DATE + "," + JobSheet.COLUMN_DATE_COMPLETED + ")" + " VALUES(?,?,?,?,?,?,?,?)";
+                "," + JobSheet.COLUMN_DATE_COMPLETED + ")" + " VALUES(?,?,?,?,?,?,?)";
         String[] values = {Integer.toString(jobSheet.getStaffId()), jobSheet.getVehicleReg(),
          Integer.toString(jobSheet.getBookingId()), jobSheet.getProblemDesc(), String.valueOf(jobSheet.getDateCreated()),
-         jobSheet.getStatus(), String.valueOf(jobSheet.getAllocationDate()), String.valueOf(jobSheet.getDateCompleted())};
+         jobSheet.getStatus(), String.valueOf(jobSheet.getDateCompleted())};
 
         connectivity.writePrepared(sql, con, values);
 
@@ -234,13 +241,13 @@ public class JobSheetDAO implements IJobSheet
 
         String sql = "UPDATE " + JobSheet.TABLE_JOB_SHEET + " SET " + JobSheet.COLUMN_STAFF_ID + " =?," +
                 JobSheet.COLUMN_VEHICLE_REG + " =?," + JobSheet.COLUMN_BOOKING_ID + " =?," + JobSheet.COLUMN_PROBLEM_DESC
-                + " =?," + JobSheet.COLUMN_DATE_CREATED + " =?," + JobSheet.COLUMN_STATUS + " =?," + JobSheet.COLUMN_ALLOCATION_DATE
-                + " =?," + JobSheet.COLUMN_DATE_COMPLETED + " =?" + " WHERE " + JobSheet.COLUMN_JOB_NUM +
+                + " =?," + JobSheet.COLUMN_DATE_CREATED + " =?," + JobSheet.COLUMN_STATUS + " =?,"
+                + JobSheet.COLUMN_DATE_COMPLETED + " =?" + " WHERE " + JobSheet.COLUMN_JOB_NUM +
                 " =" + jobSheet.getJobNum();
 
         String[] values = {Integer.toString(jobSheet.getStaffId()), jobSheet.getVehicleReg(),
         Integer.toString(jobSheet.getBookingId()), jobSheet.getProblemDesc(), String.valueOf(jobSheet.getDateCreated()),
-        jobSheet.getStatus(), String.valueOf(jobSheet.getAllocationDate()), String.valueOf(jobSheet.getDateCompleted())};
+        jobSheet.getStatus(), String.valueOf(jobSheet.getDateCompleted())};
 
         connectivity.writePrepared(sql, con, values);
 

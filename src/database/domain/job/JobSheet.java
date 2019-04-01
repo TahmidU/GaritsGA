@@ -22,7 +22,6 @@ public class JobSheet
     public static final String COLUMN_PROBLEM_DESC = "problem_desc";
     public static final String COLUMN_DATE_CREATED = "date_created";
     public static final String COLUMN_STATUS = "status";
-    public static final String COLUMN_ALLOCATION_DATE = "allocation_date";
     public static final String COLUMN_DATE_COMPLETED = "date_completed";
 
     //  Columns indexes.
@@ -40,7 +39,7 @@ public class JobSheet
     public static final String CREATE_TABLE_JOB_SHEET = "CREATE TABLE " + TABLE_JOB_SHEET + " (" + COLUMN_JOB_NUM + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_STAFF_ID + " integer(10), " + COLUMN_VEHICLE_REG + " varchar(7) NOT NULL, " +
             "" + COLUMN_BOOKING_ID + " integer(10) NOT NULL, " + COLUMN_PROBLEM_DESC + " varchar(1500) NOT NULL, " +
-            "" + COLUMN_DATE_CREATED + " date NOT NULL, " + COLUMN_STATUS + " varchar(255) NOT NULL, " + COLUMN_ALLOCATION_DATE + " date, " +
+            "" + COLUMN_DATE_CREATED + " date NOT NULL, " + COLUMN_STATUS + " varchar(255) NOT NULL, " +
             "" + COLUMN_DATE_COMPLETED + " date, FOREIGN KEY(" + COLUMN_VEHICLE_REG + ") " +
             "REFERENCES " + Vehicle.TABLE_VEHICLE + "(" + Vehicle.COLUMN_VEHICLE_REG + "), FOREIGN KEY(" + COLUMN_BOOKING_ID + ") " +
             "REFERENCES " + Booking.TABLE_BOOKING + "(" + Booking.COLUMN_ID + "), FOREIGN KEY(" + COLUMN_STAFF_ID + ") REFERENCES " + Staff.TABLE_STAFF + "(" + Staff.COLUMN_ID + ")"
@@ -54,7 +53,6 @@ public class JobSheet
     private String problemDesc;
     private Date dateCreated;
     private String status;
-    private Date allocationDate;
     private Date dateCompleted;
     private Staff staff;
     private Booking booking;
@@ -65,7 +63,8 @@ public class JobSheet
 
     public JobSheet(){}
 
-    public JobSheet(int jobNum, int staffId, String vehicleReg, int bookingId, String problemDesc, Date dateCreated, String status, Date allocationDate, Date dateCompleted) {
+    public JobSheet(int jobNum, int staffId, String vehicleReg, int bookingId, String problemDesc,
+                    Date dateCreated, String status, Date dateCompleted) {
         this.jobNum = jobNum;
         this.staffId = staffId;
         this.vehicleReg = vehicleReg;
@@ -73,7 +72,6 @@ public class JobSheet
         this.problemDesc = problemDesc;
         this.dateCreated = dateCreated;
         this.status = status;
-        this.allocationDate = allocationDate;
         this.dateCompleted = dateCompleted;
 
 
@@ -136,14 +134,6 @@ public class JobSheet
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Date getAllocationDate() {
-        return allocationDate;
-    }
-
-    public void setAllocationDate(Date allocationDate) {
-        this.allocationDate = allocationDate;
     }
 
     public Date getDateCompleted() {
