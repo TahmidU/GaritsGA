@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package menus.receptionist_menu;
+package menus.receptionist_menu.booking;
 
 import database.dao.account.CustomerAccDAO;
 import database.dao.job.VehicleDAO;
@@ -32,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import menus.receptionist_menu.ReceptionistMenuController;
 
 /**
  * FXML Controller class
@@ -58,7 +59,7 @@ public class AssociateVehicleController implements Initializable {
     @FXML
     private TextField nationalInsuranceText;
     @FXML
-    private TextArea addressText;
+    private TextField addressText;
     @FXML
     private TextField postcodeText;
     @FXML
@@ -90,6 +91,7 @@ public class AssociateVehicleController implements Initializable {
                 return new ReadOnlyStringWrapper(nameCol.getValue().getFullName());
             }
         });
+        
         associateTable.setItems(customerData);
     }
 
@@ -110,7 +112,7 @@ public class AssociateVehicleController implements Initializable {
 
         ReceptionistMenuController controller = loader.getController();
         controller.setLoggedInName(loggedInAsText.getText());
-        controller.switchTab();
+        controller.switchTab(1);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
@@ -165,8 +167,8 @@ public class AssociateVehicleController implements Initializable {
             noCustomerSelectedError.setText("No Customer Selected.");
         } else {
             VehicleDAO vDAO = new VehicleDAO();
-            Vehicle tmp = new Vehicle("test", "test",
-                    "N/A1", "N/A1", "N/A1" ,"N/A1", "N/A1");
+            Vehicle tmp = new Vehicle(selectedBooking.getVehicleRegistrationNumber(), selectedCustomer.getNationalInsurance(),
+                    null, null, null , null, null);
             vDAO.save(tmp);
             back(event);
         }

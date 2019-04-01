@@ -83,9 +83,9 @@
                               </Label>
                               <PasswordField fx:id="retypeText" layoutX="498.0" layoutY="277.0" />
                               <Label fx:id="passwordMatchError" layoutX="500.0" layoutY="303.0" prefHeight="24.0" prefWidth="146.0" textFill="RED" />
-                              <Label fx:id="missingDetailsError" layoutX="607.0" layoutY="410.0" prefHeight="24.0" prefWidth="146.0" textFill="RED" />
-                              <Button layoutX="657.0" layoutY="440.0" mnemonicParsing="false" onAction="#editAccountSavePress" prefHeight="45.0" prefWidth="84.0" text="Save" />
-                              <Button layoutX="57.0" layoutY="440.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
+                              <Label fx:id="missingDetailsError" layoutX="596.0" layoutY="442.0" prefHeight="24.0" prefWidth="146.0" textFill="RED" />
+                              <Button layoutX="657.0" layoutY="473.0" mnemonicParsing="false" onAction="#editAccountSavePress" prefHeight="45.0" prefWidth="84.0" text="Save" />
+                              <Button layoutX="57.0" layoutY="473.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
                            </children>
                         </AnchorPane>
                      </content>

@@ -7,7 +7,10 @@ package garits;
 
 import database.dao.DBHelper;
 import database.dao.account.StaffDAO;
+import database.dao.job.VehicleDAO;
 import database.domain.account.Staff;
+import database.domain.job.Vehicle;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +25,16 @@ public class GARITS extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        
+        /*For removing vehicles in db incase of corruption due to not linking customer to vehicle
+        VehicleDAO vDAO = new VehicleDAO();
+        ArrayList<Vehicle> vehicles = vDAO.getAll();
+        
+        for(int i = 0; i < vehicles.size(); ++i) {
+            vDAO.delete(vehicles.get(i));
+        }
+        */
+        
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
 
         Scene scene = new Scene(root);

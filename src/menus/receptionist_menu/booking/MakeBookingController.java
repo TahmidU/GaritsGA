@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package menus.receptionist_menu;
+package menus.receptionist_menu.booking;
 
 import database.dao.job.BookingDAO;
+import database.dao.job.VehicleDAO;
 import database.domain.job.Booking;
+import garits.MainGUIController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,6 +26,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import menus.receptionist_menu.ReceptionistMenuController;
 import util.DBDateHelper;
 
 /**
@@ -31,7 +34,7 @@ import util.DBDateHelper;
  *
  * @author Huntees
  */
-public class EditBookingController implements Initializable {
+public class MakeBookingController implements Initializable {
 
     private final ObservableList<String> options
             = FXCollections.observableArrayList(
@@ -54,8 +57,6 @@ public class EditBookingController implements Initializable {
     @FXML
     private Label loggedInAsText;
 
-    public Booking selectedBooking;
-
     /**
      * Initializes the controller class.
      */
@@ -69,16 +70,6 @@ public class EditBookingController implements Initializable {
         loggedInAsText.setText(s);
     }
 
-    public void setSelectedBooking(Booking selectedBooking) {
-        this.selectedBooking = selectedBooking;
-        firstNameText.setText(selectedBooking.getFirstName());
-        lastNameText.setText(selectedBooking.getLastName());
-        vehicleRegText.setText(selectedBooking.getVehicleRegistrationNumber());
-        jobCombo.setValue(selectedBooking.getJobType());
-        dateBox.setValue(selectedBooking.getDateBooked().toLocalDate());
-    }
-    
-    @FXML
     private void back(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
@@ -86,14 +77,14 @@ public class EditBookingController implements Initializable {
 
         ReceptionistMenuController controller = loader.getController();
         controller.setLoggedInName(loggedInAsText.getText());
-        controller.switchTab();
+        controller.switchTab(1);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
     }
-    
+
     @FXML
-    private void editBookingSavePress(ActionEvent event) throws IOException {
+    private void makeBookingSavePress(ActionEvent event) throws IOException {
         missingDetailsError.setText("");
 
         if (firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty() || vehicleRegText.getText().isEmpty()
@@ -102,9 +93,9 @@ public class EditBookingController implements Initializable {
             missingDetailsError.setText("Missing Details");
         } else {
             BookingDAO bDAO = new BookingDAO();
-            Booking tmp = new Booking(selectedBooking.getId(), jobCombo.getValue(), DBDateHelper.parseDate(dateBox.getValue().toString()),
+            Booking tmp = new Booking(0, jobCombo.getValue(), DBDateHelper.parseDate(dateBox.getValue().toString()),
                     vehicleRegText.getText(), firstNameText.getText(), lastNameText.getText(), "No");
-            bDAO.update(tmp);
+            bDAO.save(tmp);
             back(event);
         }
     }
@@ -113,4 +104,5 @@ public class EditBookingController implements Initializable {
     private void backPress(ActionEvent event) throws IOException {
         back(event);
     }
+
 }

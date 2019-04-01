@@ -3,17 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package menus.receptionist_menu;
+package menus.receptionist_menu.customer;
 
-import database.dao.job.BookingDAO;
-import database.dao.job.VehicleDAO;
-import database.domain.job.Booking;
-import garits.MainGUIController;
+import database.dao.account.CustomerAccDAO;
+import database.domain.account.CustomerAcc;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,38 +17,34 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import util.DBDateHelper;
+import menus.receptionist_menu.ReceptionistMenuController;
 
 /**
  * FXML Controller class
  *
  * @author Huntees
  */
-public class MakeBookingController implements Initializable {
+public class ViewCustomerController implements Initializable {
 
-    private final ObservableList<String> options
-            = FXCollections.observableArrayList(
-                    "MOT",
-                    "Repair",
-                    "Annual Service"
-            );
+    private CustomerAcc selectedCustomer;
+
     @FXML
     private TextField firstNameText;
     @FXML
     private TextField lastNameText;
     @FXML
-    private TextField vehicleRegText;
+    private TextField phoneText;
     @FXML
-    private ComboBox<String> jobCombo;
+    private TextField emailText;
     @FXML
-    private DatePicker dateBox;
+    private TextField nationalInsuranceText;
     @FXML
-    private Label missingDetailsError;
+    private TextField postcodeText;
+    @FXML
+    private TextField addressText;
     @FXML
     private Label loggedInAsText;
 
@@ -62,11 +54,21 @@ public class MakeBookingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        jobCombo.getItems().addAll(options);
     }
 
     public void setLoggedInName(String s) {
         loggedInAsText.setText(s);
+    }
+
+    public void setSelectedCustomer(CustomerAcc selectedCustomer) {
+        this.selectedCustomer = selectedCustomer;
+        firstNameText.setText(selectedCustomer.getFirstName());
+        lastNameText.setText(selectedCustomer.getLastName());
+        phoneText.setText(selectedCustomer.getPhoneNumber());
+        emailText.setText(selectedCustomer.getEmail());
+        nationalInsuranceText.setText(selectedCustomer.getNationalInsurance());
+        postcodeText.setText(selectedCustomer.getPostCode());
+        addressText.setText(selectedCustomer.getAddressLine());
     }
 
     private void back(ActionEvent event) throws IOException {
@@ -76,27 +78,10 @@ public class MakeBookingController implements Initializable {
 
         ReceptionistMenuController controller = loader.getController();
         controller.setLoggedInName(loggedInAsText.getText());
-        controller.switchTab();
+        controller.switchTab(2);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
-    }
-
-    @FXML
-    private void makeBookingSavePress(ActionEvent event) throws IOException {
-        missingDetailsError.setText("");
-
-        if (firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty() || vehicleRegText.getText().isEmpty()
-                || jobCombo.getValue() == null || dateBox.getValue() == null) {
-
-            missingDetailsError.setText("Missing Details");
-        } else {
-            BookingDAO bDAO = new BookingDAO();
-            Booking tmp = new Booking(0, jobCombo.getValue(), DBDateHelper.parseDate(dateBox.getValue().toString()),
-                    vehicleRegText.getText(), firstNameText.getText(), lastNameText.getText(), "No");
-            bDAO.save(tmp);
-            back(event);
-        }
     }
 
     @FXML
