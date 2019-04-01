@@ -48,7 +48,7 @@ public class JobSheetDAO implements IJobSheet
             while (rs.next()) {
                 String dateComplete = rs.getString(JobSheet.INDEX_DATE_COMPLETED);
                 Date date = null;
-                if(dateComplete != null)
+                if(!dateComplete.equals("null"))
                 {
                     date = DBDateHelper.parseDate(dateComplete);
                 }
@@ -85,17 +85,23 @@ public class JobSheetDAO implements IJobSheet
         String sql = "SELECT * FROM " + JobSheet.TABLE_JOB_SHEET + " WHERE " + JobSheet.COLUMN_JOB_NUM +
                 "=" + jobNum;
 
-
+        jobSheet = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
             {
+                String dateComplete = rs.getString(JobSheet.INDEX_DATE_COMPLETED);
+                Date date = null;
+                if(!dateComplete.equals("null"))
+                {
+                    date = DBDateHelper.parseDate(dateComplete);
+                }
                 jobSheet = new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
                         rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID),
                         rs.getString(JobSheet.INDEX_PROBLEM_DESC),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
                         rs.getString(JobSheet.INDEX_STATUS),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED)));
+                        date);
             }
         }catch (SQLException e)
         {
@@ -126,11 +132,17 @@ public class JobSheetDAO implements IJobSheet
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
             {
+                String dateComplete = rs.getString(JobSheet.INDEX_DATE_COMPLETED);
+                Date date = null;
+                if(!dateComplete.equals("null"))
+                {
+                    date = DBDateHelper.parseDate(dateComplete);
+                }
                 jobSheets.add(new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
                         rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
                         rs.getString(JobSheet.INDEX_STATUS),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED))));
+                        date));
             }
         }catch (SQLException e)
         {
@@ -160,11 +172,17 @@ public class JobSheetDAO implements IJobSheet
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
             {
+                String dateComplete = rs.getString(JobSheet.INDEX_DATE_COMPLETED);
+                Date date = null;
+                if(!dateComplete.equals("null"))
+                {
+                    date = DBDateHelper.parseDate(dateComplete);
+                }
                 jobSheets.add(new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
                         rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
                         rs.getString(JobSheet.INDEX_STATUS),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED))));
+                        date));
             }
         }catch (SQLException e)
         {
@@ -190,16 +208,22 @@ public class JobSheetDAO implements IJobSheet
         String sql = "SELECT * FROM " + JobSheet.TABLE_JOB_SHEET + " WHERE " + JobSheet.COLUMN_BOOKING_ID +
                 "=" + bookingId;
 
-
+        jobSheet = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
             {
+                String dateComplete = rs.getString(JobSheet.INDEX_DATE_COMPLETED);
+                Date date = null;
+                if(!dateComplete.equals("null"))
+                {
+                    date = DBDateHelper.parseDate(dateComplete);
+                }
                 jobSheet = new JobSheet(rs.getInt(JobSheet.INDEX_JOB_NUM), rs.getInt(JobSheet.INDEX_STAFF_ID),
                         rs.getString(JobSheet.INDEX_VEHICLE_REG), rs.getInt(JobSheet.INDEX_BOOKING_ID), rs.getString(JobSheet.INDEX_PROBLEM_DESC),
                         DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_CREATED)),
                         rs.getString(JobSheet.INDEX_STATUS),
-                        DBDateHelper.parseDate(rs.getString(JobSheet.INDEX_DATE_COMPLETED)));
+                        date);
             }
         }catch (SQLException e)
         {
@@ -226,7 +250,6 @@ public class JobSheetDAO implements IJobSheet
                 + JobSheet.COLUMN_STAFF_ID + "," + JobSheet.COLUMN_VEHICLE_REG + "," + JobSheet.COLUMN_BOOKING_ID
                 + "," + JobSheet.COLUMN_PROBLEM_DESC + "," + JobSheet.COLUMN_DATE_CREATED + "," + JobSheet.COLUMN_STATUS + "," +
                 JobSheet.COLUMN_DATE_COMPLETED + ")" + " VALUES(?,?,?,?,?,?,?)";
-        System.out.println(sql);
         String[] values = {Integer.toString(jobSheet.getStaffId()), jobSheet.getVehicleReg(),
          Integer.toString(jobSheet.getBookingId()), jobSheet.getProblemDesc(), String.valueOf(jobSheet.getDateCreated()),
          jobSheet.getStatus(), String.valueOf(jobSheet.getDateCompleted())};

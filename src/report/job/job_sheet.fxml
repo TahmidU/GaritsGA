@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="842.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="report.job.JobSheetReport">
+   <children>
+      <Label layoutX="36.0" layoutY="30.0" text="Quick Fix Fitters,&#10;19 High St,&#10;Ashford,&#10;Kent CT16 8YY" />
+      <Label layoutX="255.0" layoutY="150.0" text="JOB NO.: %s" underline="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="35.0" layoutY="199.0" text="Vehicle Registration No.: %s&#9;&#9;&#9;Date Booked In: %s&#10;Make: %s&#9;&#9;&#9;&#9;&#9;&#9;&#9;Model: %s&#10;Customer Name: %s&#9;&#9;&#9;&#9;Mob: %s" />
+      <Label layoutX="35.0" layoutY="278.0" text="Description of work required:&#10;&#10;%s&#10;&#10;Estimated time: %s" />
+      <Label layoutX="36.0" layoutY="396.0" text="Description of work carried out (to be filled in on completion):&#10;&#10;%s&#10;&#10;Actual time: %s hrs" />
+      <Label layoutX="37.0" layoutY="502.0" text="Spare parts used (to be filled in on completion):" />
+      <TableView layoutX="37.0" layoutY="530.0" prefHeight="200.0" prefWidth="522.0">
+        <columns>
+          <TableColumn prefWidth="361.0" text="Description" />
+          <TableColumn prefWidth="99.0" text="Part No." />
+            <TableColumn prefWidth="61.0" text="Qty." />
+        </columns>
+      </TableView>
+      <Label layoutX="36.0" layoutY="769.0" text="Signiture:" />
+   </children>
+</AnchorPane>

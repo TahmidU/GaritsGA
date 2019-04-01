@@ -1,20 +1,16 @@
 package database.dao.discount;
 
-import database.dao.contracts.IDiscountPlan;
-import database.dao.contracts.IFixedDiscount;
-import database.domain.discount.DiscountPlan;
-
 import database.DBConnectivity;
 import database.IDBConnectivity;
 import database.dao.DBHelper;
+import database.dao.contracts.IFixedDiscount;
+import database.domain.discount.DiscountPlan;
 import database.domain.discount.FixedDiscount;
 import util.Log;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import java.util.ArrayList;
 
 public class FixedDiscountDAO implements IFixedDiscount
@@ -72,7 +68,7 @@ public class FixedDiscountDAO implements IFixedDiscount
         String sql = "SELECT * FROM " + FixedDiscount.TABLE_FIXED_DISCOUNT + " WHERE " + FixedDiscount.COLUMN_FIX_DISCOUNT_ID +
                 "=" + id;
 
-
+        fixedDiscount = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

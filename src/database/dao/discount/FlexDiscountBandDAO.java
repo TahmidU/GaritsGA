@@ -67,7 +67,7 @@ public class FlexDiscountBandDAO implements IFlexDiscountBand
         String sql = "SELECT * FROM " + FlexDiscountBand.TABLE_FLEX_DISCOUNT_BAND + " WHERE " + FlexDiscountBand.COLUMN_BAND +
                 "='" + band + "'";
 
-
+        flexDiscountBand = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

@@ -70,6 +70,7 @@ public class BookingDAO implements IBooking
         String sql = "SELECT * FROM " + Booking.TABLE_BOOKING + " WHERE " + Booking.COLUMN_ID +
                 "=" + id;
 
+        booking = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

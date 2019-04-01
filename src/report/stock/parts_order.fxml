@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="842.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="report.stock.PartsOrder">
+   <children>
+      <Label layoutX="41.0" layoutY="49.0" text="Quick Fix Fitters,&#10;19 High St,&#10;Ashford,&#10;Kent CT16 8YY" />
+      <Label fx:id="dateLabel" layoutX="41.0" layoutY="153.0" text="Date: %s" />
+      <Label fx:id="companyLabel" layoutX="41.0" layoutY="199.0" text="Company: %s&#10;Address: %s" />
+      <Label fx:id="contactLabel" layoutX="38.0" layoutY="271.0" text="Tel: %s&#10;Fax: %s" />
+      <TableView fx:id="partsOrderTable" layoutX="38.0" layoutY="337.0" prefHeight="200.0" prefWidth="519.0">
+        <columns>
+          <TableColumn fx:id="orderNumColumn" prefWidth="119.0" text="Order Number" />
+          <TableColumn fx:id="descriptionColumn" prefWidth="263.0" text="Description" />
+            <TableColumn fx:id="quantityColumn" prefWidth="57.0" text="Quantity" />
+            <TableColumn fx:id="priceColumn" prefWidth="79.0" text="Price" />
+        </columns>
+      </TableView>
+      <Label fx:id="totalLabel" layoutX="40.0" layoutY="575.0" text="Total: %s" />
+      <Label layoutX="38.0" layoutY="635.0" text="Signed:" />
+   </children>
+</AnchorPane>

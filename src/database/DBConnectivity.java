@@ -1,10 +1,9 @@
 package database;
 
-import org.sqlite.SQLiteConfig;
 import util.Log;
+
 import java.io.File;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class DBConnectivity implements IDBConnectivity
 {

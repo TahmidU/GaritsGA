@@ -69,7 +69,7 @@ public class InvoiceReminderDAO implements IInvoiceReminder
         String sql = "SELECT * FROM " + InvoiceReminder.TABLE_INVOICE_REMINDER + " WHERE " + InvoiceReminder.COLUMN_ID +
                 "=" + id;
 
-
+        invoiceReminder = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

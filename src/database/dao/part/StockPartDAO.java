@@ -5,7 +5,6 @@ import database.IDBConnectivity;
 import database.dao.DBHelper;
 import database.dao.contracts.IStockPart;
 import database.domain.part.StockPart;
-import util.DBDateHelper;
 import util.Log;
 
 import java.sql.Connection;
@@ -71,7 +70,7 @@ public class StockPartDAO implements IStockPart
         String sql = "SELECT * FROM " + StockPart.TABLE_STOCK_PART + " WHERE " + StockPart.COLUMN_PART_ID +
                 "=" + partId;
 
-
+        stockPart = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

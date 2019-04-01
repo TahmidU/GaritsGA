@@ -5,14 +5,12 @@ import database.IDBConnectivity;
 import database.dao.DBHelper;
 import database.dao.contracts.IOutstandingBalance;
 import database.domain.payment.OutstandingBalance;
-import org.sqlite.SQLiteConfig;
 import util.DBDateHelper;
 import util.Log;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class OutstandingBalanceDAO implements IOutstandingBalance
@@ -75,7 +73,7 @@ public class OutstandingBalanceDAO implements IOutstandingBalance
         String sql = "SELECT * FROM " + OutstandingBalance.TABLE_OUTSTANDING_BALANCE + " WHERE " + OutstandingBalance.COLUMN_ID +
                 "=" + id;
 
-
+        outstandingBalance = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
@@ -139,7 +137,7 @@ public class OutstandingBalanceDAO implements IOutstandingBalance
         String sql = "SELECT * FROM " + OutstandingBalance.TABLE_OUTSTANDING_BALANCE + " WHERE " + OutstandingBalance.COLUMN_ACCOUNT_HOLDER_ID +
                 "=" + accountHolderId;
 
-
+        outstandingBalance = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

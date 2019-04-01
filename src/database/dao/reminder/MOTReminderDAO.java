@@ -73,7 +73,7 @@ public class MOTReminderDAO implements IMOTReminder
         String sql = "SELECT * FROM " + MOTReminder.TABLE_MOT_REMINDERS + " WHERE " + MOTReminder.COLUMN_ID +
                 "=" + id;
 
-
+        motReminder = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

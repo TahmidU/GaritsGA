@@ -74,7 +74,7 @@ public class CustomerAccDAO implements ICustomerAcc
         String sql = "SELECT * FROM " + CustomerAcc.TABLE_CUSTOMER_ACCOUNT + " WHERE " + CustomerAcc.COLUMN_NI +
                 "='" + nI + "'";
 
-
+        customerAcc = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

@@ -68,7 +68,7 @@ public class DiscountPlanDAO implements IDiscountPlan
         String sql = "SELECT * FROM " + DiscountPlan.TABLE_DISCOUNT_PLAN + " WHERE " + DiscountPlan.COLUMN_ID +
                 "=" + discountId;
 
-
+        discountPlan = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
@@ -100,7 +100,7 @@ public class DiscountPlanDAO implements IDiscountPlan
         String sql = "SELECT * FROM " + DiscountPlan.TABLE_DISCOUNT_PLAN + " WHERE " + DiscountPlan.COLUMN_ACC_HOLDER_ID +
                 "=" + id;
 
-
+        discountPlan = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

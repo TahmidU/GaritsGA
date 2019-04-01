@@ -4,7 +4,6 @@ import database.DBConnectivity;
 import database.IDBConnectivity;
 import database.dao.DBHelper;
 import database.dao.contracts.IVariableDiscount;
-import database.domain.account.CustomerAcc;
 import database.domain.discount.DiscountPlan;
 import database.domain.discount.VariableDiscount;
 import util.Log;
@@ -69,7 +68,7 @@ public class VariableDiscountDAO implements IVariableDiscount
         String sql = "SELECT * FROM " + VariableDiscount.TABLE_VARIABLE_DISCOUNT + " WHERE " + VariableDiscount.COLUMN_VAR_ID +
                 "=" + id;
 
-
+        variableDiscount = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
@@ -100,7 +99,7 @@ public class VariableDiscountDAO implements IVariableDiscount
         String sql = "SELECT * FROM " + VariableDiscount.TABLE_VARIABLE_DISCOUNT + " WHERE " + DiscountPlan.COLUMN_ID +
                 "=" + discountId;
 
-
+        variableDiscount = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

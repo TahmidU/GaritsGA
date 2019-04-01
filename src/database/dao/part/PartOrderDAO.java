@@ -71,7 +71,7 @@ public class PartOrderDAO implements IPartOrder
         String sql = "SELECT * FROM " + PartOrder.TABLE_PART_ORDER + " WHERE " + PartOrder.COLUMN_ORDER_NUM +
                 "='" + orderNum +"'";
 
-
+        partOrder = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

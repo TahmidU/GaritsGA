@@ -68,7 +68,7 @@ public class FlexibleDiscountDAO implements IFlexibleDiscount
         String sql = "SELECT * FROM " + FlexibleDiscount.TABLE_FLEXIBLE_DISCOUNT + " WHERE " + FlexibleDiscount.COLUMN_FLEX_DISCOUNT_ID +
                 "=" + id;
 
-
+        flexibleDiscount = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
@@ -99,7 +99,7 @@ public class FlexibleDiscountDAO implements IFlexibleDiscount
         String sql = "SELECT * FROM " + FlexibleDiscount.TABLE_FLEXIBLE_DISCOUNT + " WHERE " + DiscountPlan.COLUMN_ID +
                 "=" + discountId;
 
-
+        flexibleDiscount = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

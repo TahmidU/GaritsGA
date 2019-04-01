@@ -71,7 +71,7 @@ public class InvoiceDAO implements IInvoice
         String sql = "SELECT * FROM " + Invoice.TABLE_INVOICE + " WHERE " + Invoice.COLUMN_ID +
                 "=" + id;
 
-
+        invoice = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

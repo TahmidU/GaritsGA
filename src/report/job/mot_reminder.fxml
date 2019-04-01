@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="842.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="report.job.MOTReminderReport">
+   <children>
+      <Label fx:id="customerAddressLabel" layoutX="51.0" layoutY="53.0" text="\\%s,&#10;%s,&#10;%s&#10;">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
+      <Label fx:id="garitsAddressLabel" layoutX="451.0" layoutY="53.0" text="Quick Fix Fitters,&#10;19 High St,&#10;Ashford,&#10;Kent CT16 8YY" textOverrun="CLIP">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
+      <Label fx:id="dateLabel" layoutX="451.0" layoutY="128.0" text="\%s">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="dearLabel" layoutX="51.0" layoutY="138.0" text="Dear %s,">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="InvoiceTitleLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="219.0" layoutY="181.0" text="REMINDER - MOT TEST DUE" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="vehicleRegistrationNoLabel" alignment="CENTER" layoutX="152.0" layoutY="198.0" text="Vehicle Registration No.: %s         Total Amount: %s" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="DescriptionLabel" layoutX="45.0" layoutY="260.0" prefWidth="508.0" text="According to our records, the above vehicle is due to have its MoT certificate renewed on the date shown.&#10;&#10;Account Holders customers such as yourself are assured of our prompt attention and we hope that you&#10;will use our services on this occasion in order to have the necessary test carried out on your vehicle.&#10;&#10;&#10;&#10;Your sincerely,&#10;&#10;&#10;G. Lancaster">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="signatureImage" fitHeight="34.0" fitWidth="67.0" layoutX="38.0" layoutY="308.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

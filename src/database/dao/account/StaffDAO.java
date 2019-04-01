@@ -73,7 +73,7 @@ public class StaffDAO implements IStaff
         String sql = "SELECT * FROM " + Staff.TABLE_STAFF + " WHERE " + Staff.COLUMN_ID +
                 "=" + id;
 
-
+        staff = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
@@ -106,6 +106,7 @@ public class StaffDAO implements IStaff
         String sql = "SELECT * FROM " + Staff.TABLE_STAFF + " WHERE " + Staff.COLUMN_USER_NAME +
                 "='" + userName + "'";
 
+        staff = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())

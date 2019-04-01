@@ -75,7 +75,7 @@ public class AccountHolderDAO implements IAccountHolder
         String sql = "SELECT * FROM " + AccountHolder.TABLE_ACCOUNT_HOLDER + " WHERE " + AccountHolder.COLUMN_ID +
                 "=" + id;
 
-
+        accountHolder = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
@@ -107,7 +107,7 @@ public class AccountHolderDAO implements IAccountHolder
         String sql = "SELECT * FROM " + AccountHolder.TABLE_ACCOUNT_HOLDER + " WHERE " + AccountHolder.COLUMN_NI +
                 "='" + nI +"'";
 
-
+        accountHolder = null;
         try{
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
