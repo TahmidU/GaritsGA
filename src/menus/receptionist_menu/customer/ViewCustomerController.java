@@ -7,11 +7,9 @@ package menus.receptionist_menu.customer;
 
 import database.dao.job.VehicleDAO;
 import database.domain.account.CustomerAcc;
-import database.domain.job.JobSheet;
 import database.domain.job.Vehicle;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
@@ -27,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -55,7 +54,7 @@ public class ViewCustomerController implements Initializable {
     @FXML
     private TextField postcodeText;
     @FXML
-    private TextField addressText;
+    private TextArea addressText;
     @FXML
     private Label loggedInAsText;
     @FXML

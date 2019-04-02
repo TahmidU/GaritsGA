@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -14,7 +15,7 @@
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
-            <TabPane fx:id="adminTab" layoutX="-5.0" layoutY="20.0" prefHeight="570.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="receptionistTab" layoutX="-5.0" layoutY="20.0" prefHeight="570.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
                   <Tab text="Home">
                      <content>
@@ -30,48 +31,64 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Manage Accounts">
+                  <Tab text="Pick Jobs">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="staffTable" layoutX="12.0" layoutY="14.0" prefHeight="392.0" prefWidth="782.0">
+                              <TableView fx:id="jobTable" layoutX="12.0" layoutY="14.0" onMouseClicked="#jobViewingDescription" prefHeight="363.0" prefWidth="782.0">
                                  <columns>
-                                    <TableColumn fx:id="idCol" prefWidth="56.0" text="ID" />
-                                    <TableColumn fx:id="usernameCol" prefWidth="101.0" text="Username" />
-                                    <TableColumn fx:id="roleCol" prefWidth="102.0" text="Role" />
-                                    <TableColumn fx:id="firstNameCol" prefWidth="98.0" text="First Name" />
-                                    <TableColumn fx:id="lastNameCol" prefWidth="106.0" text="Last Name" />
-                                    <TableColumn fx:id="phoneCol" prefWidth="132.0" text="Phone" />
-                                    <TableColumn fx:id="emailCol" prefWidth="186.0" text="Email" />
+                                    <TableColumn fx:id="jobNoCol" prefWidth="98.0" text="Job No" />
+                                    <TableColumn fx:id="jobDateCheckedCol" prefWidth="126.0" text="Date Checked-In" />
+                                    <TableColumn fx:id="jobTypeCol" prefWidth="108.0" text="Job Type" />
+                                    <TableColumn fx:id="jobVehicleRegCol" prefWidth="145.0" text="Vehicle Reg. No" />
+                                    <TableColumn fx:id="jobMechanicCol" prefWidth="190.0" text="Mechanic" />
+                                    <TableColumn fx:id="jobDateCompletedCol" prefWidth="114.0" text="Date Completed" />
                                  </columns>
                               </TableView>
-                              <Button layoutX="43.0" layoutY="450.0" mnemonicParsing="false" onAction="#addAccountPress" prefHeight="35.0" prefWidth="114.0" text="Add Account" />
-                              <Button layoutX="181.0" layoutY="450.0" mnemonicParsing="false" onAction="#editAccountPress" prefHeight="35.0" prefWidth="114.0" text="Edit Account" />
-                              <Button layoutX="320.0" layoutY="450.0" mnemonicParsing="false" onAction="#deleteAccountPress" prefHeight="35.0" prefWidth="114.0" text="Remove Account" />
-                              <Separator layoutX="15.0" layoutY="423.0" prefHeight="17.0" prefWidth="770.0" />
-                              <Label fx:id="noAccountSelected" layoutX="43.0" layoutY="494.0" prefHeight="25.0" prefWidth="194.0" textFill="RED" />
+                              <TabPane layoutY="377.0" prefHeight="170.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+                                 <tabs>
+                                    <Tab text="Manage">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="141.0" prefWidth="796.0">
+                                             <children>
+                                                <Button layoutX="25.0" layoutY="67.0" mnemonicParsing="false" onAction="#editJobPress" prefHeight="35.0" prefWidth="114.0" text="Edit Job (delete later)" />
+                                                <Button layoutX="158.0" layoutY="67.0" mnemonicParsing="false" onAction="#deleteJobPress" prefHeight="35.0" prefWidth="114.0" text="Delete Job" />
+                                                <Separator layoutX="15.0" layoutY="50.0" prefHeight="17.0" prefWidth="770.0" />
+                                                <Button layoutX="531.0" layoutY="67.0" mnemonicParsing="false" onAction="#viewJobPress" prefHeight="35.0" prefWidth="114.0" text="View Job" />
+                                                <Button layoutX="657.0" layoutY="67.0" mnemonicParsing="false" onAction="#generateInvoicePress" prefHeight="35.0" prefWidth="121.0" text="Generate Invoice" wrapText="true" />
+                                                <Label fx:id="noJobSelected" layoutX="38.0" layoutY="108.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
+                                                <Label fx:id="JobSuccessful" layoutX="584.0" layoutY="108.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </Tab>
+                                    <Tab text="Status">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <TextField fx:id="jobStatusText" alignment="TOP_LEFT" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </Tab>
+                                    <Tab text="Problem Description">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <TextField fx:id="jobProblemText" alignment="TOP_LEFT" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </Tab>
+                                 </tabs>
+                              </TabPane>
                            </children>
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Manage Database">
+                  <Tab text="Manage Parts">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TableView fx:id="dbTable" layoutX="12.0" layoutY="14.0" prefHeight="392.0" prefWidth="782.0">
-                                 <columns>
-                                    <TableColumn fx:id="dateCol" prefWidth="214.0" text="Date Created" />
-                                    <TableColumn fx:id="timeCol" prefWidth="209.0" text="Time Created" />
-                                    <TableColumn fx:id="fileNameCol" prefWidth="358.0" text="File Name" />
-                                 </columns>
-                              </TableView>
-                              <Button layoutX="43.0" layoutY="450.0" mnemonicParsing="false" onAction="#createBackupPress" prefHeight="35.0" prefWidth="114.0" text="Create Backup" />
-                              <Button layoutX="181.0" layoutY="450.0" mnemonicParsing="false" onAction="#restoreBackupPress" prefHeight="35.0" prefWidth="114.0" text="Restore Backup" />
-                              <Button layoutX="320.0" layoutY="450.0" mnemonicParsing="false" onAction="#deleteBackupPress" prefHeight="35.0" prefWidth="114.0" text="Delete Backup" />
-                              <Separator layoutX="15.0" layoutY="423.0" prefHeight="17.0" prefWidth="770.0" />
-                              <Label fx:id="noBackupSelected" layoutX="43.0" layoutY="494.0" prefHeight="25.0" prefWidth="194.0" textFill="RED" />
-                           </children>
-                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                      </content>
                   </Tab>
                </tabs>

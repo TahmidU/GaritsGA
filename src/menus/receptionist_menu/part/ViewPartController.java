@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package menus.receptionist_menu.job;
+package menus.receptionist_menu.part;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
  *
  * @author Huntees
  */
-public class EditJobController implements Initializable {
+public class ViewPartController implements Initializable {
 
     /**
      * Initializes the controller class.

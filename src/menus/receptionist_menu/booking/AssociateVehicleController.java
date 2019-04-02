@@ -28,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -59,7 +60,7 @@ public class AssociateVehicleController implements Initializable {
     @FXML
     private TextField nationalInsuranceText;
     @FXML
-    private TextField addressText;
+    private TextArea addressText;
     @FXML
     private TextField postcodeText;
     @FXML

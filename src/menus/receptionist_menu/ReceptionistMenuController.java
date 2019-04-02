@@ -45,13 +45,15 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import menus.receptionist_menu.customer.EditCustomerController;
 import menus.receptionist_menu.customer.ViewCustomerController;
+import menus.receptionist_menu.job.ViewJobController;
+import menus.receptionist_menu.part.AddPartController;
 import menus.receptionist_menu.vehicle.AddVehicleController;
 import menus.receptionist_menu.vehicle.EditVehicleController;
 import menus.receptionist_menu.vehicle.ViewVehicleController;
@@ -123,13 +125,51 @@ public class ReceptionistMenuController implements Initializable {
     @FXML
     private TableColumn<JobSheet, Date> jobDateCompletedCol;
     @FXML
-    private TextField jobStatusText;
+    private TextArea jobStatusText;
     @FXML
-    private TextField jobProblemText;
+    private TextArea jobProblemText;
     @FXML
     private Label noJobSelected;
     @FXML
     private Label jobSuccessful;
+
+    @FXML
+    private TableView<Invoice> invoiceTable;
+    @FXML
+    private TableColumn<Invoice, Integer> invoiceNoCol;
+    @FXML
+    private TableColumn<Invoice, Date> invoiceDateCol;
+    @FXML
+    private TableColumn<Invoice, String> invoiceNINoCol;
+    @FXML
+    private TableColumn<Invoice, String> invoiceCustomerNameCol;
+    @FXML
+    private TableColumn<Invoice, String> invoiceTotalAmountCol;
+    @FXML
+    private Label noInvoiceSelected;
+    @FXML
+    private Label invoiceSuccessful;
+
+    @FXML
+    private TableView<StockPart> partTable;
+    @FXML
+    private TableColumn<StockPart, Integer> partIDCol;
+    @FXML
+    private TableColumn<StockPart, String> partManufacturerCol;
+    @FXML
+    private TableColumn<StockPart, String> partNameCol;
+    @FXML
+    private TableColumn<StockPart, String> partVehicleTypeCol;
+    @FXML
+    private TableColumn<StockPart, String> partPriceCol;
+    @FXML
+    private TableColumn<StockPart, Integer> partThresholdCol;
+    @FXML
+    private TableColumn<StockPart, Integer> partQuantityCol;
+    @FXML
+    private Label noPartSelected;
+    @FXML
+    private Label partSuccessful;
 
     @FXML
     private TableView<CustomerAcc> customerTable;
@@ -166,6 +206,10 @@ public class ReceptionistMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        /*
+    -----------------------------------------------Booking Table-------------------------------------------------------------------
+         */
         bDAO = new BookingDAO();
         bookingData = FXCollections.observableArrayList(bDAO.getAll());
 
@@ -179,6 +223,9 @@ public class ReceptionistMenuController implements Initializable {
 
         bookingTable.setItems(bookingData);
 
+        /*
+    -----------------------------------------------Job Table----------------------------------------------------------------------
+         */
         jsDAO = new JobSheetDAO();
         jobData = FXCollections.observableArrayList(jsDAO.getAll());
 
@@ -206,14 +253,59 @@ public class ReceptionistMenuController implements Initializable {
 
         jobTable.setItems(jobData);
 
+        /*
+    -----------------------------------------------Invoice Table-------------------------------------------------------------------
+         */
         iDAO = new InvoiceDAO();
         invoiceData = FXCollections.observableArrayList(iDAO.getAll());
 
-        //invoiceTable.setItems(invoiceData);
+        invoiceNoCol.setCellValueFactory(new PropertyValueFactory<Invoice, Integer>("id"));
+        invoiceDateCol.setCellValueFactory(new PropertyValueFactory<Invoice, Date>("dateCreated"));
+        invoiceNINoCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Invoice, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Invoice, String> invoiceJobTypeCol) {
+                return new ReadOnlyStringWrapper(invoiceJobTypeCol.getValue().getCustomerAcc().getNationalInsurance());
+            }
+        });
+        invoiceCustomerNameCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Invoice, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Invoice, String> invoiceJobTypeCol) {
+                return new ReadOnlyStringWrapper(invoiceJobTypeCol.getValue().getCustomerAcc().getFullName());
+            }
+        });
+        invoiceTotalAmountCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Invoice, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Invoice, String> invoiceTotalAmountCol) {
+                return new ReadOnlyStringWrapper("£" + String.valueOf(invoiceTotalAmountCol.getValue().getTotalAmount()));
+            }
+        });
+
+        invoiceTable.setItems(invoiceData);
+
+        /*
+    -----------------------------------------------Part Table-------------------------------------------------------------------
+         */
         spDAO = new StockPartDAO();
         partData = FXCollections.observableArrayList(spDAO.getAll());
 
-        //partTable.setItems(partData);
+        partIDCol.setCellValueFactory(new PropertyValueFactory<StockPart, Integer>("partId"));
+        partManufacturerCol.setCellValueFactory(new PropertyValueFactory<StockPart, String>("manufacturer"));
+        partNameCol.setCellValueFactory(new PropertyValueFactory<StockPart, String>("partName"));
+        partVehicleTypeCol.setCellValueFactory(new PropertyValueFactory<StockPart, String>("vehicleType"));
+        partPriceCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<StockPart, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<StockPart, String> partPriceCol) {
+                return new ReadOnlyStringWrapper("£" + String.valueOf(partPriceCol.getValue().getPrice()));
+            }
+        });
+        partThresholdCol.setCellValueFactory(new PropertyValueFactory<StockPart, Integer>("threshold"));
+        partQuantityCol.setCellValueFactory(new PropertyValueFactory<StockPart, Integer>("quantity"));
+
+        partTable.setItems(partData);
+
+        /*
+    -----------------------------------------------Customer Table-------------------------------------------------------------------
+         */
         caDAO = new CustomerAccDAO();
         customerData = FXCollections.observableArrayList(caDAO.getAll());
 
@@ -225,6 +317,9 @@ public class ReceptionistMenuController implements Initializable {
 
         customerTable.setItems(customerData);
 
+        /*
+    -----------------------------------------------Vehicle Table-------------------------------------------------------------------
+         */
         vDAO = new VehicleDAO();
         vehicleData = FXCollections.observableArrayList(vDAO.getAll());
 
@@ -366,6 +461,9 @@ public class ReceptionistMenuController implements Initializable {
             bookingSuccessful.setText("");
             noBookingSelected.setText("Booking Needs To Be Checked-In First.");
 
+//        } else if (jsDAO.getByBookingId(selectedBooking.getId()) != null) {
+//            bookingSuccessful.setText("");
+//            noBookingSelected.setText("Job Sheet Already Exist For This Booking");
         } else {
             JobSheet jobTMP = new JobSheet(0, -1, selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getId(),
                     "To be added by Mechanic", DBDateHelper.parseCurrentDate(), "To be added by Mechanic", null);
@@ -385,12 +483,43 @@ public class ReceptionistMenuController implements Initializable {
     }
 
     @FXML
-    private void deleteJobPress(ActionEvent event) {
+    private void deleteJobPress(ActionEvent event) throws IOException {
+        JobSheet selectedJob = null;
+        selectedJob = jobTable.getSelectionModel().getSelectedItem();
+
+        if (selectedJob == null) {
+            jobSuccessful.setText("");
+            noJobSelected.setText("No Job Selected.");
+        } else {
+            MainGUIController guiController = new MainGUIController();
+            guiController.popupConfirmation(event, "Are you sure you want to delete this job?");
+
+            if (guiController.popupController.getConfirm()) {
+                jobTable.getItems().remove(selectedJob);
+                jsDAO.delete(selectedJob);
+            }
+        }
     }
 
     @FXML
-    private void viewJobPress(ActionEvent event) {
+    private void viewJobPress(ActionEvent event) throws IOException {
+        JobSheet selectedJob = null;
+        selectedJob = jobTable.getSelectionModel().getSelectedItem();
 
+        if (selectedJob == null) {
+            jobStatusText.setText("");
+            jobProblemText.setText("");
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/job/ViewJob.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ViewJobController controller = loader.getController();
+            controller.setLoggedInName(loggedInAsText.getText());
+            controller.setSelectedJob(selectedJob);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     @FXML
@@ -419,15 +548,46 @@ public class ReceptionistMenuController implements Initializable {
     }
 
     @FXML
-    private void deleteInvoicePress(ActionEvent event) throws IOException {
+    private void deleteInvoicePress(ActionEvent event) {
     }
 
     @FXML
-    private void viewInvoicePress(ActionEvent event) throws IOException {
+    private void viewInvoicePress(ActionEvent event) {
     }
 
     @FXML
-    private void invoicePlaceholder(ActionEvent event) throws IOException {
+    private void invoicePlaceholder(ActionEvent event) {
+    }
+
+    /*
+    -----------------------------------------------Part Section-------------------------------------------------------------------
+     */
+    @FXML
+    private void addPartPress(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/part/AddPart.fxml"));
+        Parent root = (Parent) loader.load();
+
+        AddPartController controller = loader.getController();
+        controller.setLoggedInName(loggedInAsText.getText());
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(new Scene(root));
+    }
+
+    @FXML
+    private void editPartPress(ActionEvent event) throws IOException {
+    }
+
+    @FXML
+    private void removePartPress(ActionEvent event) {
+    }
+
+    @FXML
+    private void viewPartPress(ActionEvent event) {
+    }
+
+    @FXML
+    private void orderPartPress(ActionEvent event) {
     }
 
     /*

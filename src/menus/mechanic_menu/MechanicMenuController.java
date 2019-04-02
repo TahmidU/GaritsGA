@@ -16,6 +16,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -23,39 +25,32 @@ import javafx.scene.control.TableView;
  * @author Huntees
  */
 public class MechanicMenuController implements Initializable {
-
-    @FXML
-    private TabPane adminTab;
-    @FXML
-    private TableView<?> staffTable;
-    @FXML
-    private TableColumn<?, ?> idCol;
-    @FXML
-    private TableColumn<?, ?> usernameCol;
-    @FXML
-    private TableColumn<?, ?> roleCol;
-    @FXML
-    private TableColumn<?, ?> firstNameCol;
-    @FXML
-    private TableColumn<?, ?> lastNameCol;
-    @FXML
-    private TableColumn<?, ?> phoneCol;
-    @FXML
-    private TableColumn<?, ?> emailCol;
-    @FXML
-    private Label noAccountSelected;
-    @FXML
-    private TableView<?> dbTable;
-    @FXML
-    private TableColumn<?, ?> dateCol;
-    @FXML
-    private TableColumn<?, ?> timeCol;
-    @FXML
-    private TableColumn<?, ?> fileNameCol;
-    @FXML
-    private Label noBackupSelected;
     @FXML
     private Label loggedInAsText;
+    @FXML
+    private TabPane receptionistTab;
+    @FXML
+    private TableView<?> jobTable;
+    @FXML
+    private TableColumn<?, ?> jobNoCol;
+    @FXML
+    private TableColumn<?, ?> jobDateCheckedCol;
+    @FXML
+    private TableColumn<?, ?> jobTypeCol;
+    @FXML
+    private TableColumn<?, ?> jobVehicleRegCol;
+    @FXML
+    private TableColumn<?, ?> jobMechanicCol;
+    @FXML
+    private TableColumn<?, ?> jobDateCompletedCol;
+    @FXML
+    private Label noJobSelected;
+    @FXML
+    private Label JobSuccessful;
+    @FXML
+    private TextField jobStatusText;
+    @FXML
+    private TextField jobProblemText;
 
     /**
      * Initializes the controller class.
@@ -68,40 +63,37 @@ public class MechanicMenuController implements Initializable {
     public void setLoggedInName(String s) {
         loggedInAsText.setText(s);
     }
-
-    @FXML
-    private void addAccountPress(ActionEvent event) {
-    }
-
-    @FXML
-    private void editAccountPress(ActionEvent event) {
-    }
-
-    @FXML
-    private void deleteAccountPress(ActionEvent event) {
-    }
-
-    @FXML
-    private void createBackupPress(ActionEvent event) {
-    }
-
-    @FXML
-    private void restoreBackupPress(ActionEvent event) {
-    }
-
-    @FXML
-    private void deleteBackupPress(ActionEvent event) {
-    }
-
     @FXML
     private void logOutPress(ActionEvent event) throws IOException {
-
+        
         MainGUIController guiController = new MainGUIController();
         guiController.popupConfirmation(event, "Are you sure you want to logout? Unsaved changes will not be stored.");
-
+        
         if (guiController.popupController.getConfirm()) {
             guiController.logOut(event);
         }
     }
+
+
+    @FXML
+    private void jobViewingDescription(MouseEvent event) {
+    }
+
+    @FXML
+    private void editJobPress(ActionEvent event) {
+    }
+
+    @FXML
+    private void deleteJobPress(ActionEvent event) {
+    }
+
+    @FXML
+    private void viewJobPress(ActionEvent event) {
+    }
+
+    @FXML
+    private void generateInvoicePress(ActionEvent event) {
+    }
+
 
 }

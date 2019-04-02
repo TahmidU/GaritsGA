@@ -10,7 +10,6 @@ import database.domain.account.CustomerAcc;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import menus.receptionist_menu.ReceptionistMenuController;
@@ -45,7 +45,7 @@ public class AddCustomerController implements Initializable {
     @FXML
     private Label missingDetailsError;
     @FXML
-    private TextField addressText;
+    private TextArea addressText;
     @FXML
     private Label loggedInAsText;
 

@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -78,13 +78,13 @@
                                     <content>
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="141.0" prefWidth="796.0">
                                              <children>
-                                                <Button layoutX="25.0" layoutY="67.0" mnemonicParsing="false" onAction="#editJobPress" prefHeight="35.0" prefWidth="114.0" text="Edit Job" />
+                                                <Button layoutX="25.0" layoutY="67.0" mnemonicParsing="false" onAction="#editJobPress" prefHeight="35.0" prefWidth="114.0" text="Edit Job (delete later)" />
                                                 <Button layoutX="158.0" layoutY="67.0" mnemonicParsing="false" onAction="#deleteJobPress" prefHeight="35.0" prefWidth="114.0" text="Delete Job" />
                                                 <Separator layoutX="15.0" layoutY="50.0" prefHeight="17.0" prefWidth="770.0" />
                                                 <Button layoutX="531.0" layoutY="67.0" mnemonicParsing="false" onAction="#viewJobPress" prefHeight="35.0" prefWidth="114.0" text="View Job" />
                                                 <Button layoutX="657.0" layoutY="67.0" mnemonicParsing="false" onAction="#generateInvoicePress" prefHeight="35.0" prefWidth="121.0" text="Generate Invoice" wrapText="true" />
                                                 <Label fx:id="noJobSelected" layoutX="38.0" layoutY="108.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
-                                                <Label fx:id="JobSuccessful" layoutX="584.0" layoutY="108.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                                                <Label fx:id="jobSuccessful" layoutX="584.0" layoutY="108.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
                                              </children>
                                           </AnchorPane>
                                     </content>
@@ -93,7 +93,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextField fx:id="jobStatusText" alignment="TOP_LEFT" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
+                                                <TextArea fx:id="jobStatusText" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -102,7 +102,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextField fx:id="jobProblemText" alignment="TOP_LEFT" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
+                                                <TextArea fx:id="jobProblemText" layoutX="8.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -116,31 +116,52 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="invoiceTable" layoutX="12.0" layoutY="14.0" prefHeight="363.0" prefWidth="782.0">
+                              <TableView fx:id="invoiceTable" layoutX="12.0" layoutY="14.0" prefHeight="392.0" prefWidth="782.0">
                                  <columns>
-                                    <TableColumn fx:id="jobNoCol111" prefWidth="98.0" text="Invoice No" />
-                                    <TableColumn fx:id="jobDateCheckedCol111" prefWidth="115.0" text="Date Created" />
-                                    <TableColumn fx:id="jobTypeCol111" prefWidth="104.0" text="Job Type" />
-                                    <TableColumn fx:id="jobMechanicCol111" prefWidth="224.0" text="Name" />
-                                    <TableColumn fx:id="jobVehicleRegCol111" prefWidth="126.0" text="Vehicle Reg. No" />
-                                    <TableColumn fx:id="jobDateCompletedCol111" prefWidth="114.0" text="Total Amount" />
+                                    <TableColumn fx:id="invoiceNoCol" prefWidth="108.0" text="Invoice No" />
+                                    <TableColumn fx:id="invoiceDateCol" prefWidth="116.0" text="Date Created" />
+                                    <TableColumn fx:id="invoiceNINoCol" prefWidth="178.0" text="National Insurance No." />
+                                    <TableColumn fx:id="invoiceCustomerNameCol" prefWidth="271.0" text="Name" />
+                                    <TableColumn fx:id="invoiceTotalAmountCol" minWidth="0.0" prefWidth="108.0" text="Total Amount" />
                                  </columns>
                               </TableView>
                               <Button layoutX="29.0" layoutY="472.0" mnemonicParsing="false" onAction="#editInvoicePress" prefHeight="35.0" prefWidth="114.0" text="Edit Invoice" />
                               <Button layoutX="158.0" layoutY="472.0" mnemonicParsing="false" onAction="#deleteInvoicePress" prefHeight="35.0" prefWidth="114.0" text="Delete Invoice" />
                               <Separator layoutX="15.0" layoutY="455.0" prefHeight="17.0" prefWidth="770.0" />
-                              <Label fx:id="noBookingSelected1" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
+                              <Label fx:id="noInvoiceSelected" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
                               <Button layoutX="528.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewInvoicePress" prefHeight="35.0" prefWidth="114.0" text="View Invoice" />
-                              <Button layoutX="656.0" layoutY="472.0" mnemonicParsing="false" onAction="#invoicePlaceholder" prefHeight="35.0" prefWidth="121.0" text="????" wrapText="true" />
-                              <Label fx:id="bookingSucessful1" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                              <Button layoutX="656.0" layoutY="472.0" mnemonicParsing="false" onAction="#invoicePlaceholder" prefHeight="35.0" prefWidth="121.0" text="Send Reminders?" wrapText="true" />
+                              <Label fx:id="invoiceSuccessful" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
                            </children>
                         </AnchorPane>
                      </content>
                   </Tab>
                   <Tab text="Manage Parts">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="partTable" layoutX="12.0" layoutY="14.0" prefHeight="392.0" prefWidth="782.0">
+                                 <columns>
+                                    <TableColumn fx:id="partIDCol" prefWidth="79.0" text="Part ID" />
+                                    <TableColumn fx:id="partManufacturerCol" prefWidth="143.0" text="Manufacturer" />
+                                    <TableColumn fx:id="partNameCol" prefWidth="147.0" text="Part Name" />
+                                    <TableColumn fx:id="partVehicleTypeCol" prefWidth="162.0" text="Vehicle Type" />
+                                    <TableColumn fx:id="partPriceCol" prefWidth="103.0" text="Price" />
+                                    <TableColumn fx:id="partThresholdCol" prefWidth="74.0" text="Threshold" />
+                                    <TableColumn fx:id="partQuantityCol" prefWidth="73.0" text="Quantity" />
+                                 </columns>
+                              </TableView>
+                              <Button layoutX="157.0" layoutY="472.0" mnemonicParsing="false" onAction="#editPartPress" prefHeight="35.0" prefWidth="114.0" text="Edit Part" />
+                              <Button layoutX="286.0" layoutY="472.0" mnemonicParsing="false" onAction="#removePartPress" prefHeight="35.0" prefWidth="114.0" text="Remove Part" />
+                              <Separator layoutX="15.0" layoutY="455.0" prefHeight="17.0" prefWidth="770.0" />
+                              <Label fx:id="noPartSelected" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
+                              <Button layoutX="528.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewPartPress" prefHeight="35.0" prefWidth="114.0" text="View Part" />
+                              <Button layoutX="656.0" layoutY="472.0" mnemonicParsing="false" onAction="#orderPartPress" prefHeight="35.0" prefWidth="121.0" text="Order Parts??" wrapText="true" />
+                              <Label fx:id="partSuccessful" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                              <Button layoutX="29.0" layoutY="472.0" mnemonicParsing="false" onAction="#addPartPress" prefHeight="35.0" prefWidth="114.0" text="Add Part" />
+                           </children>
+                        </AnchorPane>
+                     </content>
                   </Tab>
                   <Tab text="Manage Customers">
                      <content>

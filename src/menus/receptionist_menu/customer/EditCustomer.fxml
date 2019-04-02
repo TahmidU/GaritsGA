@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -54,7 +55,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="addressText" alignment="TOP_LEFT" layoutX="48.0" layoutY="256.0" prefHeight="104.0" prefWidth="247.0" />
+                              <TextArea fx:id="addressText" layoutX="48.0" layoutY="256.0" prefHeight="105.0" prefWidth="248.0" />
                               <Label layoutX="311.0" layoutY="231.0" prefHeight="25.0" prefWidth="118.0" text="Postcode">
                                  <font>
                                     <Font size="16.0" />
