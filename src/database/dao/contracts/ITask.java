@@ -8,7 +8,6 @@ public interface ITask
 {
     ArrayList<Task> getAll();
     Task getById(int id);
-    ArrayList<Task> getByStockPartId(int stockPartId);
     ArrayList<Task> getByJobNum(int jobNum);
     void save(Task task);
     void update(Task task);

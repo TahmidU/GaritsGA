@@ -46,7 +46,8 @@ public class StaffDAO implements IStaff
             while (rs.next()) {
                 staffs.add(new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_USER_NAME) , rs.getString(Staff.INDEX_PASSWORD),
                         rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
-                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE)));
+                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE),
+                        rs.getFloat(Staff.INDEX_LABOUR_RATE)));
             }
             Log.write("DAO: Query successful.");
         }catch (SQLException e)
@@ -80,7 +81,8 @@ public class StaffDAO implements IStaff
             {
                 staff = new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_USER_NAME) , rs.getString(Staff.INDEX_PASSWORD),
                         rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
-                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE));
+                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE),
+                        rs.getFloat(Staff.INDEX_LABOUR_RATE));
             }
         }catch (SQLException e)
         {
@@ -113,7 +115,8 @@ public class StaffDAO implements IStaff
             {
                 staff = new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_USER_NAME) , rs.getString(Staff.INDEX_PASSWORD),
                         rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
-                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE));
+                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE),
+                        rs.getFloat(Staff.INDEX_LABOUR_RATE));
             }
         }catch (SQLException e)
         {
@@ -143,7 +146,8 @@ public class StaffDAO implements IStaff
             while (rs.next()) {
                 staffs.add(new Staff(rs.getInt(Staff.INDEX_ID), rs.getString(Staff.INDEX_USER_NAME) , rs.getString(Staff.INDEX_PASSWORD),
                         rs.getString(Staff.INDEX_FIRST_NAME), rs.getString(Staff.INDEX_LAST_NAME),
-                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE)));
+                        rs.getString(Staff.INDEX_PHONE_NUM), rs.getString(Staff.INDEX_EMAIL), rs.getString(Staff.INDEX_TYPE),
+                        rs.getFloat(Staff.INDEX_LABOUR_RATE)));
             }
             Log.write("DAO: Query successful.");
         }catch (SQLException e)
@@ -170,9 +174,9 @@ public class StaffDAO implements IStaff
 
         String sql = "INSERT INTO " + Staff.TABLE_STAFF + "( "+ Staff.COLUMN_USER_NAME + ", " + Staff.COLUMN_PASSWORD + ", " +
                 Staff.COLUMN_FIRST_NAME + ", " + Staff.COLUMN_LAST_NAME + ", " + Staff.COLUMN_PHONE_NUM + ", " +
-                Staff.COLUMN_EMAIL + ", " + Staff.COLUMN_TYPE + ")" + " VALUES(?,?,?,?,?,?,?)";
+                Staff.COLUMN_EMAIL + ", " + Staff.COLUMN_TYPE + ", " + Staff.COLUMN_LABOUR_RATE + ")" + " VALUES(?,?,?,?,?,?,?,?)";
         String[] values = {staff.getUserName(), staff.getPassword(), staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(),
-        staff.getEmail(), staff.getType()};
+        staff.getEmail(), staff.getType(), String.valueOf(staff.getLabourRate())};
 
         connectivity.writePrepared(sql, con, values);
 
@@ -192,7 +196,7 @@ public class StaffDAO implements IStaff
 
         String sql = "UPDATE " + Staff.TABLE_STAFF + " SET " + Staff.COLUMN_USER_NAME + " =?, " + Staff.COLUMN_PASSWORD + " =?, "
                 + Staff.COLUMN_FIRST_NAME + " =?," + Staff.COLUMN_LAST_NAME + " =?," + Staff.COLUMN_PHONE_NUM + " =?," +
-                Staff.COLUMN_EMAIL + " =?," + Staff.COLUMN_TYPE + " =?" + " WHERE " + Staff.COLUMN_ID +
+                Staff.COLUMN_EMAIL + " =?," + Staff.COLUMN_TYPE + " =?," + Staff.COLUMN_LABOUR_RATE + " =?" + " WHERE " + Staff.COLUMN_ID +
                 " =" + staff.getId();
 
         String[] values = {staff.getUserName(), staff.getPassword()

@@ -19,6 +19,7 @@ public class Staff {
     public static final String COLUMN_PHONE_NUM = "phone_number";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_TYPE = "type";
+    public static final String COLUMN_LABOUR_RATE = "labour_rate";
 
     //  Columns indexes.
     public static final int INDEX_ID = 1;
@@ -29,6 +30,7 @@ public class Staff {
     public static final int INDEX_PHONE_NUM = 6;
     public static final int INDEX_EMAIL = 7;
     public static final int INDEX_TYPE = 8;
+    public static final int INDEX_LABOUR_RATE = 9;
 
     //Staff Types
     public static final String ADMIN = "Administrator";
@@ -40,7 +42,7 @@ public class Staff {
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_STAFF = "CREATE TABLE " + TABLE_STAFF + " (" + COLUMN_ID + " INTEGER NOT NULL PRIMARY KEY , " + COLUMN_USER_NAME + " varchar(15) NOT NULL,"
             + COLUMN_PASSWORD + " varchar(15) NOT NULL," + COLUMN_FIRST_NAME + " varchar(30) NOT NULL, " + COLUMN_LAST_NAME + " varchar(30) NOT NULL, " + COLUMN_PHONE_NUM + " varchar(11), "
-            + "" + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_TYPE + " varchar(15) NOT NULL);";
+            + "" + COLUMN_EMAIL + " varchar(255) NOT NULL, " + COLUMN_TYPE + " varchar(15) NOT NULL, " + COLUMN_LABOUR_RATE + " float(10) NOT NULL" + ");";
 
     //  Properties
     private int id;
@@ -51,13 +53,14 @@ public class Staff {
     private String phoneNum;
     private String email;
     private String type;
+    private float labourRate;
     private ArrayList<JobSheet> jobSheets;
     private ArrayList<OutstandingBalance> outstandingBalances;
 
     public Staff() {
     }
 
-    public Staff(int id, String userName, String password, String firstName, String lastName, String phoneNum, String email, String type) {
+    public Staff(int id, String userName, String password, String firstName, String lastName, String phoneNum, String email, String type, float labourRate) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -66,7 +69,7 @@ public class Staff {
         this.phoneNum = phoneNum;
         this.email = email;
         this.type = type;
-
+        this.labourRate = labourRate;
     }
 
     //--------Getters and Setters--------
@@ -154,5 +157,13 @@ public class Staff {
 
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+
+    public float getLabourRate() {
+        return labourRate;
+    }
+
+    public void setLabourRate(float labourRate) {
+        this.labourRate = labourRate;
     }
 }
