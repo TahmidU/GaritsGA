@@ -32,6 +32,8 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,6 +48,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -54,6 +57,8 @@ import menus.receptionist_menu.customer.EditCustomerController;
 import menus.receptionist_menu.customer.ViewCustomerController;
 import menus.receptionist_menu.job.ViewJobController;
 import menus.receptionist_menu.part.AddPartController;
+import menus.receptionist_menu.part.EditPartController;
+import menus.receptionist_menu.part.ViewPartController;
 import menus.receptionist_menu.vehicle.AddVehicleController;
 import menus.receptionist_menu.vehicle.EditVehicleController;
 import menus.receptionist_menu.vehicle.ViewVehicleController;
@@ -109,6 +114,8 @@ public class ReceptionistMenuController implements Initializable {
     private Label noBookingSelected;
     @FXML
     private Label bookingSuccessful;
+    @FXML
+    private TextField bookingSearch;
 
     @FXML
     private TableView<JobSheet> jobTable;
@@ -222,6 +229,29 @@ public class ReceptionistMenuController implements Initializable {
         bookingCheckedInCol.setCellValueFactory(new PropertyValueFactory<Booking, String>("checkIn"));
 
         bookingTable.setItems(bookingData);
+
+        FilteredList<Booking> filteredBooking = new FilteredList<>(bookingData, p -> true);
+        bookingSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredBooking.setPredicate(booking -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare 
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (booking.getFirstName().toLowerCase().contains(lowerCaseFilter)
+                        || booking.getLastName().toLowerCase().contains(lowerCaseFilter)
+                        ) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Booking> sortedBooking = new SortedList<>(filteredBooking);
+        sortedBooking.comparatorProperty().bind(bookingTable.comparatorProperty());
+        bookingTable.setItems(sortedBooking);
 
         /*
     -----------------------------------------------Job Table----------------------------------------------------------------------
@@ -461,13 +491,15 @@ public class ReceptionistMenuController implements Initializable {
             bookingSuccessful.setText("");
             noBookingSelected.setText("Booking Needs To Be Checked-In First.");
 
-//        } else if (jsDAO.getByBookingId(selectedBooking.getId()) != null) {
-//            bookingSuccessful.setText("");
-//            noBookingSelected.setText("Job Sheet Already Exist For This Booking");
+        } else if (jsDAO.getByBookingId(selectedBooking.getId()) != null) {
+            bookingSuccessful.setText("");
+            noBookingSelected.setText("Job Sheet Already Exist For This Booking");
         } else {
             JobSheet jobTMP = new JobSheet(0, -1, selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getId(),
-                    "To be added by Mechanic", DBDateHelper.parseCurrentDate(), "To be added by Mechanic", null);
-            jsDAO.saveWithoutDate(jobTMP);
+                    "#To be filled by Mechanic#", DBDateHelper.parseCurrentDate(), "#Created on "
+                    + DBDateHelper.parseCurrentDate().toString() + "#" + " Waiting for a Mechanic. #Rest to be filled by Mechanic#",
+                    null);
+            jsDAO.save(jobTMP);
 
             jobData = FXCollections.observableArrayList(jsDAO.getAll());
             jobTable.setItems(jobData);
@@ -576,14 +608,63 @@ public class ReceptionistMenuController implements Initializable {
 
     @FXML
     private void editPartPress(ActionEvent event) throws IOException {
+        StockPart selectedPart = null;
+        selectedPart = partTable.getSelectionModel().getSelectedItem();
+
+        if (selectedPart == null) {
+            partSuccessful.setText("");
+            noPartSelected.setText("No Part Selected.");
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/part/EditPart.fxml"));
+            Parent root = (Parent) loader.load();
+
+            EditPartController controller = loader.getController();
+            controller.setLoggedInName(loggedInAsText.getText());
+            controller.setSelectedPart(selectedPart);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     @FXML
-    private void removePartPress(ActionEvent event) {
+    private void removePartPress(ActionEvent event) throws IOException {
+        StockPart selectedPart = null;
+        selectedPart = partTable.getSelectionModel().getSelectedItem();
+
+        if (selectedPart == null) {
+            partSuccessful.setText("");
+            noPartSelected.setText("No Part Selected.");
+        } else {
+            MainGUIController guiController = new MainGUIController();
+            guiController.popupConfirmation(event, "Are you sure you want to remove this part?");
+
+            if (guiController.popupController.getConfirm()) {
+                partTable.getItems().remove(selectedPart);
+                spDAO.delete(selectedPart);
+            }
+        }
     }
 
     @FXML
-    private void viewPartPress(ActionEvent event) {
+    private void viewPartPress(ActionEvent event) throws IOException {
+        StockPart selectedPart = null;
+        selectedPart = partTable.getSelectionModel().getSelectedItem();
+
+        if (selectedPart == null) {
+            partSuccessful.setText("");
+            noPartSelected.setText("No Part Selected.");
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/part/ViewPart.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ViewPartController controller = loader.getController();
+            controller.setLoggedInName(loggedInAsText.getText());
+            controller.setSelectedPart(selectedPart);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     @FXML
@@ -759,5 +840,4 @@ public class ReceptionistMenuController implements Initializable {
             guiController.logOut(event);
         }
     }
-
 }

@@ -91,8 +91,6 @@ public class AddPartController implements Initializable {
                     startYearText.getText(), endYearText.getText(), Integer.parseInt(quantityText.getText()));
             spDAO.save(tmp);
             back(event);
-//            StockPart(int partId, String partName, float price, int threshold, 
-//                   String manufacturer, String vehicleType, String startYr, String endYr, int quantity)
         }
     }
 
