@@ -1,6 +1,8 @@
 package database.domain.part;
 
+import database.dao.job.TaskDAO;
 import database.dao.part.StockPartOrderDAO;
+import database.domain.job.Task;
 
 import java.util.ArrayList;
 
@@ -45,6 +47,7 @@ public class StockPart
     private String startYr;
     private String endYr;
     private int quantity;
+    private ArrayList<Task> tasks;
     private ArrayList<StockPartOrder> stockPartOrders;
 
     public StockPart(){}
@@ -124,6 +127,15 @@ public class StockPart
 
     public void setEndYr(String endYr) {
         this.endYr = endYr;
+    }
+
+    public ArrayList<Task> getTasks() {
+        tasks = new TaskDAO().getByStockPartId(partId);
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public ArrayList<StockPartOrder> getStockPartOrders() {

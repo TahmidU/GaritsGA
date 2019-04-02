@@ -6,7 +6,6 @@ import database.dao.job.BookingDAO;
 import database.dao.job.TaskDAO;
 import database.dao.payment.InvoiceDAO;
 import database.domain.account.Staff;
-import database.domain.part.StockPart;
 import database.domain.payment.Invoice;
 
 import java.sql.Date;
@@ -24,8 +23,6 @@ public class JobSheet
     public static final String COLUMN_DATE_CREATED = "date_created";
     public static final String COLUMN_STATUS = "status";
     public static final String COLUMN_DATE_COMPLETED = "date_completed";
-    public static final String COLUMN_PART_ID = "part_id";
-    public static final String COLUMN_PART_QTY = "part_qty";
 
     //  Columns indexes.
     public static final int INDEX_JOB_NUM = 1;
@@ -36,17 +33,14 @@ public class JobSheet
     public static final int INDEX_DATE_CREATED = 6;
     public static final int INDEX_STATUS = 7;
     public static final int INDEX_DATE_COMPLETED = 8;
-    public static final int INDEX_PART_ID = 9;
-    public static final int INDEX_PART_QTY = 10;
 
     //  Create Table SQL Statement.
     public static final String CREATE_TABLE_JOB_SHEET = "CREATE TABLE " + TABLE_JOB_SHEET + " (" + COLUMN_JOB_NUM + " INTEGER NOT NULL PRIMARY KEY , " +
             "" + COLUMN_STAFF_ID + " integer(10), " + COLUMN_VEHICLE_REG + " varchar(7) NOT NULL, " +
             "" + COLUMN_BOOKING_ID + " integer(10) NOT NULL, " + COLUMN_PROBLEM_DESC + " varchar(1500) NOT NULL, " +
             "" + COLUMN_DATE_CREATED + " date NOT NULL, " + COLUMN_STATUS + " varchar(255) NOT NULL, " +
-            "" + COLUMN_DATE_COMPLETED + " date, " + COLUMN_PART_ID + " integer(10)," + COLUMN_PART_QTY + " integer(10)," +
-            " FOREIGN KEY(" + COLUMN_PART_ID + ") REFERENCES " + StockPart.TABLE_STOCK_PART+"("+StockPart.COLUMN_PART_ID+"),"
-            + " FOREIGN KEY(" + COLUMN_VEHICLE_REG + ") REFERENCES " + Vehicle.TABLE_VEHICLE + "(" + Vehicle.COLUMN_VEHICLE_REG + "), FOREIGN KEY(" + COLUMN_BOOKING_ID + ") " +
+            "" + COLUMN_DATE_COMPLETED + " date, FOREIGN KEY(" + COLUMN_VEHICLE_REG + ") " +
+            "REFERENCES " + Vehicle.TABLE_VEHICLE + "(" + Vehicle.COLUMN_VEHICLE_REG + "), FOREIGN KEY(" + COLUMN_BOOKING_ID + ") " +
             "REFERENCES " + Booking.TABLE_BOOKING + "(" + Booking.COLUMN_ID + "), FOREIGN KEY(" + COLUMN_STAFF_ID + ") REFERENCES " + Staff.TABLE_STAFF + "(" + Staff.COLUMN_ID + ")"
             + DBHelper.ON_UPDATE+");";
 
@@ -63,15 +57,13 @@ public class JobSheet
     private Booking booking;
     private Invoice invoice;
     private Vehicle vehicle;
-    private int partId;
-    private int partQty;
     private ArrayList<Task> tasks;
 
 
     public JobSheet(){}
 
     public JobSheet(int jobNum, int staffId, String vehicleReg, int bookingId, String problemDesc,
-                    Date dateCreated, String status, Date dateCompleted, int partId, int partQty) {
+                    Date dateCreated, String status, Date dateCompleted) {
         this.jobNum = jobNum;
         this.staffId = staffId;
         this.vehicleReg = vehicleReg;
@@ -80,8 +72,6 @@ public class JobSheet
         this.dateCreated = dateCreated;
         this.status = status;
         this.dateCompleted = dateCompleted;
-        this.partId = partId;
-        this.partQty = partQty;
     }
 
     //--------Getters and Setters--------
@@ -191,21 +181,5 @@ public class JobSheet
 
     public void setTasks(ArrayList<Task> tasks) {
         this.tasks = tasks;
-    }
-
-    public int getPartId() {
-        return partId;
-    }
-
-    public void setPartId(int partId) {
-        this.partId = partId;
-    }
-
-    public int getPartQty() {
-        return partQty;
-    }
-
-    public void setPartQty(int partQty) {
-        this.partQty = partQty;
     }
 }

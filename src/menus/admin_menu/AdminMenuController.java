@@ -155,7 +155,7 @@ public class AdminMenuController implements Initializable {
             noAccountSelected.setText("No Account Selected.");
         } else {
 
-            if (CurrentUser.getInstance().getUserName().equals(selectedStaff.getUserName())) {
+            if (CurrentUser.getInstance().getStaff().getUserName().equals(selectedStaff.getUserName())) {
                 noAccountSelected.setText("You Cannot Delete Yourself.");
             } else {
                 

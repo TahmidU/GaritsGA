@@ -7,9 +7,6 @@ package menus.admin_menu;
 
 import database.dao.account.StaffDAO;
 import database.domain.account.Staff;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,6 +21,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -118,9 +119,9 @@ public class EditAccountController implements Initializable {
             passwordMatchError.setText("Password does not match");
         } else {
             StaffDAO sDAO = new StaffDAO();
-            Staff tmp = new Staff(selectedStaff.getId(), usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
-                    phoneText.getText(), emailText.getText(), typeCombo.getValue());
-            sDAO.update(tmp);
+/*            Staff tmp = new Staff(selectedStaff.getId(), usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
+                    phoneText.getText(), emailText.getText(), typeCombo.getValue());*/
+/*            sDAO.update(tmp);*/
             back(event);
         }
     }

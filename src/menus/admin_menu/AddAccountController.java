@@ -6,7 +6,6 @@
 package menus.admin_menu;
 
 import database.dao.account.StaffDAO;
-import database.domain.account.Staff;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -108,9 +107,9 @@ public class AddAccountController implements Initializable {
             passwordMatchError.setText("Username already exists");
         } else {
             StaffDAO sDAO = new StaffDAO();
-            Staff tmp = new Staff(0, usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
-                    phoneText.getText(), emailText.getText(), typeCombo.getValue());
-            sDAO.save(tmp);
+            /*Staff tmp = new Staff(0, usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
+                    phoneText.getText(), emailText.getText(), typeCombo.getValue());*/
+            /*sDAO.save(tmp);*/
             back(event);
         }
     }
