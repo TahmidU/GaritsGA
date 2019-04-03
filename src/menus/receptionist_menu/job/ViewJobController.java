@@ -134,13 +134,12 @@ public class ViewJobController implements Initializable {
             Parent root = (Parent) loader.load();
 
             FranchiseeMenuController controller = loader.getController();
-            //controller.switchTab(2);
+            controller.switchTab(2);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
 
-        }
-        if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
+        } else if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
             Parent root = (Parent) loader.load();
@@ -151,7 +150,7 @@ public class ViewJobController implements Initializable {
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
         }
-        if (CurrentUser.getInstance().getStaff().getType().equals("Mechanic")) {
+        else if (CurrentUser.getInstance().getStaff().getType().equals("Mechanic")) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/mechanic_menu/MechanicMenu.fxml"));
             Parent root = (Parent) loader.load();

@@ -58,8 +58,9 @@ public class MakePaymentController implements Initializable {
 
         initialAmount = selectedInvoice.getTotalAmount();
 
-        if (selectedInvoice.getCustomerAcc().getAccountHolder() != null) {
-            customerDiscount = selectedInvoice.getCustomerAcc().getAccountHolder().getDiscountPlan().getFixedDiscount().getPercentage();
+        if (selectedInvoice.getCustomerAcc().getAccountHolder() != null
+                && selectedInvoice.getCustomerAcc().getAccountHolder().getDiscountPlan() != null) {
+            customerDiscount = (Float.parseFloat(selectedInvoice.getCustomerAcc().getAccountHolder().getDiscountPlan().getType())/100);
         } else {
             customerDiscount = 0;
         }

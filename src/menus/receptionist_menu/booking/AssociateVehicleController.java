@@ -109,8 +109,19 @@ public class AssociateVehicleController implements Initializable {
     }
 
     private void back(ActionEvent event) throws IOException {
+        
+        if (CurrentUser.getInstance().getStaff().getType().equals("Franchisee")) {
 
-        if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/franchisee_menu/FranchiseeMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            FranchiseeMenuController controller = loader.getController();
+            controller.switchTab(1);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+
+        } else if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
             Parent root = (Parent) loader.load();

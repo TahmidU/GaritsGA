@@ -34,6 +34,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import menus.foreperson_menu.ForepersonMenuController;
+import menus.franchisee_menu.FranchiseeMenuController;
 import menus.receptionist_menu.ReceptionistMenuController;
 import util.DBDateHelper;
 
@@ -84,7 +85,18 @@ public class MakeInvoiceController implements Initializable {
 
     private void back(ActionEvent event) throws IOException {
 
-        if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
+        if (CurrentUser.getInstance().getStaff().getType().equals("Franchisee")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/franchisee_menu/FranchiseeMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            FranchiseeMenuController controller = loader.getController();
+            controller.switchTab(3);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+
+        } else if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
             Parent root = (Parent) loader.load();

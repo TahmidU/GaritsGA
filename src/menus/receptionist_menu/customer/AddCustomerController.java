@@ -23,6 +23,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import menus.foreperson_menu.ForepersonMenuController;
+import menus.franchisee_menu.FranchiseeMenuController;
 import menus.receptionist_menu.ReceptionistMenuController;
 
 /**
@@ -62,7 +63,18 @@ public class AddCustomerController implements Initializable {
 
     private void back(ActionEvent event) throws IOException {
 
-        if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
+        if (CurrentUser.getInstance().getStaff().getType().equals("Franchisee")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/franchisee_menu/FranchiseeMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            FranchiseeMenuController controller = loader.getController();
+            controller.switchTab(5);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+
+        } else if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
             Parent root = (Parent) loader.load();
@@ -97,7 +109,7 @@ public class AddCustomerController implements Initializable {
 
             missingDetailsError.setText("Missing Details");
         } else if (caDAO.getByNI(nationalInsuranceText.getText()) != null) {
-            
+
             missingDetailsError.setText("National Insurance Number Already Exists");
         } else {
             CustomerAcc tmp = new CustomerAcc(nationalInsuranceText.getText(), firstNameText.getText(), lastNameText.getText(), addressText.getText(), postcodeText.getText(),
