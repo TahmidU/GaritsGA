@@ -5,11 +5,9 @@ import database.IDBConnectivity;
 import database.dao.DBHelper;
 import database.dao.contracts.ITask;
 import database.domain.job.Task;
-import util.DBDateHelper;
 import util.Log;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,16 +41,11 @@ public class TaskDAO implements ITask
         String sql = "SELECT * FROM " +Task.TABLE_TASK;
         ResultSet rs = connectivity.read(sql, con);
         try{
-            String dateComplete = rs.getString(Task.INDEX_DATE_TASK_COMPLETE);
-            Date date = null;
-            if(!dateComplete.equals("null"))
-            {
-                date = DBDateHelper.parseDate(dateComplete);
-            }
+
             while(rs.next()){
                 tasks.add( new Task(rs.getInt(Task.INDEX_ID),rs.getInt(Task.INDEX_STOCK_PART_ID),
                         rs.getInt(Task.INDEX_JOB_NUM),rs.getString(Task.INDEX_TASK_DESC),rs.getInt(Task.INDEX_EST_DURATION),
-                        rs.getInt(Task.INDEX_PARTS_QTY), date));
+                        rs.getInt(Task.INDEX_PARTS_QTY), rs.getString(Task.INDEX_DATE_TASK_COMPLETE)));
             }
             Log.write("DAO: Query successful.");
         }catch(SQLException e){
@@ -82,15 +75,9 @@ public class TaskDAO implements ITask
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
             {
-                String dateComplete = rs.getString(Task.INDEX_DATE_TASK_COMPLETE);
-                Date date = null;
-                if(dateComplete != null)
-                {
-                    date = DBDateHelper.parseDate(dateComplete);
-                }
                 task = new Task(rs.getInt(Task.INDEX_ID),rs.getInt(Task.INDEX_STOCK_PART_ID),
                     rs.getInt(Task.INDEX_JOB_NUM),rs.getString(Task.INDEX_TASK_DESC),
-                    rs.getInt(Task.INDEX_EST_DURATION),rs.getInt(Task.INDEX_PARTS_QTY), date);
+                    rs.getInt(Task.INDEX_EST_DURATION),rs.getInt(Task.INDEX_PARTS_QTY), rs.getString(Task.INDEX_DATE_TASK_COMPLETE));
             }
         }catch (SQLException e)
         {
@@ -121,15 +108,9 @@ public class TaskDAO implements ITask
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
             {
-                String dateComplete = rs.getString(Task.INDEX_DATE_TASK_COMPLETE);
-                Date date = null;
-                if(dateComplete != null)
-                {
-                    date = DBDateHelper.parseDate(dateComplete);
-                }
                 tasks.add( new Task(rs.getInt(Task.INDEX_ID),rs.getInt(Task.INDEX_STOCK_PART_ID),
                         rs.getInt(Task.INDEX_JOB_NUM),rs.getString(Task.INDEX_TASK_DESC),rs.getInt(Task.INDEX_EST_DURATION),
-                        rs.getInt(Task.INDEX_PARTS_QTY),date));
+                        rs.getInt(Task.INDEX_PARTS_QTY),rs.getString(Task.INDEX_DATE_TASK_COMPLETE)));
             }
         }catch (SQLException e)
         {
@@ -159,15 +140,9 @@ public class TaskDAO implements ITask
             ResultSet rs = connectivity.read(sql, con);
             while(rs.next())
             {
-                String dateComplete = rs.getString(Task.INDEX_DATE_TASK_COMPLETE);
-                Date date = null;
-                if(dateComplete != null)
-                {
-                    date = DBDateHelper.parseDate(dateComplete);
-                }
                 tasks.add( new Task(rs.getInt(Task.INDEX_ID),rs.getInt(Task.INDEX_STOCK_PART_ID),
                         rs.getInt(Task.INDEX_JOB_NUM),rs.getString(Task.INDEX_TASK_DESC),rs.getInt(Task.INDEX_EST_DURATION),
-                        rs.getInt(Task.INDEX_PARTS_QTY), date));
+                        rs.getInt(Task.INDEX_PARTS_QTY), rs.getString(Task.INDEX_DATE_TASK_COMPLETE)));
             }
         }catch (SQLException e)
         {

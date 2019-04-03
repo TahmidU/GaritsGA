@@ -92,6 +92,12 @@
                                                 <Button layoutX="657.0" layoutY="67.0" mnemonicParsing="false" onAction="#generateInvoicePress" prefHeight="35.0" prefWidth="121.0" text="Generate Invoice" wrapText="true" />
                                                 <Label fx:id="noJobSelected" layoutX="38.0" layoutY="108.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
                                                 <Label fx:id="jobSuccessful" layoutX="584.0" layoutY="108.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                                                <Label layoutX="20.0" layoutY="26.0" text="Search:">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="jobSearch" layoutX="72.0" layoutY="24.0" />
                                              </children>
                                           </AnchorPane>
                                     </content>
@@ -100,7 +106,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextArea fx:id="jobStatusText" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
+                                                <TextArea fx:id="jobStatusText" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" wrapText="true" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -109,7 +115,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextArea fx:id="jobProblemText" layoutX="8.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
+                                                <TextArea fx:id="jobProblemText" editable="false" layoutX="8.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" wrapText="true" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -139,6 +145,12 @@
                               <Button layoutX="528.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewInvoicePress" prefHeight="35.0" prefWidth="114.0" text="View Invoice" />
                               <Button layoutX="656.0" layoutY="472.0" mnemonicParsing="false" onAction="#invoicePlaceholder" prefHeight="35.0" prefWidth="121.0" text="Send Reminders?" wrapText="true" />
                               <Label fx:id="invoiceSuccessful" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                              <Label layoutX="19.0" layoutY="432.0" text="Search:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="invoiceSearch" layoutX="72.0" layoutY="430.0" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -166,6 +178,12 @@
                               <Button layoutX="656.0" layoutY="472.0" mnemonicParsing="false" onAction="#orderPartPress" prefHeight="35.0" prefWidth="121.0" text="Order Parts??" wrapText="true" />
                               <Label fx:id="partSuccessful" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
                               <Button layoutX="29.0" layoutY="472.0" mnemonicParsing="false" onAction="#addPartPress" prefHeight="35.0" prefWidth="114.0" text="Add Part" />
+                              <Label layoutX="19.0" layoutY="432.0" text="Search:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="partSearch" layoutX="72.0" layoutY="430.0" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -189,6 +207,12 @@
                               <Separator layoutX="15.0" layoutY="455.0" prefHeight="17.0" prefWidth="770.0" />
                               <Label fx:id="noCustomerSelected" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="RED" />
                               <Button layoutX="664.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewCustomerPress" prefHeight="35.0" prefWidth="121.0" text="View Customer Info" />
+                              <Label layoutX="19.0" layoutY="432.0" text="Search:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="customerSearch" layoutX="75.0" layoutY="430.0" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -212,6 +236,12 @@
                               <Separator layoutX="15.0" layoutY="450.0" prefHeight="17.0" prefWidth="770.0" />
                               <Label fx:id="noVehicleSelected" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="RED" />
                               <Button layoutX="664.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewVehiclePress" prefHeight="35.0" prefWidth="121.0" text="View Vehicle Info" />
+                              <Label layoutX="19.0" layoutY="432.0" text="Search:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="vehicleSearch" layoutX="69.0" layoutY="430.0" />
                            </children>
                         </AnchorPane>
                      </content>

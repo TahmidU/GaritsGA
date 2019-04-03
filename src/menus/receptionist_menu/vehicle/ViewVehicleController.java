@@ -7,6 +7,7 @@ package menus.receptionist_menu.vehicle;
 
 import database.dao.job.VehicleDAO;
 import database.domain.job.Vehicle;
+import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,10 +56,7 @@ public class ViewVehicleController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
     }
 
     public void setSelectedVehicle(Vehicle selectedVehicle) {
@@ -79,7 +77,6 @@ public class ViewVehicleController implements Initializable {
         Parent root = (Parent) loader.load();
 
         ReceptionistMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab(6);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

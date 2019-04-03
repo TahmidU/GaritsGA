@@ -8,6 +8,7 @@ package menus.receptionist_menu.customer;
 import database.dao.job.VehicleDAO;
 import database.domain.account.CustomerAcc;
 import database.domain.job.Vehicle;
+import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -69,10 +70,7 @@ public class ViewCustomerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
     }
 
     public void setSelectedCustomer(CustomerAcc selectedCustomer) {
@@ -105,7 +103,6 @@ public class ViewCustomerController implements Initializable {
         Parent root = (Parent) loader.load();
 
         ReceptionistMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab(5);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

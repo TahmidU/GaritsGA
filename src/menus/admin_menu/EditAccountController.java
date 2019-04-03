@@ -7,6 +7,10 @@ package menus.admin_menu;
 
 import database.dao.account.StaffDAO;
 import database.domain.account.Staff;
+import garits.singleton.CurrentUser;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,10 +25,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -66,6 +66,10 @@ public class EditAccountController implements Initializable {
     private Label missingDetailsError;
 
     public Staff selectedStaff;
+    @FXML
+    private TextField hourlyRateText;
+    @FXML
+    private Label hourlyRateLabel;
 
     /**
      * Initializes the controller class.
@@ -73,11 +77,8 @@ public class EditAccountController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
         typeCombo.getItems().addAll(options);
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
     }
 
     public void setSelectedStaff(Staff selectedStaff) {
@@ -90,6 +91,13 @@ public class EditAccountController implements Initializable {
         emailText.setText(selectedStaff.getEmail());
         passwordText.setText(selectedStaff.getPassword());
         retypeText.setText(selectedStaff.getPassword());
+        hourlyRateText.setText(String.valueOf(selectedStaff.getLabourRate()));
+
+        if (selectedStaff.getType().equals("Administrator") || selectedStaff.getType().equals("Franchisee")
+                || selectedStaff.getType().equals("Receptionist")) {
+            hourlyRateLabel.setVisible(false);
+            hourlyRateText.setVisible(false);
+        }
     }
 
     private void back(ActionEvent event) throws IOException {
@@ -98,7 +106,6 @@ public class EditAccountController implements Initializable {
         Parent root = (Parent) loader.load();
 
         AdminMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab();
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -112,16 +119,16 @@ public class EditAccountController implements Initializable {
 
         if (firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty() || phoneText.getText().isEmpty()
                 || emailText.getText().isEmpty() || typeCombo.getValue() == null || usernameText.getText().isEmpty()
-                || passwordText.getText().isEmpty() || retypeText.getText().isEmpty()) {
+                || passwordText.getText().isEmpty() || retypeText.getText().isEmpty() || hourlyRateText.getText().isEmpty()) {
 
             missingDetailsError.setText("Missing Details");
         } else if (!passwordText.getText().equals(retypeText.getText())) {
             passwordMatchError.setText("Password does not match");
         } else {
             StaffDAO sDAO = new StaffDAO();
-/*            Staff tmp = new Staff(selectedStaff.getId(), usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
-                    phoneText.getText(), emailText.getText(), typeCombo.getValue());*/
-/*            sDAO.update(tmp);*/
+            Staff tmp = new Staff(selectedStaff.getId(), usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
+                    phoneText.getText(), emailText.getText(), typeCombo.getValue(), Float.valueOf(hourlyRateText.getText()));
+            sDAO.update(tmp);
             back(event);
         }
     }

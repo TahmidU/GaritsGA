@@ -200,7 +200,7 @@ public class StaffDAO implements IStaff
                 " =" + staff.getId();
 
         String[] values = {staff.getUserName(), staff.getPassword()
-                ,staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(), staff.getEmail(), staff.getType()};
+                ,staff.getFirstName(), staff.getLastName(), staff.getPhoneNum(), staff.getEmail(), staff.getType(), String.valueOf(staff.getLabourRate())};
 
         connectivity.writePrepared(sql, con, values);
 

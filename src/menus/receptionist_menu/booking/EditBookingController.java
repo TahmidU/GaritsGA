@@ -7,6 +7,7 @@ package menus.receptionist_menu.booking;
 
 import database.dao.job.BookingDAO;
 import database.domain.job.Booking;
+import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -63,11 +64,8 @@ public class EditBookingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
         jobCombo.getItems().addAll(options);
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
     }
 
     public void setSelectedBooking(Booking selectedBooking) {
@@ -79,14 +77,12 @@ public class EditBookingController implements Initializable {
         dateBox.setValue(selectedBooking.getDateBooked().toLocalDate());
     }
     
-    @FXML
     private void back(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
         Parent root = (Parent) loader.load();
 
         ReceptionistMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab(1);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

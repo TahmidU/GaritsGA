@@ -80,7 +80,8 @@ public class AdminMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
+        
         sDAO = new StaffDAO();
         ObservableList<Staff> accountData = FXCollections.observableArrayList(sDAO.getAll());
 
@@ -105,10 +106,6 @@ public class AdminMenuController implements Initializable {
 
     }
 
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
-    }
-
     public void switchTab() {
         SingleSelectionModel<Tab> selectionModel = adminTab.getSelectionModel();
         selectionModel.select(1);
@@ -118,9 +115,6 @@ public class AdminMenuController implements Initializable {
     private void addAccountPress(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/admin_menu/AddAccount.fxml"));
         Parent root = (Parent) loader.load();
-
-        AddAccountController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
@@ -138,7 +132,6 @@ public class AdminMenuController implements Initializable {
             Parent root = (Parent) loader.load();
 
             EditAccountController controller = loader.getController();
-            controller.setLoggedInName(loggedInAsText.getText());
             controller.setSelectedStaff(selectedStaff);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

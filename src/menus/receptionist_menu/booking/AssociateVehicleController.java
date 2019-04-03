@@ -11,6 +11,7 @@ import database.dao.job.VehicleDAO;
 import database.domain.account.CustomerAcc;
 import database.domain.job.Booking;
 import database.domain.job.Vehicle;
+import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +19,8 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,18 +75,18 @@ public class AssociateVehicleController implements Initializable {
     @FXML
     private TableColumn<CustomerAcc, String> nameCol;
     @FXML
-    private TextField searchBar;
-    @FXML
     private Label noCustomerSelectedError;
+    @FXML
+    private TextField customerSearch;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
 
         caDAO = new CustomerAccDAO();
-        customerData = FXCollections.observableArrayList(caDAO.getAll());
 
         insuranceNoCol.setCellValueFactory(new PropertyValueFactory<CustomerAcc, String>("nationalInsurance"));
         nameCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<CustomerAcc, String>, ObservableValue<String>>() {
@@ -92,12 +95,8 @@ public class AssociateVehicleController implements Initializable {
                 return new ReadOnlyStringWrapper(nameCol.getValue().getFullName());
             }
         });
-        
-        associateTable.setItems(customerData);
-    }
 
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
+        refreshCustomerTable();
     }
 
     public void setSelectedBooking(Booking selectedBooking) {
@@ -112,11 +111,39 @@ public class AssociateVehicleController implements Initializable {
         Parent root = (Parent) loader.load();
 
         ReceptionistMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab(1);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
+    }
+
+    private void refreshCustomerTable() {
+        customerData = FXCollections.observableArrayList(caDAO.getAll());
+        associateTable.setItems(customerData);
+
+        FilteredList<CustomerAcc> filteredCustomer = new FilteredList<>(customerData, p -> true);
+        customerSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredCustomer.setPredicate(customer -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (customer.getNationalInsurance().toLowerCase().contains(lowerCaseFilter)
+                        || customer.getFirstName().toLowerCase().contains(lowerCaseFilter)
+                        || customer.getLastName().toLowerCase().contains(lowerCaseFilter)
+                        || customer.getFullName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<CustomerAcc> sortedCustomer = new SortedList<>(filteredCustomer);
+        sortedCustomer.comparatorProperty().bind(associateTable.comparatorProperty());
+        associateTable.setItems(sortedCustomer);
     }
 
     @FXML
@@ -141,8 +168,7 @@ public class AssociateVehicleController implements Initializable {
                     emailText.getText(), phoneText.getText());
             caDAO.save(tmp);
 
-            customerData = FXCollections.observableArrayList(caDAO.getAll());
-            associateTable.setItems(customerData);
+            refreshCustomerTable();
 
             firstNameText.setText("");
             lastNameText.setText("");
@@ -152,10 +178,6 @@ public class AssociateVehicleController implements Initializable {
             addressText.setText("");
             postcodeText.setText("");
         }
-    }
-
-    @FXML
-    private void search(ActionEvent event) {
     }
 
     @FXML
@@ -169,13 +191,13 @@ public class AssociateVehicleController implements Initializable {
         } else {
             VehicleDAO vDAO = new VehicleDAO();
             Vehicle tmp = new Vehicle(selectedBooking.getVehicleRegistrationNumber(), selectedCustomer.getNationalInsurance(),
-                    null, null, null , null, null);
+                    null, null, null, null, null);
             vDAO.save(tmp);
-            
+
             BookingDAO bDAO = new BookingDAO();
             Booking bookingTMP = new Booking(selectedBooking.getId(), selectedBooking.getJobType(), selectedBooking.getDateBooked(),
-            selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getFirstName(), selectedBooking.getLastName(),
-            "Yes");
+                    selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getFirstName(), selectedBooking.getLastName(),
+                    "Yes");
             bDAO.update(bookingTMP);
             back(event);
         }

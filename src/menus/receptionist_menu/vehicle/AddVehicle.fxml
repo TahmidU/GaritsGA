@@ -78,7 +78,12 @@
                                  </font>
                               </Label>
                               <Separator layoutX="382.0" layoutY="44.0" prefHeight="5.0" prefWidth="298.0" />
-                              <TextField fx:id="searchBar" layoutX="407.0" layoutY="363.0" onAction="#search" />
+                              <Label layoutX="393.0" layoutY="359.0" text="Search:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="customerSearch" layoutX="447.0" layoutY="356.0" />
                            </children>
                         </AnchorPane>
                      </content>

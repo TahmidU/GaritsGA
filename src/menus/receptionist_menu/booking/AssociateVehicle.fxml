@@ -86,9 +86,14 @@
                                  </font>
                               </Label>
                               <Separator layoutX="421.0" layoutY="38.0" prefHeight="5.0" prefWidth="298.0" />
-                              <TextField fx:id="searchBar" layoutX="421.0" layoutY="364.0" onAction="#search" />
                               <Button layoutX="683.0" layoutY="473.0" mnemonicParsing="false" onAction="#associateVehiclePress" prefHeight="45.0" prefWidth="84.0" text="Associate Vehicle" textAlignment="CENTER" wrapText="true" />
                               <Label fx:id="noCustomerSelectedError" layoutX="617.0" layoutY="428.0" prefHeight="35.0" prefWidth="146.0" textFill="RED" wrapText="true" />
+                              <Label layoutX="393.0" layoutY="355.0" text="Search:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="customerSearch" layoutX="445.0" layoutY="353.0" />
                            </children>
                         </AnchorPane>
                      </content>

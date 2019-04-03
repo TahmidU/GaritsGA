@@ -7,6 +7,7 @@ package menus.receptionist_menu.part;
 
 import database.dao.part.StockPartDAO;
 import database.domain.part.StockPart;
+import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -56,10 +57,7 @@ public class ViewPartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
     }
 
     public void setSelectedPart(StockPart selectedPart) {
@@ -80,7 +78,6 @@ public class ViewPartController implements Initializable {
         Parent root = (Parent) loader.load();
 
         ReceptionistMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab(4);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -4,6 +4,7 @@ import database.dao.DBHelper;
 import database.dao.account.StaffDAO;
 import database.dao.job.BookingDAO;
 import database.dao.job.TaskDAO;
+import database.dao.job.VehicleDAO;
 import database.dao.payment.InvoiceDAO;
 import database.domain.account.Staff;
 import database.domain.payment.Invoice;
@@ -167,6 +168,7 @@ public class JobSheet
     }
 
     public Vehicle getVehicle() {
+        vehicle = new VehicleDAO().getByRegNum(vehicleReg);
         return vehicle;
     }
 

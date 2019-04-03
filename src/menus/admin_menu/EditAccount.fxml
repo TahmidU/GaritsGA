@@ -64,6 +64,12 @@
                                  </font>
                               </Label>
                               <ComboBox fx:id="typeCombo" layoutX="58.0" layoutY="351.0" prefWidth="150.0" />
+                              <TextField fx:id="hourlyRateText" layoutX="241.0" layoutY="201.0" />
+                              <Label fx:id="hourlyRateLabel" layoutX="243.0" layoutY="176.0" prefHeight="25.0" prefWidth="98.0" text="Hourly Rate">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
                               <TextField fx:id="usernameText" layoutX="498.0" layoutY="127.0" />
                               <Label layoutX="500.0" layoutY="102.0" prefHeight="25.0" prefWidth="78.0" text="Username">
                                  <font>

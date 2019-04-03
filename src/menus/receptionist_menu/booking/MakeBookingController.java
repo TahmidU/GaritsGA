@@ -9,6 +9,7 @@ import database.dao.job.BookingDAO;
 import database.dao.job.VehicleDAO;
 import database.domain.job.Booking;
 import garits.MainGUIController;
+import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -63,11 +64,8 @@ public class MakeBookingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
         jobCombo.getItems().addAll(options);
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
     }
 
     private void back(ActionEvent event) throws IOException {
@@ -76,7 +74,6 @@ public class MakeBookingController implements Initializable {
         Parent root = (Parent) loader.load();
 
         ReceptionistMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab(1);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

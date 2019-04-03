@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -15,7 +16,7 @@
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
-            <TabPane fx:id="receptionistTab" layoutX="-5.0" layoutY="20.0" prefHeight="570.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="mechanicTab" layoutX="-5.0" layoutY="20.0" prefHeight="570.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
                <tabs>
                   <Tab text="Home">
                      <content>
@@ -31,7 +32,7 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Pick Jobs">
+                  <Tab text="Pick Job">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -51,11 +52,18 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="141.0" prefWidth="796.0">
                                              <children>
-                                                <Button layoutX="25.0" layoutY="67.0" mnemonicParsing="false" onAction="#editJobPress" prefHeight="35.0" prefWidth="114.0" text="Update Job" />
+                                                <Button layoutX="25.0" layoutY="67.0" mnemonicParsing="false" onAction="#pickJobPress" prefHeight="35.0" prefWidth="114.0" text="Pick Job" />
+                                                <Button layoutX="158.0" layoutY="67.0" mnemonicParsing="false" onAction="#updateJobPress" prefHeight="35.0" prefWidth="114.0" text="Update Job" />
                                                 <Separator layoutX="15.0" layoutY="50.0" prefHeight="17.0" prefWidth="770.0" />
                                                 <Button layoutX="664.0" layoutY="67.0" mnemonicParsing="false" onAction="#viewJobPress" prefHeight="35.0" prefWidth="114.0" text="View Job" />
                                                 <Label fx:id="noJobSelected" layoutX="38.0" layoutY="108.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
-                                                <Label fx:id="JobSuccessful" layoutX="584.0" layoutY="108.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                                                <Label fx:id="jobSuccessful" layoutX="584.0" layoutY="108.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                                                <Label layoutX="20.0" layoutY="26.0" text="Search:">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="jobSearch" layoutX="72.0" layoutY="24.0" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -64,7 +72,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextField fx:id="jobStatusText" alignment="TOP_LEFT" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
+                                                <TextArea fx:id="jobStatusText" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" wrapText="true" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -73,7 +81,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextField fx:id="jobProblemText" alignment="TOP_LEFT" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" />
+                                                <TextArea fx:id="jobProblemText" editable="false" layoutX="8.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" wrapText="true" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -101,8 +109,14 @@
                               </TableView>
                               <Separator layoutX="15.0" layoutY="455.0" prefHeight="17.0" prefWidth="770.0" />
                               <Label fx:id="noPartSelected" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
-                              <Button layoutX="655.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewPartPress" prefHeight="35.0" prefWidth="114.0" text="View Part" />
+                              <Button layoutX="649.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewPartPress" prefHeight="35.0" prefWidth="114.0" text="View Part" />
                               <Label fx:id="partSuccessful" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                              <Label layoutX="19.0" layoutY="432.0" text="Search:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="partSearch" layoutX="72.0" layoutY="430.0" />
                            </children>
                         </AnchorPane>
                      </content>

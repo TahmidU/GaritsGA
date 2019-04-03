@@ -7,6 +7,7 @@ package menus.receptionist_menu.customer;
 
 import database.dao.account.CustomerAccDAO;
 import database.domain.account.CustomerAcc;
+import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,10 +56,7 @@ public class AddCustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
     }
 
     private void back(ActionEvent event) throws IOException {
@@ -67,7 +65,6 @@ public class AddCustomerController implements Initializable {
         Parent root = (Parent) loader.load();
 
         ReceptionistMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab(5);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

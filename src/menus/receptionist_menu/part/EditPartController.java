@@ -9,6 +9,7 @@ import database.dao.account.StaffDAO;
 import database.dao.part.StockPartDAO;
 import database.domain.account.Staff;
 import database.domain.part.StockPart;
+import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -61,10 +62,7 @@ public class EditPartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
     }
 
     public void setSelectedPart(StockPart selectedPart) {
@@ -85,7 +83,6 @@ public class EditPartController implements Initializable {
         Parent root = (Parent) loader.load();
 
         ReceptionistMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab(4);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

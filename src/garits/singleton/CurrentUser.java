@@ -1,9 +1,11 @@
 package garits.singleton;
 
+import database.domain.account.Staff;
+
 public class CurrentUser
 {
     private static CurrentUser instance = null;
-    private static String userName;
+    private static Staff staff;
 
     public static CurrentUser getInstance()
     {
@@ -13,11 +15,13 @@ public class CurrentUser
         return instance;
     }
 
-    public String getUserName() {
-        return userName;
+    public Staff getStaff()
+    {
+        return staff;
     }
 
-    public void setUserName(String userName) {
-        CurrentUser.userName = userName;
+    public void setStaff(Staff staff)
+    {
+        CurrentUser.staff = staff;
     }
 }

@@ -23,6 +23,7 @@ import database.domain.part.StockPart;
 import database.domain.payment.Invoice;
 import garits.MainGUIController;
 import garits.singleton.BookingSingleton;
+import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -139,6 +140,8 @@ public class ReceptionistMenuController implements Initializable {
     private Label noJobSelected;
     @FXML
     private Label jobSuccessful;
+    @FXML
+    private TextField jobSearch;
 
     @FXML
     private TableView<Invoice> invoiceTable;
@@ -156,6 +159,8 @@ public class ReceptionistMenuController implements Initializable {
     private Label noInvoiceSelected;
     @FXML
     private Label invoiceSuccessful;
+    @FXML
+    private TextField invoiceSearch;
 
     @FXML
     private TableView<StockPart> partTable;
@@ -177,6 +182,8 @@ public class ReceptionistMenuController implements Initializable {
     private Label noPartSelected;
     @FXML
     private Label partSuccessful;
+    @FXML
+    private TextField partSearch;
 
     @FXML
     private TableView<CustomerAcc> customerTable;
@@ -192,6 +199,8 @@ public class ReceptionistMenuController implements Initializable {
     private TableColumn<CustomerAcc, String> customerPhoneCol;
     @FXML
     private Label noCustomerSelected;
+    @FXML
+    private TextField customerSearch;
 
     @FXML
     private TableView<Vehicle> vehicleTable;
@@ -207,18 +216,20 @@ public class ReceptionistMenuController implements Initializable {
     private TableColumn<Vehicle, String> vehicleOwnerCol;
     @FXML
     private Label noVehicleSelected;
+    @FXML
+    private TextField vehicleSearch;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
 
         /*
     -----------------------------------------------Booking Table-------------------------------------------------------------------
          */
         bDAO = new BookingDAO();
-        bookingData = FXCollections.observableArrayList(bDAO.getAll());
 
         bookingIDCol.setCellValueFactory(new PropertyValueFactory<Booking, Integer>("id"));
         bookingDateBookedCol.setCellValueFactory(new PropertyValueFactory<Booking, Date>("dateBooked"));
@@ -228,36 +239,12 @@ public class ReceptionistMenuController implements Initializable {
         bookingLastNameCol.setCellValueFactory(new PropertyValueFactory<Booking, String>("lastName"));
         bookingCheckedInCol.setCellValueFactory(new PropertyValueFactory<Booking, String>("checkIn"));
 
-        bookingTable.setItems(bookingData);
-
-        FilteredList<Booking> filteredBooking = new FilteredList<>(bookingData, p -> true);
-        bookingSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredBooking.setPredicate(booking -> {
-                // If filter text is empty, display all
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                // Compare 
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (booking.getFirstName().toLowerCase().contains(lowerCaseFilter)
-                        || booking.getLastName().toLowerCase().contains(lowerCaseFilter)
-                        ) {
-                    return true;
-                }
-                return false;
-            });
-        });
-        SortedList<Booking> sortedBooking = new SortedList<>(filteredBooking);
-        sortedBooking.comparatorProperty().bind(bookingTable.comparatorProperty());
-        bookingTable.setItems(sortedBooking);
+        refreshBookingTable();
 
         /*
     -----------------------------------------------Job Table----------------------------------------------------------------------
          */
         jsDAO = new JobSheetDAO();
-        jobData = FXCollections.observableArrayList(jsDAO.getAll());
 
         jobNoCol.setCellValueFactory(new PropertyValueFactory<JobSheet, Integer>("jobNum"));
         jobDateCheckedCol.setCellValueFactory(new PropertyValueFactory<JobSheet, Date>("dateCreated"));
@@ -281,13 +268,11 @@ public class ReceptionistMenuController implements Initializable {
         });
         jobDateCompletedCol.setCellValueFactory(new PropertyValueFactory<JobSheet, Date>("dateCompleted"));
 
-        jobTable.setItems(jobData);
-
+        refreshJobTable();
         /*
     -----------------------------------------------Invoice Table-------------------------------------------------------------------
          */
         iDAO = new InvoiceDAO();
-        invoiceData = FXCollections.observableArrayList(iDAO.getAll());
 
         invoiceNoCol.setCellValueFactory(new PropertyValueFactory<Invoice, Integer>("id"));
         invoiceDateCol.setCellValueFactory(new PropertyValueFactory<Invoice, Date>("dateCreated"));
@@ -310,13 +295,12 @@ public class ReceptionistMenuController implements Initializable {
             }
         });
 
-        invoiceTable.setItems(invoiceData);
+        refreshInvoiceTable();
 
         /*
     -----------------------------------------------Part Table-------------------------------------------------------------------
          */
         spDAO = new StockPartDAO();
-        partData = FXCollections.observableArrayList(spDAO.getAll());
 
         partIDCol.setCellValueFactory(new PropertyValueFactory<StockPart, Integer>("partId"));
         partManufacturerCol.setCellValueFactory(new PropertyValueFactory<StockPart, String>("manufacturer"));
@@ -331,13 +315,12 @@ public class ReceptionistMenuController implements Initializable {
         partThresholdCol.setCellValueFactory(new PropertyValueFactory<StockPart, Integer>("threshold"));
         partQuantityCol.setCellValueFactory(new PropertyValueFactory<StockPart, Integer>("quantity"));
 
-        partTable.setItems(partData);
+        refreshPartTable();
 
         /*
     -----------------------------------------------Customer Table-------------------------------------------------------------------
          */
         caDAO = new CustomerAccDAO();
-        customerData = FXCollections.observableArrayList(caDAO.getAll());
 
         customerNationalInsuranceCol.setCellValueFactory(new PropertyValueFactory<CustomerAcc, String>("nationalInsurance"));
         customerFirstNameCol.setCellValueFactory(new PropertyValueFactory<CustomerAcc, String>("firstName"));
@@ -345,13 +328,12 @@ public class ReceptionistMenuController implements Initializable {
         customerEmailCol.setCellValueFactory(new PropertyValueFactory<CustomerAcc, String>("email"));
         customerPhoneCol.setCellValueFactory(new PropertyValueFactory<CustomerAcc, String>("phoneNumber"));
 
-        customerTable.setItems(customerData);
+        refreshCustomerTable();
 
         /*
     -----------------------------------------------Vehicle Table-------------------------------------------------------------------
          */
         vDAO = new VehicleDAO();
-        vehicleData = FXCollections.observableArrayList(vDAO.getAll());
 
         vehicleRegCol.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleRegistration"));
         vehicleMakeCol.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("make"));
@@ -364,12 +346,8 @@ public class ReceptionistMenuController implements Initializable {
             }
         });
 
-        vehicleTable.setItems(vehicleData);
+        refreshVehicleTable();
 
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
     }
 
     public void switchTab(int n) {
@@ -377,16 +355,46 @@ public class ReceptionistMenuController implements Initializable {
         selectionModel.select(n);
     }
 
+//=================================================================================================================================
     /*
     -----------------------------------------------Booking Section------------------------------------------------------------
      */
+    private void refreshBookingTable() {
+        bookingData = FXCollections.observableArrayList(bDAO.getAll());
+        bookingTable.setItems(bookingData);
+
+        FilteredList<Booking> filteredBooking = new FilteredList<>(bookingData, p -> true);
+        bookingSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredBooking.setPredicate(booking -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare 
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (booking.getFirstName().toLowerCase().contains(lowerCaseFilter)
+                        || booking.getLastName().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(booking.getId()).toLowerCase().contains(lowerCaseFilter)
+                        || booking.getDateBooked().toString().toLowerCase().contains(lowerCaseFilter)
+                        || booking.getJobType().toLowerCase().contains(lowerCaseFilter)
+                        || booking.getVehicleRegistrationNumber().toLowerCase().contains(lowerCaseFilter)
+                        || booking.getCheckIn().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Booking> sortedBooking = new SortedList<>(filteredBooking);
+        sortedBooking.comparatorProperty().bind(bookingTable.comparatorProperty());
+        bookingTable.setItems(sortedBooking);
+    }
+
     @FXML
     private void makeBookingPress(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/booking/MakeBooking.fxml"));
         Parent root = (Parent) loader.load();
-
-        MakeBookingController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
@@ -405,7 +413,6 @@ public class ReceptionistMenuController implements Initializable {
             Parent root = (Parent) loader.load();
 
             EditBookingController controller = loader.getController();
-            controller.setLoggedInName(loggedInAsText.getText());
             controller.setSelectedBooking(selectedBooking);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -425,8 +432,8 @@ public class ReceptionistMenuController implements Initializable {
             guiController.popupConfirmation(event, "Are you sure you want to cancel this booking?");
 
             if (guiController.popupController.getConfirm()) {
-                bookingTable.getItems().remove(selectedBooking);
                 bDAO.delete(selectedBooking);
+                refreshBookingTable();
             }
         }
     }
@@ -450,7 +457,6 @@ public class ReceptionistMenuController implements Initializable {
                 Parent root = (Parent) loader.load();
 
                 AssociateVehicleController controller = loader.getController();
-                controller.setLoggedInName(loggedInAsText.getText());
                 controller.setSelectedBooking(selectedBooking);
 
                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -463,18 +469,22 @@ public class ReceptionistMenuController implements Initializable {
                         selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getFirstName(), selectedBooking.getLastName(),
                         "Yes");
                 bDAO.update(bookingTMP);
-                bookingSuccessful.setText("Check-In Sucessful!");
+                bookingSuccessful.setText("Check-In Successful!");
 
             } else {
-                Booking bookingTMP = new Booking(selectedBooking.getId(), selectedBooking.getJobType(), selectedBooking.getDateBooked(),
-                        selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getFirstName(), selectedBooking.getLastName(),
-                        "No");
-                bDAO.update(bookingTMP);
-                bookingSuccessful.setText("Check-In Undone!");
+                MainGUIController guiController = new MainGUIController();
+                guiController.popupConfirmation(event, "Are you sure you want to undo check-in for this booking?");
+
+                if (guiController.popupController.getConfirm()) {
+                    Booking bookingTMP = new Booking(selectedBooking.getId(), selectedBooking.getJobType(), selectedBooking.getDateBooked(),
+                            selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getFirstName(), selectedBooking.getLastName(),
+                            "No");
+                    bDAO.update(bookingTMP);
+                    bookingSuccessful.setText("Check-In Undone!");
+                }
             }
             noBookingSelected.setText("");
-            bookingData = FXCollections.observableArrayList(bDAO.getAll());
-            bookingTable.setItems(bookingData);
+            refreshBookingTable();
         }
     }
 
@@ -501,8 +511,7 @@ public class ReceptionistMenuController implements Initializable {
                     null);
             jsDAO.save(jobTMP);
 
-            jobData = FXCollections.observableArrayList(jsDAO.getAll());
-            jobTable.setItems(jobData);
+            refreshJobTable();
             bookingSuccessful.setText("Job Sheet Successfuly Generated!");
         }
     }
@@ -510,6 +519,45 @@ public class ReceptionistMenuController implements Initializable {
     /*
     -----------------------------------------------Job Section------------------------------------------------------------
      */
+    private void refreshJobTable() {
+        jobData = FXCollections.observableArrayList(jsDAO.getAll());
+        jobTable.setItems(jobData);
+
+        jobTable.setItems(jobData);
+
+        FilteredList<JobSheet> filteredJob = new FilteredList<>(jobData, p -> true);
+        jobSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredJob.setPredicate(job -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (String.valueOf(job.getJobNum()).toLowerCase().contains(lowerCaseFilter)
+                        || job.getDateCreated().toString().toLowerCase().contains(lowerCaseFilter)
+                        || job.getBooking().getJobType().toLowerCase().contains(lowerCaseFilter)
+                        || job.getVehicleReg().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (job.getStaff() != null) {
+                    if (job.getStaff().getFullName().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                } else if (job.getDateCompleted() != null) {
+                    if (job.getDateCompleted().toString().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        });
+        SortedList<JobSheet> sortedJob = new SortedList<>(filteredJob);
+        sortedJob.comparatorProperty().bind(jobTable.comparatorProperty());
+        jobTable.setItems(sortedJob);
+    }
+
     @FXML
     private void editJobPress(ActionEvent event) {
     }
@@ -527,8 +575,8 @@ public class ReceptionistMenuController implements Initializable {
             guiController.popupConfirmation(event, "Are you sure you want to delete this job?");
 
             if (guiController.popupController.getConfirm()) {
-                jobTable.getItems().remove(selectedJob);
                 jsDAO.delete(selectedJob);
+                refreshJobTable();
             }
         }
     }
@@ -539,14 +587,13 @@ public class ReceptionistMenuController implements Initializable {
         selectedJob = jobTable.getSelectionModel().getSelectedItem();
 
         if (selectedJob == null) {
-            jobStatusText.setText("");
-            jobProblemText.setText("");
+            jobSuccessful.setText("");
+            noJobSelected.setText("No Job Selected.");
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/job/ViewJob.fxml"));
             Parent root = (Parent) loader.load();
 
             ViewJobController controller = loader.getController();
-            controller.setLoggedInName(loggedInAsText.getText());
             controller.setSelectedJob(selectedJob);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -575,6 +622,37 @@ public class ReceptionistMenuController implements Initializable {
     /*
     -----------------------------------------------Invoice Section------------------------------------------------------------
      */
+    private void refreshInvoiceTable() {
+        invoiceData = FXCollections.observableArrayList(iDAO.getAll());
+        invoiceTable.setItems(invoiceData);
+
+        /*        FilteredList<Invoice> filteredInvoice = new FilteredList<>(invoiceData, p -> true);
+        invoiceSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredInvoice.setPredicate(invoice -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (String.valueOf(invoice.getId()).toLowerCase().contains(lowerCaseFilter)
+                || invoice.getDateCreated().toString().toLowerCase().contains(lowerCaseFilter)
+                || invoice.getNationalInsurance().toLowerCase().contains(lowerCaseFilter)
+                || invoice.getCustomerAcc().getFirstName().toLowerCase().contains(lowerCaseFilter)
+                || invoice.getCustomerAcc().getLastName().toLowerCase().contains(lowerCaseFilter)
+                || String.valueOf(invoice.getTotalAmount()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Invoice> sortedInvoice = new SortedList<>(filteredInvoice);
+        sortedInvoice.comparatorProperty().bind(invoiceTable.comparatorProperty());
+        invoiceTable.setItems(sortedInvoice);*/
+    }
+
     @FXML
     private void editInvoicePress(ActionEvent event) throws IOException {
     }
@@ -594,13 +672,43 @@ public class ReceptionistMenuController implements Initializable {
     /*
     -----------------------------------------------Part Section-------------------------------------------------------------------
      */
+    private void refreshPartTable() {
+
+        partData = FXCollections.observableArrayList(spDAO.getAll());
+        partTable.setItems(partData);
+
+        FilteredList<StockPart> filteredStockPart = new FilteredList<>(partData, p -> true);
+        partSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredStockPart.setPredicate(stockPart -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (String.valueOf(stockPart.getPartId()).toLowerCase().contains(lowerCaseFilter)
+                        || stockPart.getManufacturer().toLowerCase().contains(lowerCaseFilter)
+                        || stockPart.getPartName().toLowerCase().contains(lowerCaseFilter)
+                        || stockPart.getVehicleType().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(stockPart.getPrice()).toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(stockPart.getThreshold()).toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(stockPart.getQuantity()).toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<StockPart> sortedStock = new SortedList<>(filteredStockPart);
+        sortedStock.comparatorProperty().bind(partTable.comparatorProperty());
+        partTable.setItems(sortedStock);
+    }
+
     @FXML
     private void addPartPress(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/part/AddPart.fxml"));
         Parent root = (Parent) loader.load();
-
-        AddPartController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
@@ -619,7 +727,6 @@ public class ReceptionistMenuController implements Initializable {
             Parent root = (Parent) loader.load();
 
             EditPartController controller = loader.getController();
-            controller.setLoggedInName(loggedInAsText.getText());
             controller.setSelectedPart(selectedPart);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -640,8 +747,8 @@ public class ReceptionistMenuController implements Initializable {
             guiController.popupConfirmation(event, "Are you sure you want to remove this part?");
 
             if (guiController.popupController.getConfirm()) {
-                partTable.getItems().remove(selectedPart);
                 spDAO.delete(selectedPart);
+                refreshPartTable();
             }
         }
     }
@@ -659,7 +766,6 @@ public class ReceptionistMenuController implements Initializable {
             Parent root = (Parent) loader.load();
 
             ViewPartController controller = loader.getController();
-            controller.setLoggedInName(loggedInAsText.getText());
             controller.setSelectedPart(selectedPart);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -674,13 +780,40 @@ public class ReceptionistMenuController implements Initializable {
     /*
     -----------------------------------------------Customer Section------------------------------------------------------------
      */
+    private void refreshCustomerTable() {
+        customerData = FXCollections.observableArrayList(caDAO.getAll());
+        customerTable.setItems(customerData);
+
+        FilteredList<CustomerAcc> filteredCustomer = new FilteredList<>(customerData, p -> true);
+        customerSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredCustomer.setPredicate(customer -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (customer.getNationalInsurance().toLowerCase().contains(lowerCaseFilter)
+                        || customer.getFirstName().toLowerCase().contains(lowerCaseFilter)
+                        || customer.getLastName().toLowerCase().contains(lowerCaseFilter)
+                        || customer.getEmail().toLowerCase().contains(lowerCaseFilter)
+                        || customer.getPhoneNumber().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<CustomerAcc> sortedCustomer = new SortedList<>(filteredCustomer);
+        sortedCustomer.comparatorProperty().bind(customerTable.comparatorProperty());
+        customerTable.setItems(sortedCustomer);
+    }
+
     @FXML
     private void addCustomerPress(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/customer/AddCustomer.fxml"));
         Parent root = (Parent) loader.load();
-
-        AddCustomerController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
@@ -698,7 +831,6 @@ public class ReceptionistMenuController implements Initializable {
             Parent root = (Parent) loader.load();
 
             EditCustomerController controller = loader.getController();
-            controller.setLoggedInName(loggedInAsText.getText());
             controller.setSelectedCustomer(selectedCustomer);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -726,12 +858,11 @@ public class ReceptionistMenuController implements Initializable {
                 }
 
                 //refresh vehicle table
-                vehicleData = FXCollections.observableArrayList(vDAO.getAll());
-                vehicleTable.setItems(vehicleData);
+                refreshVehicleTable();
 
                 //finally deletes customer
-                customerTable.getItems().remove(selectedCustomer);
                 caDAO.delete(selectedCustomer);
+                refreshCustomerTable();
 
             }
         }
@@ -749,7 +880,7 @@ public class ReceptionistMenuController implements Initializable {
             Parent root = (Parent) loader.load();
 
             ViewCustomerController controller = loader.getController();
-            controller.setLoggedInName(loggedInAsText.getText());
+            loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
             controller.setSelectedCustomer(selectedCustomer);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -760,13 +891,51 @@ public class ReceptionistMenuController implements Initializable {
     /*
     -----------------------------------------------Vehicle Section------------------------------------------------------------
      */
+    private void refreshVehicleTable() {
+        vehicleData = FXCollections.observableArrayList(vDAO.getAll());
+        vehicleTable.setItems(vehicleData);
+
+        FilteredList<Vehicle> filteredVehicle = new FilteredList<>(vehicleData, p -> true);
+        vehicleSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredVehicle.setPredicate(vehicle -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (vehicle.getMake() != null) {
+                    if (vehicle.getMake().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                } else if (vehicle.getModel() != null) {
+                    if (vehicle.getModel().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                } else if (vehicle.getColor() != null) {
+                    if (vehicle.getColor().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    }
+                } else if (vehicle.getVehicleRegistration().toLowerCase().contains(lowerCaseFilter)
+                        || vehicle.getCustomerAcc().getFirstName().toLowerCase().contains(lowerCaseFilter)
+                        || vehicle.getCustomerAcc().getLastName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+
+                return false;
+            });
+        });
+        SortedList<Vehicle> sortedVehicle = new SortedList<>(filteredVehicle);
+        sortedVehicle.comparatorProperty().bind(vehicleTable.comparatorProperty());
+        vehicleTable.setItems(sortedVehicle);
+    }
+
     @FXML
     private void addVehiclePress(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/vehicle/AddVehicle.fxml"));
         Parent root = (Parent) loader.load();
-
-        AddVehicleController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(new Scene(root));
@@ -784,7 +953,6 @@ public class ReceptionistMenuController implements Initializable {
             Parent root = (Parent) loader.load();
 
             EditVehicleController controller = loader.getController();
-            controller.setLoggedInName(loggedInAsText.getText());
             controller.setSelectedVehicle(selectedVehicle);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -804,8 +972,8 @@ public class ReceptionistMenuController implements Initializable {
             guiController.popupConfirmation(event, "Are you sure you want to remove this vehicle?");
 
             if (guiController.popupController.getConfirm()) {
-                vehicleTable.getItems().remove(selectedVehicle);
                 vDAO.delete(selectedVehicle);
+                refreshVehicleTable();
             }
         }
     }
@@ -822,7 +990,6 @@ public class ReceptionistMenuController implements Initializable {
             Parent root = (Parent) loader.load();
 
             ViewVehicleController controller = loader.getController();
-            controller.setLoggedInName(loggedInAsText.getText());
             controller.setSelectedVehicle(selectedVehicle);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

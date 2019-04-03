@@ -6,6 +6,8 @@
 package menus.admin_menu;
 
 import database.dao.account.StaffDAO;
+import database.domain.account.Staff;
+import garits.singleton.CurrentUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -70,11 +72,8 @@ public class AddAccountController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
         typeCombo.getItems().addAll(options);
-    }
-
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
     }
 
     private void back(ActionEvent event) throws IOException {
@@ -83,7 +82,6 @@ public class AddAccountController implements Initializable {
         Parent root = (Parent) loader.load();
 
         AdminMenuController controller = loader.getController();
-        controller.setLoggedInName(loggedInAsText.getText());
         controller.switchTab();
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -107,9 +105,9 @@ public class AddAccountController implements Initializable {
             passwordMatchError.setText("Username already exists");
         } else {
             StaffDAO sDAO = new StaffDAO();
-            /*Staff tmp = new Staff(0, usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
-                    phoneText.getText(), emailText.getText(), typeCombo.getValue());*/
-            /*sDAO.save(tmp);*/
+            Staff tmp = new Staff(0, usernameText.getText(), passwordText.getText(), firstNameText.getText(), lastNameText.getText(),
+                    phoneText.getText(), emailText.getText(), typeCombo.getValue(), 0f);
+            sDAO.save(tmp);
             back(event);
         }
     }

@@ -74,6 +74,7 @@ public class FranchiseeMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
         // TODO
 
         sDAO = new StaffDAO();
@@ -99,10 +100,6 @@ public class FranchiseeMenuController implements Initializable {
         dbTable.setItems(backupData);
     }
 
-    public void setLoggedInName(String s) {
-        loggedInAsText.setText(s);
-    }
-
     @FXML
     private void addAccountPress(ActionEvent event) {
     }
@@ -113,28 +110,7 @@ public class FranchiseeMenuController implements Initializable {
 
     @FXML
     private void deleteAccountPress(ActionEvent event) throws IOException {
-        Staff selectedStaff = null;
-        selectedStaff = staffTable.getSelectionModel().getSelectedItem();
 
-        if (selectedStaff == null) {
-            noAccountSelected.setText("No Account Selected.");
-        }else if(CurrentUser.getInstance().getUserName().equals(selectedStaff.getUserName()))
-        {
-            noAccountSelected.setText("You Cannot Delete Yourself.");
-        }else if(selectedStaff.getType().equals(Staff.ADMIN))
-        {
-            noAccountSelected.setText("You Cannot Remove An Administrator.");
-        }
-        else {
-            MainGUIController guiController = new MainGUIController();
-            guiController.popupConfirmation(event, "Are you sure you want to delete this account?");
-
-            if (guiController.popupController.getConfirm()) {
-                staffTable.getItems().remove(selectedStaff);
-                sDAO.delete(selectedStaff);
-            }
-
-        }
     }
 
     @FXML
