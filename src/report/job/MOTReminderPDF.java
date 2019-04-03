@@ -49,9 +49,9 @@ public class MOTReminderPDF implements Runnable
             parameters.put("address", customerAcc.getAddressLine());
             parameters.put("postcode", customerAcc.getPostCode());
             parameters.put("dear", customerAcc.getFirstName() + " " + customerAcc.getLastName());
-            parameters.put("todays_date", DBDateHelper.parseCurrentDate());
+            parameters.put("todays_date", String.valueOf(DBDateHelper.parseCurrentDate()));
             parameters.put("vehicle_reg", vehicle.getVehicleRegistration());
-            parameters.put("renewal_date", motReminder.getRenewalDate().toString());
+            parameters.put("renewal_date", "2020-07-01");
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
             JasperExportManager.exportReportToPdfFile(jasperPrint, pdfDest);

@@ -130,7 +130,8 @@ public class DiscountPlanDAO implements IDiscountPlan
         }
         String sql = "INSERT INTO " + DiscountPlan.TABLE_DISCOUNT_PLAN+
                 "( "+DiscountPlan.COLUMN_TYPE+","+DiscountPlan.COLUMN_ACC_HOLDER_ID+")"+ " VALUES(?,?)";
-        String[] values = {discountPlan.getType(),String.valueOf(discountPlan.getId())};
+        String[] values = {discountPlan.getType(),String.valueOf(discountPlan.getAcc_holder_id())};
+        //System.out.println(discountPlan.getId());
         connectivity.writePrepared(sql, con, values);
         connectivity.closeConnection(con);
     }

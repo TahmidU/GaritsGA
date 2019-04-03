@@ -6,17 +6,13 @@
 package menus.franchisee_menu;
 
 import database.dao.account.AccountHolderDAO;
-import database.domain.account.AccountHolder;
 import database.dao.account.CustomerAccDAO;
 import database.dao.discount.DiscountPlanDAO;
 import database.dao.discount.FixedDiscountDAO;
+import database.domain.account.AccountHolder;
 import database.domain.account.CustomerAcc;
 import database.domain.discount.DiscountPlan;
-import database.domain.discount.FixedDiscount;
 import garits.singleton.CurrentUser;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,9 +27,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import menus.foreperson_menu.ForepersonMenuController;
-import menus.receptionist_menu.ReceptionistMenuController;
 import util.DBDateHelper;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -165,8 +163,9 @@ public class FranchiseeEditCustomerController implements Initializable {
                 && (!discountPackageText.getValue().equals("None")) && (!discountAmountText.getText().isEmpty())
                 && selectedCustomer.getAccountHolder().getDiscountPlan() == null) {
             // problem here
-            DiscountPlan discounttmp = new DiscountPlan(0, discountAmountText.getText(), 2);
-            dpDAO.save(discounttmp);
+            //DiscountPlan discounttmp = new DiscountPlan(0, discountAmountText.getText(), 2);
+            dpDAO.save(new DiscountPlan(0, discountAmountText.getText(), ahDAO.getByNI(selectedCustomer.getNationalInsurance()).getId()));
+
         }
         
         //Delete Account Holder & Discount Plan

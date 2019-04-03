@@ -2,15 +2,13 @@ package report;
 
 import database.domain.account.CustomerAcc;
 import database.domain.job.JobSheet;
+import database.domain.job.Vehicle;
 import database.domain.payment.Invoice;
 import report.invoice.InvoiceReminderHTML;
 import report.invoice.InvoiceReminderPDF;
 import report.invoice.InvoiceSheetHTML;
 import report.invoice.InvoiceSheetPDF;
-import report.job.CustomerCardHTML;
-import report.job.CustomerCardPDF;
-import report.job.JobSheetHTML;
-import report.job.JobSheetPDF;
+import report.job.*;
 import report.parts.StockLedgerHTML;
 import report.parts.StockLedgerPDF;
 import util.Log;
@@ -85,6 +83,13 @@ public class Generate
     {
         Log.write("Generating PDF...");
         Thread t1 = new Thread(new InvoiceSheetPDF(invoice));
+        t1.start();
+    }
+
+    public static void generateMOTReminderPDF(Vehicle vehicle)
+    {
+        Log.write("Generating PDF...");
+        Thread t1 = new Thread(new MOTReminderPDF(vehicle));
         t1.start();
     }
 }

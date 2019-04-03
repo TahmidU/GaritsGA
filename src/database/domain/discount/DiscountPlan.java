@@ -1,7 +1,6 @@
 package database.domain.discount;
 
 import database.dao.DBHelper;
-import database.dao.account.AccountHolderDAO;
 import database.dao.discount.FixedDiscountDAO;
 import database.dao.discount.FlexibleDiscountDAO;
 import database.dao.discount.VariableDiscountDAO;
@@ -42,10 +41,6 @@ public class DiscountPlan
         this.id = id;
         this.type = type;
         this.acc_holder_id = acc_holder_id;
-
-
-
-
     }
 
     //--------Getters and Setters--------
@@ -66,7 +61,6 @@ public class DiscountPlan
     }
 
     public int getAcc_holder_id() {
-        accountHolder = new AccountHolderDAO().getById(acc_holder_id);
         return acc_holder_id;
     }
 

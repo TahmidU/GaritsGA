@@ -6,61 +6,43 @@
 package menus.franchisee_menu;
 
 import database.dao.account.CustomerAccDAO;
-import database.dao.account.StaffDAO;
-import database.dao.backup.BackUpDAO;
 import database.dao.job.BookingDAO;
 import database.dao.job.JobSheetDAO;
 import database.dao.job.VehicleDAO;
 import database.dao.part.StockPartDAO;
 import database.dao.payment.InvoiceDAO;
 import database.domain.account.CustomerAcc;
-import database.domain.account.Staff;
-import database.domain.backup.BackUp;
 import database.domain.job.Booking;
 import database.domain.job.JobSheet;
 import database.domain.job.Task;
 import database.domain.job.Vehicle;
 import database.domain.part.StockPart;
 import database.domain.payment.Invoice;
-import garits.singleton.CurrentUser;
 import garits.MainGUIController;
 import garits.singleton.BookingSingleton;
+import garits.singleton.CurrentUser;
 import garits.singleton.PaymentSingleton;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.SingleSelectionModel;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import menus.receptionist_menu.booking.AssociateVehicleController;
 import menus.receptionist_menu.booking.EditBookingController;
-import menus.receptionist_menu.customer.EditCustomerController;
 import menus.receptionist_menu.customer.ViewCustomerController;
 import menus.receptionist_menu.invoice.MakePaymentController;
 import menus.receptionist_menu.invoice.ViewInvoiceController;
@@ -69,7 +51,14 @@ import menus.receptionist_menu.part.EditPartController;
 import menus.receptionist_menu.part.ViewPartController;
 import menus.receptionist_menu.vehicle.EditVehicleController;
 import menus.receptionist_menu.vehicle.ViewVehicleController;
+import report.Generate;
 import util.DBDateHelper;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -222,6 +211,8 @@ public class FranchiseeMenuController implements Initializable {
     private TableColumn<Vehicle, String> vehicleOwnerCol;
     @FXML
     private Label noVehicleSelected;
+    @FXML
+    private Label vehicleSuccessful;
     @FXML
     private TextField vehicleSearch;
 
@@ -653,6 +644,23 @@ public class FranchiseeMenuController implements Initializable {
         }
     }
 
+    @FXML
+    private void printJobSheetPress(ActionEvent event) {
+        JobSheet selectedJob = null;
+        selectedJob = jobTable.getSelectionModel().getSelectedItem();
+
+        if (selectedJob == null) {
+            jobSuccessful.setText("");
+            noJobSelected.setText("No Job Selected.");
+        } else if (selectedJob.getDateCompleted() == null) {
+            jobSuccessful.setText("");
+            noJobSelected.setText("Job Needs To Be Completed First");
+        } else {
+            Generate.generateJobSheetPDF(selectedJob);
+            jobSuccessful.setText("Print Successful!");
+        }
+    }
+
     /*
     -----------------------------------------------Invoice Section------------------------------------------------------------
      */
@@ -705,6 +713,7 @@ public class FranchiseeMenuController implements Initializable {
         if (selectedInvoice == null) {
 
             noInvoiceSelected.setText("No Invoice Selected.");
+            invoiceSuccessful.setText("");
 
         } else {
             MainGUIController guiController = new MainGUIController();
@@ -725,6 +734,7 @@ public class FranchiseeMenuController implements Initializable {
         if (selectedInvoice == null) {
 
             noInvoiceSelected.setText("No Invoice Selected.");
+            invoiceSuccessful.setText("");
 
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/invoice/ViewInvoice.fxml"));
@@ -746,6 +756,7 @@ public class FranchiseeMenuController implements Initializable {
         if (selectedInvoice == null) {
 
             noInvoiceSelected.setText("No Invoice Selected.");
+            invoiceSuccessful.setText("");
 
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/invoice/MakePayment.fxml"));
@@ -764,17 +775,38 @@ public class FranchiseeMenuController implements Initializable {
             confirmWindow.setX(700);
             confirmWindow.setY(300);
             confirmWindow.showAndWait();
-            
-            if(controller.getConfirm()) {
+
+            if (controller.getConfirm()) {
                 float total = PaymentSingleton.getInstance().getAmount();
-                      
+
                 Invoice tmp = selectedInvoice;
                 tmp.setTotalAmount(total);
                 iDAO.update(tmp);
-                refreshInvoiceTable();  
+                refreshInvoiceTable();
             }
         }
     }
+
+    @FXML
+    private void generateInvoiceReminderPress(ActionEvent event) throws IOException {
+
+        Invoice selectedInvoice = null;
+        selectedInvoice = invoiceTable.getSelectionModel().getSelectedItem();
+
+        if (selectedInvoice == null) {
+
+            noInvoiceSelected.setText("No Invoice Selected.");
+            invoiceSuccessful.setText("");
+
+        } else {
+            Generate.generateInvoicePDF(selectedInvoice);
+            Generate.generateInvoiceReminderPDF(selectedInvoice);
+
+            invoiceSuccessful.setText("Generated Successfully!");
+        }
+
+    }
+
 
     /*
     -----------------------------------------------Part Section-------------------------------------------------------------------
@@ -878,6 +910,12 @@ public class FranchiseeMenuController implements Initializable {
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
         }
+    }
+
+    @FXML
+    private void printStockLedgerPress(ActionEvent event) throws IOException
+    {
+        Generate.generateStockLedgerPDF();
     }
 
 
@@ -1051,6 +1089,7 @@ public class FranchiseeMenuController implements Initializable {
         selectedVehicle = vehicleTable.getSelectionModel().getSelectedItem();
 
         if (selectedVehicle == null) {
+            vehicleSuccessful.setText("");
             noVehicleSelected.setText("No Vehicle Selected.");
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/vehicle/EditVehicle.fxml"));
@@ -1070,6 +1109,7 @@ public class FranchiseeMenuController implements Initializable {
         selectedVehicle = vehicleTable.getSelectionModel().getSelectedItem();
 
         if (selectedVehicle == null) {
+            vehicleSuccessful.setText("");
             noVehicleSelected.setText("No Vehicle Selected.");
         } else {
             MainGUIController guiController = new MainGUIController();
@@ -1088,6 +1128,7 @@ public class FranchiseeMenuController implements Initializable {
         selectedVehicle = vehicleTable.getSelectionModel().getSelectedItem();
 
         if (selectedVehicle == null) {
+            vehicleSuccessful.setText("");
             noVehicleSelected.setText("No Vehicle Selected.");
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/vehicle/ViewVehicle.fxml"));
@@ -1098,6 +1139,20 @@ public class FranchiseeMenuController implements Initializable {
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
+        }
+    }
+
+    @FXML
+    private void printMOTReminderPress(ActionEvent event) throws IOException {
+        Vehicle selectedVehicle = null;
+        selectedVehicle = vehicleTable.getSelectionModel().getSelectedItem();
+
+        if (selectedVehicle == null) {
+            noVehicleSelected.setText("No Vehicle Selected.");
+            vehicleSuccessful.setText("");
+        } else {
+            Generate.generateMOTReminderPDF(selectedVehicle);
+            vehicleSuccessful.setText("Print Successful!");
         }
     }
 

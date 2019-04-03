@@ -102,6 +102,7 @@
                                                    </font>
                                                 </Label>
                                                 <TextField fx:id="jobSearch" layoutX="72.0" layoutY="24.0" />
+                                                <Button layoutX="403.0" layoutY="67.0" mnemonicParsing="false" onAction="#printJobSheetPress" prefHeight="35.0" prefWidth="114.0" text="Print Job Sheet" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -156,6 +157,7 @@
                               </Label>
                               <TextField fx:id="invoiceSearch" layoutX="72.0" layoutY="430.0" />
                               <Button layoutX="33.0" layoutY="472.0" mnemonicParsing="false" onAction="#makeInvoicePress" prefHeight="35.0" prefWidth="114.0" text="Make Invoice" />
+                              <Button layoutX="395.0" layoutY="472.0" mnemonicParsing="false" onAction="#generateInvoiceReminderPress" prefHeight="35.0" prefWidth="122.0" text="Generate Reminder" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -180,7 +182,7 @@
                               <Separator layoutX="15.0" layoutY="455.0" prefHeight="17.0" prefWidth="770.0" />
                               <Label fx:id="noPartSelected" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
                               <Button layoutX="671.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewPartPress" prefHeight="35.0" prefWidth="114.0" text="View Part" />
-                              <Label fx:id="partSuccessful" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
+                              <Label fx:id="partSuccessful" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="255.0" textFill="#318d00" />
                               <Button layoutX="29.0" layoutY="472.0" mnemonicParsing="false" onAction="#addPartPress" prefHeight="35.0" prefWidth="114.0" text="Add Part" />
                               <Label layoutX="19.0" layoutY="432.0" text="Search:">
                                  <font>
@@ -188,6 +190,7 @@
                                  </font>
                               </Label>
                               <TextField fx:id="partSearch" layoutX="72.0" layoutY="430.0" />
+                              <Button layoutX="547.0" layoutY="472.0" mnemonicParsing="false" onAction="#printStockLedgerPress" prefHeight="35.0" prefWidth="114.0" text="Print Stock Ledger" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -246,17 +249,15 @@
                                  </font>
                               </Label>
                               <TextField fx:id="vehicleSearch" layoutX="69.0" layoutY="430.0" />
+                              <Button layoutX="531.0" layoutY="472.0" mnemonicParsing="false" onAction="#printMOTReminderPress" prefHeight="35.0" prefWidth="128.0" text="Print MOT Reminder" />
+                              <Label fx:id="vehicleSuccessful" layoutX="495.0" layoutY="507.0" prefHeight="25.0" prefWidth="290.0" textFill="#318d00" />
                            </children>
                         </AnchorPane>
                      </content>
                   </Tab>
                   <Tab text="Manage Reports">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Label fx:id="noVehicleSelected1" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="RED" />
-                           </children>
-                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                      </content>
                   </Tab>
                </tabs>
