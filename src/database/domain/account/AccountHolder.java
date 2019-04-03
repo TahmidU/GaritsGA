@@ -1,6 +1,7 @@
 package database.domain.account;
 
 import database.dao.DBHelper;
+import database.dao.account.CustomerAccDAO;
 import database.dao.discount.DiscountPlanDAO;
 import database.dao.payment.OutstandingBalanceDAO;
 import database.dao.reminder.InvoiceReminderDAO;
@@ -38,6 +39,7 @@ public class AccountHolder extends CustomerAcc
     private Date dateJoined;
     private ArrayList<MOTReminder> motReminders;
     private ArrayList<InvoiceReminder> invoiceReminders;
+    private CustomerAcc customerAcc;
     private OutstandingBalance outstandingBalance;
     private DiscountPlan discountPlan;
 
@@ -116,5 +118,15 @@ public class AccountHolder extends CustomerAcc
 
     public void setDiscountPlan(DiscountPlan discountPlan) {
         this.discountPlan = discountPlan;
+    }
+
+    public CustomerAcc getCustomerAcc()
+    {
+        customerAcc = new CustomerAccDAO().getByNI(nationalInsurance);
+        return customerAcc;
+    }
+
+    public void setCustomerAcc(CustomerAcc customerAcc) {
+        this.customerAcc = customerAcc;
     }
 }
