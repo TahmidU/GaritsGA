@@ -33,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import menus.foreperson_menu.ForepersonMenuController;
 import menus.receptionist_menu.ReceptionistMenuController;
 
 /**
@@ -92,14 +93,28 @@ public class AddVehicleController implements Initializable {
 
     private void back(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
-        Parent root = (Parent) loader.load();
+        if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
 
-        ReceptionistMenuController controller = loader.getController();
-        controller.switchTab(6);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
+            Parent root = (Parent) loader.load();
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(new Scene(root));
+            ForepersonMenuController controller = loader.getController();
+            controller.switchTab(6);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+
+        } else {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ReceptionistMenuController controller = loader.getController();
+            controller.switchTab(6);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     private void refreshCustomerTable() {

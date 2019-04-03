@@ -84,6 +84,8 @@ public class ViewJobController implements Initializable {
     private TextField quantityUsedText;
     @FXML
     private TextField totalPriceText;
+    @FXML
+    private TextField mechanicRateText;
 
     /**
      * Initializes the controller class.
@@ -98,8 +100,10 @@ public class ViewJobController implements Initializable {
         jobNumberText.setText(Integer.toString(selectedJob.getBookingId()));
         if (selectedJob.getStaff() == null) {
             mechanicText.setText("");
+            mechanicRateText.setText("");
         } else {
             mechanicText.setText(selectedJob.getStaff().getFullName());
+            mechanicRateText.setText(Float.toString(selectedJob.getStaff().getLabourRate()));
         }
         bookingIDText.setText(Integer.toString(selectedJob.getBookingId()));
         vehicleRegText.setText(selectedJob.getVehicleReg());
@@ -131,7 +135,7 @@ public class ViewJobController implements Initializable {
 
             FranchiseeMenuController controller = loader.getController();
             //controller.switchTab(2);
-            
+
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
 
@@ -142,7 +146,7 @@ public class ViewJobController implements Initializable {
             Parent root = (Parent) loader.load();
 
             ForepersonMenuController controller = loader.getController();
-            //controller.switchTab(2);
+            controller.switchTab(2);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));

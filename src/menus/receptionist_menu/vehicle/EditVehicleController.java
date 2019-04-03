@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import menus.foreperson_menu.ForepersonMenuController;
 import menus.receptionist_menu.ReceptionistMenuController;
 
 /**
@@ -39,9 +40,9 @@ import menus.receptionist_menu.ReceptionistMenuController;
  * @author Huntees
  */
 public class EditVehicleController implements Initializable {
-    
+
     private Vehicle selectedVehicle;
-    
+
     @FXML
     private TextField makeText;
     @FXML
@@ -62,7 +63,7 @@ public class EditVehicleController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loggedInAsText.setText(CurrentUser.getInstance().getStaff().getUserName());
     }
-    
+
     public void setSelectedVehicle(Vehicle selectedVehicle) {
         this.selectedVehicle = selectedVehicle;
         makeText.setText(selectedVehicle.getMake());
@@ -71,30 +72,44 @@ public class EditVehicleController implements Initializable {
         chassisNumbText.setText(selectedVehicle.getChassisNum());
         colourText.setText(selectedVehicle.getColor());
     }
-    
+
     private void back(ActionEvent event) throws IOException {
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
-        Parent root = (Parent) loader.load();
-        
-        ReceptionistMenuController controller = loader.getController();
-        controller.switchTab(6);
-        
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(new Scene(root));
+
+        if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ForepersonMenuController controller = loader.getController();
+            controller.switchTab(6);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+
+        } else {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ReceptionistMenuController controller = loader.getController();
+            controller.switchTab(6);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
-    
+
     @FXML
     private void editVehicleSavePress(ActionEvent event) throws IOException {
-        
+
         VehicleDAO vDAO = new VehicleDAO();
-        
+
         Vehicle tmp = new Vehicle(selectedVehicle.getVehicleRegistration(), selectedVehicle.getNationalInsurance(),
                 makeText.getText(), modelText.getText(), engineSerialText.getText(), chassisNumbText.getText(), colourText.getText());
         vDAO.update(tmp);
         back(event);
     }
-    
+
     @FXML
     private void backPress(ActionEvent event) throws IOException {
         back(event);

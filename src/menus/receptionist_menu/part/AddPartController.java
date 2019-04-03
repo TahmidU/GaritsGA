@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import menus.foreperson_menu.ForepersonMenuController;
 import menus.receptionist_menu.ReceptionistMenuController;
 
 /**
@@ -62,14 +63,28 @@ public class AddPartController implements Initializable {
 
     private void back(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
-        Parent root = (Parent) loader.load();
+        if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
 
-        ReceptionistMenuController controller = loader.getController();
-        controller.switchTab(4);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
+            Parent root = (Parent) loader.load();
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(new Scene(root));
+            ForepersonMenuController controller = loader.getController();
+            controller.switchTab(4);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+
+        } else {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ReceptionistMenuController controller = loader.getController();
+            controller.switchTab(4);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     @FXML
@@ -81,10 +96,13 @@ public class AddPartController implements Initializable {
                 || quantityText.getText().isEmpty() || thresholdText.getText().isEmpty()) {
 
             missingDetailsError.setText("Missing Details");
+        } else if (partPriceText.getText().matches(".*[a-z].*") || quantityText.getText().matches(".*[a-z].*")
+                || thresholdText.getText().matches(".*[a-z].*")) {
+            missingDetailsError.setText("Invalid Entry");
         } else {
             StockPartDAO spDAO = new StockPartDAO();
             StockPart tmp = new StockPart(0, partNameText.getText(), Float.valueOf(partPriceText.getText()),
-                    Integer.parseInt(thresholdText.getText()), manufacturerText.getText(), vehicleTypeText.getText(), 
+                    Integer.parseInt(thresholdText.getText()), manufacturerText.getText(), vehicleTypeText.getText(),
                     startYearText.getText(), endYearText.getText(), Integer.parseInt(quantityText.getText()));
             spDAO.save(tmp);
             back(event);

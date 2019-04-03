@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package menus.receptionist_menu.booking;
+package menus.receptionist_menu.invoice;
 
 import database.dao.account.CustomerAccDAO;
-import database.dao.job.BookingDAO;
-import database.dao.job.VehicleDAO;
+import database.dao.payment.InvoiceDAO;
 import database.domain.account.CustomerAcc;
-import database.domain.job.Booking;
-import database.domain.job.Vehicle;
+import database.domain.payment.Invoice;
 import garits.singleton.CurrentUser;
 import java.io.IOException;
 import java.net.URL;
@@ -31,46 +29,26 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import menus.foreperson_menu.ForepersonMenuController;
-import menus.franchisee_menu.FranchiseeMenuController;
-import menus.mechanic_menu.MechanicMenuController;
 import menus.receptionist_menu.ReceptionistMenuController;
+import util.DBDateHelper;
 
 /**
  * FXML Controller class
  *
  * @author Huntees
  */
-public class AssociateVehicleController implements Initializable {
+public class MakeInvoiceController implements Initializable {
 
     CustomerAccDAO caDAO;
     ObservableList<CustomerAcc> customerData;
 
-    private Booking selectedBooking;
-
     @FXML
     private Label loggedInAsText;
-    @FXML
-    private TextField firstNameText;
-    @FXML
-    private TextField lastNameText;
-    @FXML
-    private TextField phoneText;
-    @FXML
-    private TextField emailText;
-    @FXML
-    private TextField nationalInsuranceText;
-    @FXML
-    private TextArea addressText;
-    @FXML
-    private TextField postcodeText;
-    @FXML
-    private Label missingDetailsError;
     @FXML
     private TableView<CustomerAcc> associateTable;
     @FXML
@@ -78,7 +56,9 @@ public class AssociateVehicleController implements Initializable {
     @FXML
     private TableColumn<CustomerAcc, String> nameCol;
     @FXML
-    private Label noCustomerSelectedError;
+    private TextField invoiceAmountText;
+    @FXML
+    private Label missingDetailsError;
     @FXML
     private TextField customerSearch;
 
@@ -102,12 +82,6 @@ public class AssociateVehicleController implements Initializable {
         refreshCustomerTable();
     }
 
-    public void setSelectedBooking(Booking selectedBooking) {
-        this.selectedBooking = selectedBooking;
-        firstNameText.setText(selectedBooking.getFirstName());
-        lastNameText.setText(selectedBooking.getLastName());
-    }
-
     private void back(ActionEvent event) throws IOException {
 
         if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
@@ -116,7 +90,7 @@ public class AssociateVehicleController implements Initializable {
             Parent root = (Parent) loader.load();
 
             ForepersonMenuController controller = loader.getController();
-            controller.switchTab(1);
+            controller.switchTab(3);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
@@ -127,7 +101,7 @@ public class AssociateVehicleController implements Initializable {
             Parent root = (Parent) loader.load();
 
             ReceptionistMenuController controller = loader.getController();
-            controller.switchTab(1);
+            controller.switchTab(3);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(new Scene(root));
@@ -164,60 +138,28 @@ public class AssociateVehicleController implements Initializable {
     }
 
     @FXML
-    private void backPress(ActionEvent event) throws IOException {
-        back(event);
-    }
-
-    @FXML
-    private void addCustomerSavePress(ActionEvent event) throws IOException {
-        missingDetailsError.setText("");
-        noCustomerSelectedError.setText("");
-
-        if (firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty() || phoneText.getText().isEmpty()
-                || emailText.getText().isEmpty() || nationalInsuranceText.getText().isEmpty() || addressText.getText().isEmpty()
-                || postcodeText.getText().isEmpty()) {
-
-            missingDetailsError.setText("Missing Details");
-        } else if (caDAO.getByNI(nationalInsuranceText.getText()) != null) {
-            missingDetailsError.setText("National Insurance Number Already Exists");
-        } else {
-            CustomerAcc tmp = new CustomerAcc(nationalInsuranceText.getText(), firstNameText.getText(), lastNameText.getText(), addressText.getText(), postcodeText.getText(),
-                    emailText.getText(), phoneText.getText());
-            caDAO.save(tmp);
-
-            refreshCustomerTable();
-
-            firstNameText.setText("");
-            lastNameText.setText("");
-            phoneText.setText("");
-            emailText.setText("");
-            nationalInsuranceText.setText("");
-            addressText.setText("");
-            postcodeText.setText("");
-        }
-    }
-
-    @FXML
-    private void associateVehiclePress(ActionEvent event) throws IOException {
+    private void makeInvoiceSave(ActionEvent event) throws IOException {
         CustomerAcc selectedCustomer = null;
         selectedCustomer = associateTable.getSelectionModel().getSelectedItem();
 
-        if (selectedCustomer == null) {
-            missingDetailsError.setText("");
-            noCustomerSelectedError.setText("No Customer Selected.");
-        } else {
-            VehicleDAO vDAO = new VehicleDAO();
-            Vehicle tmp = new Vehicle(selectedBooking.getVehicleRegistrationNumber(), selectedCustomer.getNationalInsurance(),
-                    null, null, null, null, null);
-            vDAO.save(tmp);
+        if (invoiceAmountText.getText().isEmpty() || selectedCustomer == null) {
 
-            BookingDAO bDAO = new BookingDAO();
-            Booking bookingTMP = new Booking(selectedBooking.getId(), selectedBooking.getJobType(), selectedBooking.getDateBooked(),
-                    selectedBooking.getVehicleRegistrationNumber(), selectedBooking.getFirstName(), selectedBooking.getLastName(),
-                    "Yes");
-            bDAO.update(bookingTMP);
+            missingDetailsError.setText("Missing Details");
+
+        } else if (invoiceAmountText.getText().matches(".*[a-z].*")) {
+            missingDetailsError.setText("Invalid Invoice Amount");
+        } else {
+            InvoiceDAO iDAO = new InvoiceDAO();
+            Invoice tmp = new Invoice(0, selectedCustomer.getNationalInsurance(), DBDateHelper.parseCurrentDate(),
+                    Float.parseFloat(invoiceAmountText.getText()), -1);
+            iDAO.save(tmp);
             back(event);
         }
+    }
+
+    @FXML
+    private void backPress(ActionEvent event) throws IOException {
+        back(event);
     }
 
 }

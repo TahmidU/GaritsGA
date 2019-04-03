@@ -85,8 +85,7 @@
                                     <content>
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="141.0" prefWidth="796.0">
                                              <children>
-                                                <Button layoutX="25.0" layoutY="67.0" mnemonicParsing="false" onAction="#editJobPress" prefHeight="35.0" prefWidth="114.0" text="Edit Job (delete later)" />
-                                                <Button layoutX="158.0" layoutY="67.0" mnemonicParsing="false" onAction="#deleteJobPress" prefHeight="35.0" prefWidth="114.0" text="Delete Job" />
+                                                <Button layoutX="33.0" layoutY="67.0" mnemonicParsing="false" onAction="#deleteJobPress" prefHeight="35.0" prefWidth="114.0" text="Delete Job" />
                                                 <Separator layoutX="15.0" layoutY="50.0" prefHeight="17.0" prefWidth="770.0" />
                                                 <Button layoutX="531.0" layoutY="67.0" mnemonicParsing="false" onAction="#viewJobPress" prefHeight="35.0" prefWidth="114.0" text="View Job" />
                                                 <Button layoutX="657.0" layoutY="67.0" mnemonicParsing="false" onAction="#generateInvoicePress" prefHeight="35.0" prefWidth="121.0" text="Generate Invoice" wrapText="true" />
@@ -138,12 +137,11 @@
                                     <TableColumn fx:id="invoiceTotalAmountCol" minWidth="0.0" prefWidth="108.0" text="Total Amount" />
                                  </columns>
                               </TableView>
-                              <Button layoutX="29.0" layoutY="472.0" mnemonicParsing="false" onAction="#editInvoicePress" prefHeight="35.0" prefWidth="114.0" text="Edit Invoice" />
-                              <Button layoutX="158.0" layoutY="472.0" mnemonicParsing="false" onAction="#deleteInvoicePress" prefHeight="35.0" prefWidth="114.0" text="Delete Invoice" />
+                              <Button layoutX="164.0" layoutY="472.0" mnemonicParsing="false" onAction="#deleteInvoicePress" prefHeight="35.0" prefWidth="114.0" text="Delete Invoice" />
                               <Separator layoutX="15.0" layoutY="455.0" prefHeight="17.0" prefWidth="770.0" />
                               <Label fx:id="noInvoiceSelected" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
                               <Button layoutX="528.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewInvoicePress" prefHeight="35.0" prefWidth="114.0" text="View Invoice" />
-                              <Button layoutX="656.0" layoutY="472.0" mnemonicParsing="false" onAction="#invoicePlaceholder" prefHeight="35.0" prefWidth="121.0" text="Send Reminders?" wrapText="true" />
+                              <Button layoutX="656.0" layoutY="472.0" mnemonicParsing="false" onAction="#makePaymentPress" prefHeight="35.0" prefWidth="121.0" text="Make Payment" wrapText="true" />
                               <Label fx:id="invoiceSuccessful" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
                               <Label layoutX="19.0" layoutY="432.0" text="Search:">
                                  <font>
@@ -151,6 +149,7 @@
                                  </font>
                               </Label>
                               <TextField fx:id="invoiceSearch" layoutX="72.0" layoutY="430.0" />
+                              <Button layoutX="33.0" layoutY="472.0" mnemonicParsing="false" onAction="#makeInvoicePress" prefHeight="35.0" prefWidth="114.0" text="Make Invoice" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -174,8 +173,7 @@
                               <Button layoutX="286.0" layoutY="472.0" mnemonicParsing="false" onAction="#removePartPress" prefHeight="35.0" prefWidth="114.0" text="Remove Part" />
                               <Separator layoutX="15.0" layoutY="455.0" prefHeight="17.0" prefWidth="770.0" />
                               <Label fx:id="noPartSelected" layoutX="38.0" layoutY="510.0" prefHeight="25.0" prefWidth="365.0" textFill="RED" />
-                              <Button layoutX="528.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewPartPress" prefHeight="35.0" prefWidth="114.0" text="View Part" />
-                              <Button layoutX="656.0" layoutY="472.0" mnemonicParsing="false" onAction="#orderPartPress" prefHeight="35.0" prefWidth="121.0" text="Order Parts??" wrapText="true" />
+                              <Button layoutX="671.0" layoutY="472.0" mnemonicParsing="false" onAction="#viewPartPress" prefHeight="35.0" prefWidth="114.0" text="View Part" />
                               <Label fx:id="partSuccessful" layoutX="528.0" layoutY="510.0" prefHeight="25.0" prefWidth="194.0" textFill="#318d00" />
                               <Button layoutX="29.0" layoutY="472.0" mnemonicParsing="false" onAction="#addPartPress" prefHeight="35.0" prefWidth="114.0" text="Add Part" />
                               <Label layoutX="19.0" layoutY="432.0" text="Search:">

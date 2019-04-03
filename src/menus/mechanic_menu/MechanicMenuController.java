@@ -244,7 +244,7 @@ public class MechanicMenuController implements Initializable {
                             selectedJob.getVehicleReg(), selectedJob.getBookingId(), selectedJob.getProblemDesc(),
                             selectedJob.getDateCreated(), selectedJob.getStatus(), selectedJob.getDateCompleted());
                     jsDAO.update(jobTMP);
-                    jobSuccessful.setText("Job Pick Successful!");
+                    jobSuccessful.setText("Successfully Removed!");
                 }
             }
             noJobSelected.setText("");

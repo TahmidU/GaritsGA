@@ -5,10 +5,8 @@
  */
 package menus.receptionist_menu;
 
-import menus.receptionist_menu.customer.AddCustomerController;
 import menus.receptionist_menu.booking.AssociateVehicleController;
 import menus.receptionist_menu.booking.EditBookingController;
-import menus.receptionist_menu.booking.MakeBookingController;
 import database.dao.account.CustomerAccDAO;
 import database.dao.job.BookingDAO;
 import database.dao.job.JobSheetDAO;
@@ -18,12 +16,14 @@ import database.dao.payment.InvoiceDAO;
 import database.domain.account.CustomerAcc;
 import database.domain.job.Booking;
 import database.domain.job.JobSheet;
+import database.domain.job.Task;
 import database.domain.job.Vehicle;
 import database.domain.part.StockPart;
 import database.domain.payment.Invoice;
 import garits.MainGUIController;
 import garits.singleton.BookingSingleton;
 import garits.singleton.CurrentUser;
+import garits.singleton.PaymentSingleton;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -52,15 +52,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import menus.receptionist_menu.customer.EditCustomerController;
 import menus.receptionist_menu.customer.ViewCustomerController;
+import menus.receptionist_menu.invoice.MakePaymentController;
+import menus.receptionist_menu.invoice.ViewInvoiceController;
 import menus.receptionist_menu.job.ViewJobController;
-import menus.receptionist_menu.part.AddPartController;
 import menus.receptionist_menu.part.EditPartController;
 import menus.receptionist_menu.part.ViewPartController;
-import menus.receptionist_menu.vehicle.AddVehicleController;
 import menus.receptionist_menu.vehicle.EditVehicleController;
 import menus.receptionist_menu.vehicle.ViewVehicleController;
 import util.DBDateHelper;
@@ -559,10 +560,6 @@ public class ReceptionistMenuController implements Initializable {
     }
 
     @FXML
-    private void editJobPress(ActionEvent event) {
-    }
-
-    @FXML
     private void deleteJobPress(ActionEvent event) throws IOException {
         JobSheet selectedJob = null;
         selectedJob = jobTable.getSelectionModel().getSelectedItem();
@@ -603,6 +600,38 @@ public class ReceptionistMenuController implements Initializable {
 
     @FXML
     private void generateInvoicePress(ActionEvent event) {
+        JobSheet selectedJob = null;
+        selectedJob = jobTable.getSelectionModel().getSelectedItem();
+
+        if (selectedJob == null) {
+            jobSuccessful.setText("");
+            noJobSelected.setText("No Job Selected.");
+
+        } else if (selectedJob.getDateCompleted() == null) {
+            jobSuccessful.setText("");
+            noJobSelected.setText("Job Needs To Be Completed First");
+
+        } else if (iDAO.getByJobNum(selectedJob.getJobNum()) != null) {
+            jobSuccessful.setText("");
+            noJobSelected.setText("Job Sheet Already Exist For This Booking");
+        } else {
+            float mechanicRate = selectedJob.getStaff().getLabourRate();
+            float total = 0, partCost = 0, labourCost = 0;
+
+            ArrayList<Task> taskCost = jsDAO.getByJobNum(selectedJob.getJobNum()).getTasks();
+            for (int i = 0; i < taskCost.size(); i++) {
+                partCost = partCost + (taskCost.get(i).getStockPart().getPrice() * taskCost.get(i).getPartQty());
+                labourCost = labourCost + (taskCost.get(i).getEstDuration() * mechanicRate);
+            }
+            total = partCost + labourCost;
+
+            Invoice tmp = new Invoice(0, selectedJob.getVehicle().getNationalInsurance(), DBDateHelper.parseCurrentDate(),
+                    total, selectedJob.getJobNum());
+            iDAO.save(tmp);
+
+            refreshInvoiceTable();
+            bookingSuccessful.setText("Invoice Successfuly Generated!");
+        }
     }
 
     @FXML
@@ -626,7 +655,7 @@ public class ReceptionistMenuController implements Initializable {
         invoiceData = FXCollections.observableArrayList(iDAO.getAll());
         invoiceTable.setItems(invoiceData);
 
-        /*        FilteredList<Invoice> filteredInvoice = new FilteredList<>(invoiceData, p -> true);
+        FilteredList<Invoice> filteredInvoice = new FilteredList<>(invoiceData, p -> true);
         invoiceSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredInvoice.setPredicate(invoice -> {
                 // If filter text is empty, display all
@@ -638,11 +667,12 @@ public class ReceptionistMenuController implements Initializable {
                 String lowerCaseFilter = newValue.toLowerCase();
 
                 if (String.valueOf(invoice.getId()).toLowerCase().contains(lowerCaseFilter)
-                || invoice.getDateCreated().toString().toLowerCase().contains(lowerCaseFilter)
-                || invoice.getNationalInsurance().toLowerCase().contains(lowerCaseFilter)
-                || invoice.getCustomerAcc().getFirstName().toLowerCase().contains(lowerCaseFilter)
-                || invoice.getCustomerAcc().getLastName().toLowerCase().contains(lowerCaseFilter)
-                || String.valueOf(invoice.getTotalAmount()).toLowerCase().contains(lowerCaseFilter)) {
+                        || invoice.getDateCreated().toString().toLowerCase().contains(lowerCaseFilter)
+                        || invoice.getNationalInsurance().toLowerCase().contains(lowerCaseFilter)
+                        || invoice.getCustomerAcc().getFirstName().toLowerCase().contains(lowerCaseFilter)
+                        || invoice.getCustomerAcc().getLastName().toLowerCase().contains(lowerCaseFilter)
+                        || invoice.getCustomerAcc().getFullName().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(invoice.getTotalAmount()).toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 return false;
@@ -650,23 +680,95 @@ public class ReceptionistMenuController implements Initializable {
         });
         SortedList<Invoice> sortedInvoice = new SortedList<>(filteredInvoice);
         sortedInvoice.comparatorProperty().bind(invoiceTable.comparatorProperty());
-        invoiceTable.setItems(sortedInvoice);*/
+        invoiceTable.setItems(sortedInvoice);
     }
 
     @FXML
-    private void editInvoicePress(ActionEvent event) throws IOException {
+    private void makeInvoicePress(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/invoice/MakeInvoice.fxml"));
+        Parent root = (Parent) loader.load();
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(new Scene(root));
     }
 
     @FXML
-    private void deleteInvoicePress(ActionEvent event) {
+    private void deleteInvoicePress(ActionEvent event) throws IOException {
+        Invoice selectedInvoice = null;
+        selectedInvoice = invoiceTable.getSelectionModel().getSelectedItem();
+
+        if (selectedInvoice == null) {
+
+            noInvoiceSelected.setText("No Invoice Selected.");
+
+        } else {
+            MainGUIController guiController = new MainGUIController();
+            guiController.popupConfirmation(event, "Are you sure you want to delete this invoice?");
+
+            if (guiController.popupController.getConfirm()) {
+                iDAO.delete(selectedInvoice);
+                refreshInvoiceTable();
+            }
+        }
     }
 
     @FXML
-    private void viewInvoicePress(ActionEvent event) {
+    private void viewInvoicePress(ActionEvent event) throws IOException {
+        Invoice selectedInvoice = null;
+        selectedInvoice = invoiceTable.getSelectionModel().getSelectedItem();
+
+        if (selectedInvoice == null) {
+
+            noInvoiceSelected.setText("No Invoice Selected.");
+
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/invoice/ViewInvoice.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ViewInvoiceController controller = loader.getController();
+            controller.setSelectedInvoice(selectedInvoice);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     @FXML
-    private void invoicePlaceholder(ActionEvent event) {
+    private void makePaymentPress(ActionEvent event) throws IOException {
+        Invoice selectedInvoice = null;
+        selectedInvoice = invoiceTable.getSelectionModel().getSelectedItem();
+
+        if (selectedInvoice == null) {
+
+            noInvoiceSelected.setText("No Invoice Selected.");
+
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/invoice/MakePayment.fxml"));
+            Parent root = (Parent) loader.load();
+
+            MakePaymentController controller = loader.getController();
+            controller.setSelectedInvoice(selectedInvoice);
+
+            Stage mainWindow = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage confirmWindow = new Stage();
+            confirmWindow.initModality(Modality.WINDOW_MODAL);
+            confirmWindow.initOwner(mainWindow);
+            confirmWindow.setResizable(false);
+            confirmWindow.setTitle("Make Payment");
+            confirmWindow.setScene(new Scene(root));
+            confirmWindow.setX(700);
+            confirmWindow.setY(300);
+            confirmWindow.showAndWait();
+            
+            if(controller.getConfirm()) {
+                float total = PaymentSingleton.getInstance().getAmount();
+                      
+                Invoice tmp = selectedInvoice;
+                tmp.setTotalAmount(total);
+                iDAO.update(tmp);
+                refreshInvoiceTable();  
+            }
+        }
     }
 
     /*
@@ -773,9 +875,6 @@ public class ReceptionistMenuController implements Initializable {
         }
     }
 
-    @FXML
-    private void orderPartPress(ActionEvent event) {
-    }
 
     /*
     -----------------------------------------------Customer Section------------------------------------------------------------

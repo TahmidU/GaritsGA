@@ -92,6 +92,11 @@
                               <Label fx:id="missingDetailsError" layoutX="596.0" layoutY="442.0" prefHeight="24.0" prefWidth="146.0" textFill="RED" />
                               <Button layoutX="657.0" layoutY="473.0" mnemonicParsing="false" onAction="#editAccountSavePress" prefHeight="45.0" prefWidth="84.0" text="Save" />
                               <Button layoutX="57.0" layoutY="473.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
+                              <Label fx:id="poundSign" layoutX="230.0" layoutY="199.0" prefHeight="29.0" prefWidth="14.0" text="£">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                      </content>

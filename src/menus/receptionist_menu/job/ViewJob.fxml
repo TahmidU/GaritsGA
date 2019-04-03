@@ -77,6 +77,17 @@
                               </Label>
                               <TextArea fx:id="problemText" editable="false" layoutX="415.0" layoutY="259.0" prefHeight="174.0" prefWidth="334.0" wrapText="true" />
                               <Button layoutX="46.0" layoutY="473.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
+                              <Label layoutX="503.0" layoutY="56.0" prefHeight="25.0" prefWidth="171.0" text="Mechanic Rate p/ hour">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="mechanicRateText" layoutX="502.0" layoutY="81.0" prefHeight="25.0" prefWidth="162.0" />
+                              <Label layoutX="488.0" layoutY="77.0" prefHeight="29.0" prefWidth="14.0" text="£">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                      </content>
@@ -129,12 +140,17 @@
                                  </font>
                               </Label>
                               <Separator layoutX="460.0" layoutY="42.0" prefHeight="5.0" prefWidth="244.0" />
-                              <Label layoutX="490.0" layoutY="230.0" prefHeight="25.0" prefWidth="121.0" text="Total Price">
+                              <Label layoutX="490.0" layoutY="230.0" prefHeight="25.0" prefWidth="151.0" text="Total Price For Part">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
                               <TextField fx:id="totalPriceText" editable="false" layoutX="490.0" layoutY="255.0" prefHeight="25.0" prefWidth="184.0" />
+                              <Label layoutX="478.0" layoutY="256.0" prefHeight="29.0" prefWidth="14.0" text="£">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                      </content>

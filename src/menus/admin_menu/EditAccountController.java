@@ -70,6 +70,8 @@ public class EditAccountController implements Initializable {
     private TextField hourlyRateText;
     @FXML
     private Label hourlyRateLabel;
+    @FXML
+    private Label poundSign;
 
     /**
      * Initializes the controller class.
@@ -97,6 +99,7 @@ public class EditAccountController implements Initializable {
                 || selectedStaff.getType().equals("Receptionist")) {
             hourlyRateLabel.setVisible(false);
             hourlyRateText.setVisible(false);
+            poundSign.setVisible(false);
         }
     }
 
@@ -122,6 +125,8 @@ public class EditAccountController implements Initializable {
                 || passwordText.getText().isEmpty() || retypeText.getText().isEmpty() || hourlyRateText.getText().isEmpty()) {
 
             missingDetailsError.setText("Missing Details");
+        } else if (hourlyRateText.getText().matches(".*[a-z].*")) {
+            missingDetailsError.setText("Invalid Hourly Rate");
         } else if (!passwordText.getText().equals(retypeText.getText())) {
             passwordMatchError.setText("Password does not match");
         } else {

@@ -21,6 +21,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import menus.foreperson_menu.ForepersonMenuController;
+import menus.franchisee_menu.FranchiseeMenuController;
+import menus.mechanic_menu.MechanicMenuController;
 import menus.receptionist_menu.ReceptionistMenuController;
 
 /**
@@ -29,9 +32,9 @@ import menus.receptionist_menu.ReceptionistMenuController;
  * @author Huntees
  */
 public class ViewPartController implements Initializable {
-    
+
     StockPart selectedPart;
-    
+
     @FXML
     private TextField manufacturerText;
     @FXML
@@ -74,14 +77,50 @@ public class ViewPartController implements Initializable {
 
     private void back(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
-        Parent root = (Parent) loader.load();
+        if (CurrentUser.getInstance().getStaff().getType().equals("Franchisee")) {
 
-        ReceptionistMenuController controller = loader.getController();
-        controller.switchTab(4);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/franchisee_menu/FranchiseeMenu.fxml"));
+            Parent root = (Parent) loader.load();
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(new Scene(root));
+            FranchiseeMenuController controller = loader.getController();
+            //controller.switchTab(2);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+
+        }
+        if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ForepersonMenuController controller = loader.getController();
+            controller.switchTab(4);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
+        if (CurrentUser.getInstance().getStaff().getType().equals("Mechanic")) {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/mechanic_menu/MechanicMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            MechanicMenuController controller = loader.getController();
+            controller.switchTab(2);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        } else {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/receptionist_menu/ReceptionistMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            ReceptionistMenuController controller = loader.getController();
+            controller.switchTab(4);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     @FXML
