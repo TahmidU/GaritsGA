@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="menus.receptionist_menu.invoice.MakeInvoiceController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menus.receptionist_menu.invoice.MakeInvoiceController">
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -33,7 +32,7 @@
                               <Button layoutX="46.0" layoutY="473.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
                               <TableView fx:id="associateTable" layoutX="25.0" layoutY="59.0" prefHeight="293.0" prefWidth="400.0">
                                  <columns>
-                                    <TableColumn fx:id="insuranceNoCol" prefWidth="165.0" text="National Insurance No." />
+                                    <TableColumn fx:id="insuranceNoCol" prefWidth="165.0" text="Driving License No." />
                                     <TableColumn fx:id="nameCol" prefWidth="234.0" text="Customer Name" />
                                  </columns>
                               </TableView>

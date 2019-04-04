@@ -147,7 +147,7 @@ public class DiscountPlanDAO implements IDiscountPlan
 
         String sql = "UPDATE " + DiscountPlan.TABLE_DISCOUNT_PLAN + " SET "+DiscountPlan.COLUMN_TYPE+" =?,"+DiscountPlan.COLUMN_ACC_HOLDER_ID+" =?"
                 +" WHERE " +DiscountPlan.COLUMN_ID+ "=" +discountPlan.getId();
-        String[] values = {discountPlan.getType(),String.valueOf(discountPlan.getId())};
+        String[] values = {discountPlan.getType(),String.valueOf(discountPlan.getAcc_holder_id())};
 
         connectivity.writePrepared(sql, con, values);
         connectivity.closeConnection(con);

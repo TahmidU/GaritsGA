@@ -52,7 +52,7 @@
                                  </font>
                               </Label>
                               <TextField fx:id="emailText" layoutX="207.0" layoutY="134.0" />
-                              <Label layoutX="26.0" layoutY="172.0" prefHeight="25.0" prefWidth="206.0" text="National Insurance Number">
+                              <Label layoutX="26.0" layoutY="172.0" prefHeight="25.0" prefWidth="206.0" text="Driving License No.">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -76,7 +76,7 @@
                               <Button layoutX="13.0" layoutY="473.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
                               <TableView fx:id="associateTable" layoutX="393.0" layoutY="53.0" prefHeight="293.0" prefWidth="400.0">
                                 <columns>
-                                  <TableColumn fx:id="insuranceNoCol" prefWidth="165.0" text="National Insurance No." />
+                                  <TableColumn fx:id="insuranceNoCol" prefWidth="165.0" text="Driving License No." />
                                   <TableColumn fx:id="nameCol" prefWidth="234.0" text="Customer Name" />
                                 </columns>
                               </TableView>

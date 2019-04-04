@@ -150,22 +150,21 @@ public class FranchiseeEditCustomerController implements Initializable {
                     emailText.getText(), phoneText.getText());
             caDAO.update(tmp);
         }
-        
+
         //Create Account Holder
         if (accountHolderText.getValue().equals("Yes") && selectedCustomer.getAccountHolder() == null) {
             AccountHolder tmp = new AccountHolder(0, selectedCustomer.getNationalInsurance(), DBDateHelper.parseCurrentDate());
             ahDAO.save(tmp);
 
         }
-        
+
         //Create Discount Plan
         if (accountHolderText.getValue().equals("Yes") && selectedCustomer.getAccountHolder() != null
                 && (!discountPackageText.getValue().equals("None")) && (!discountAmountText.getText().isEmpty())
                 && selectedCustomer.getAccountHolder().getDiscountPlan() == null) {
             dpDAO.save(new DiscountPlan(0, discountAmountText.getText(), ahDAO.getByNI(selectedCustomer.getNationalInsurance()).getId()));
-
         }
-        
+
         //Delete Account Holder & Discount Plan
         if (accountHolderText.getValue().equals("No") && selectedCustomer.getAccountHolder() != null) {
             if (selectedCustomer.getAccountHolder().getDiscountPlan() != null) {
@@ -173,14 +172,16 @@ public class FranchiseeEditCustomerController implements Initializable {
             }
             ahDAO.delete(selectedCustomer.getAccountHolder());
         }
-        
+
         //Update Discount Value
         if (accountHolderText.getValue().equals("Yes") && selectedCustomer.getAccountHolder() != null
                 && (!discountAmountText.getText().isEmpty()) && (!discountPackageText.getValue().equals("None"))
                 && selectedCustomer.getAccountHolder().getDiscountPlan() != null) {
-            selectedCustomer.getAccountHolder().getDiscountPlan().setType(discountAmountText.getText());
+            DiscountPlan tmp = selectedCustomer.getAccountHolder().getDiscountPlan();
+            tmp.setType(discountAmountText.getText());
+            dpDAO.update(tmp);
         }
-        
+
         //Delete Discount Plan
         if (accountHolderText.getValue().equals("Yes") && selectedCustomer.getAccountHolder() != null && discountPackageText.getValue().equals("None")
                 && selectedCustomer.getAccountHolder().getDiscountPlan() != null) {

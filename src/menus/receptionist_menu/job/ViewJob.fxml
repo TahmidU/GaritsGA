@@ -105,7 +105,7 @@
                               <TableView fx:id="taskTable" layoutX="46.0" layoutY="52.0" onMouseClicked="#viewingTaskPress" prefHeight="200.0" prefWidth="370.0">
                                 <columns>
                                   <TableColumn fx:id="taskIDCol" prefWidth="118.0" text="Task ID" />
-                                  <TableColumn fx:id="estDurationCol" prefWidth="111.0" text="Est. Duration" />
+                                  <TableColumn fx:id="estDurationCol" prefWidth="111.0" text="Duration" />
                                     <TableColumn fx:id="dateCompletedCol" prefWidth="140.0" text="Date Completed" />
                                 </columns>
                               </TableView>

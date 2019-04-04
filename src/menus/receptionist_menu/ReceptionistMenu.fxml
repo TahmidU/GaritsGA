@@ -137,7 +137,7 @@
                                  <columns>
                                     <TableColumn fx:id="invoiceNoCol" prefWidth="108.0" text="Invoice No" />
                                     <TableColumn fx:id="invoiceDateCol" prefWidth="116.0" text="Date Created" />
-                                    <TableColumn fx:id="invoiceNINoCol" prefWidth="178.0" text="National Insurance No." />
+                                    <TableColumn fx:id="invoiceNINoCol" prefWidth="178.0" text="Driving License No." />
                                     <TableColumn fx:id="invoiceCustomerNameCol" prefWidth="271.0" text="Name" />
                                     <TableColumn fx:id="invoiceTotalAmountCol" minWidth="0.0" prefWidth="108.0" text="Total Amount" />
                                  </columns>
@@ -197,7 +197,7 @@
                            <children>
                               <TableView fx:id="customerTable" layoutX="12.0" layoutY="14.0" prefHeight="392.0" prefWidth="782.0">
                                  <columns>
-                                    <TableColumn fx:id="customerNationalInsuranceCol" prefWidth="142.0" text="National Insurance No" />
+                                    <TableColumn fx:id="customerNationalInsuranceCol" prefWidth="142.0" text="Driving License No." />
                                     <TableColumn fx:id="customerFirstNameCol" prefWidth="147.0" text="First Name" />
                                     <TableColumn fx:id="customerLastNameCol" prefWidth="161.0" text="Last Name" />
                                     <TableColumn fx:id="customerEmailCol" prefWidth="169.0" text="Email" />
