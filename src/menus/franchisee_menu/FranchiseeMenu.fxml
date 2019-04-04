@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menus.franchisee_menu.FranchiseeMenuController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menus.franchisee_menu.FranchiseeMenuController">
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -253,11 +253,6 @@
                               <Label fx:id="vehicleSuccessful" layoutX="495.0" layoutY="507.0" prefHeight="25.0" prefWidth="290.0" textFill="#318d00" />
                            </children>
                         </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab text="Manage Reports">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                      </content>
                   </Tab>
                </tabs>

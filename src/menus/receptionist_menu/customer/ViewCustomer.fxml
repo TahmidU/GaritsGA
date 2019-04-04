@@ -71,13 +71,35 @@
                               </Label>
                               <TextField fx:id="postcodeText" editable="false" layoutX="309.0" layoutY="321.0" />
                               <Button layoutX="46.0" layoutY="473.0" mnemonicParsing="false" onAction="#backPress" prefHeight="45.0" prefWidth="84.0" text="Back" />
-                              <Label layoutX="510.0" layoutY="65.0" prefHeight="58.0" prefWidth="143.0" text="Additional Info here" />
                               <TableView fx:id="vehicleTable" layoutX="486.0" layoutY="298.0" prefHeight="193.0" prefWidth="294.0">
                                 <columns>
                                   <TableColumn fx:id="vehicleNameCol" prefWidth="150.0" text="Vehicle" />
                                   <TableColumn fx:id="vehicleRegCol" prefWidth="143.0" text="Vehicle Reg. No" />
                                 </columns>
                               </TableView>
+                              <Label layoutX="474.0" layoutY="56.0" prefHeight="25.0" prefWidth="165.0" text="Account Holder Status">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="474.0" layoutY="114.0" prefHeight="25.0" prefWidth="165.0" text="Discount Package">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="474.0" layoutY="175.0" prefHeight="25.0" prefWidth="147.0" text="Discount Amount">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="discountAmountText" editable="false" layoutX="473.0" layoutY="200.0" />
+                              <Label layoutX="626.0" layoutY="198.0" prefHeight="29.0" prefWidth="14.0" text="\%">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="accountHolderText" editable="false" layoutX="473.0" layoutY="81.0" />
+                              <TextField fx:id="discountPackageText" editable="false" layoutX="473.0" layoutY="139.0" />
                            </children>
                         </AnchorPane>
                      </content>

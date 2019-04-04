@@ -66,6 +66,12 @@ public class ViewCustomerController implements Initializable {
     private TableColumn<Vehicle, String> vehicleNameCol;
     @FXML
     private TableColumn<Vehicle, String> vehicleRegCol;
+    @FXML
+    private TextField discountAmountText;
+    @FXML
+    private TextField accountHolderText;
+    @FXML
+    private TextField discountPackageText;
 
     /**
      * Initializes the controller class.
@@ -97,6 +103,17 @@ public class ViewCustomerController implements Initializable {
         vehicleRegCol.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleRegistration"));
 
         vehicleTable.setItems(vehicleData);
+        
+        if(selectedCustomer.getAccountHolder() != null) {
+            accountHolderText.setText("Yes");
+            if(selectedCustomer.getAccountHolder().getDiscountPlan() != null) {
+                discountPackageText.setText("Fixed Discount");
+                discountAmountText.setText(selectedCustomer.getAccountHolder().getDiscountPlan().getType());
+            }
+        }
+        else {
+            accountHolderText.setText("No");
+        }
     }
 
     private void back(ActionEvent event) throws IOException {

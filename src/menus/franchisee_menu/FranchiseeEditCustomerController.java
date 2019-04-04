@@ -162,8 +162,6 @@ public class FranchiseeEditCustomerController implements Initializable {
         if (accountHolderText.getValue().equals("Yes") && selectedCustomer.getAccountHolder() != null
                 && (!discountPackageText.getValue().equals("None")) && (!discountAmountText.getText().isEmpty())
                 && selectedCustomer.getAccountHolder().getDiscountPlan() == null) {
-            // problem here
-            //DiscountPlan discounttmp = new DiscountPlan(0, discountAmountText.getText(), 2);
             dpDAO.save(new DiscountPlan(0, discountAmountText.getText(), ahDAO.getByNI(selectedCustomer.getNationalInsurance()).getId()));
 
         }
