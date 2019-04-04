@@ -120,7 +120,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextArea fx:id="jobProblemText" editable="false" layoutX="8.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" wrapText="true" />
+                                                <TextArea fx:id="jobStatusText" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" wrapText="true" />
                                              </children>
                                           </AnchorPane>
                                        </content>
@@ -129,7 +129,7 @@
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextArea fx:id="jobStatusText" editable="false" layoutX="7.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" wrapText="true" />
+                                                <TextArea fx:id="jobProblemText" editable="false" layoutX="8.0" layoutY="6.0" prefHeight="129.0" prefWidth="785.0" wrapText="true" />
                                              </children>
                                           </AnchorPane>
                                        </content>
