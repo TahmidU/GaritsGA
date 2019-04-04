@@ -7,10 +7,7 @@ package garits;
 
 import database.dao.DBHelper;
 import database.dao.account.StaffDAO;
-import database.dao.job.VehicleDAO;
 import database.domain.account.Staff;
-import database.domain.job.Vehicle;
-import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -51,12 +48,7 @@ public class GARITS extends Application {
         {
             //Default Administrator account created if database did not exist.
             new StaffDAO().save(new Staff(0,"SYSDBA","Masterkey", "Administrator", "Administrator", "n/a", "n/a", "Administrator", 0f));
-            new StaffDAO().save(new Staff(1,"alain","12345", "Alain", "Aspire", "83297482", "alain@gmail.com", "Administrator", 0f));
-            new StaffDAO().save(new Staff(2,"tahmid","123", "Tahmid", "Aspire", "23894290", "tahmid@gmail.com", "Franchisee", 0f));
-            new StaffDAO().save(new Staff(3,"cameron","123", "Cameron", "Aspire", "23940872304", "cameron@gmail.com", "Foreperson", 0f));
-            new StaffDAO().save(new Staff(4,"mahat","123", "Mahat", "Aspire", "4328974924", "mahat@gmail.com", "Mechanic", 10f));
-            new StaffDAO().save(new Staff(5,"manar","123", "Manar", "Aspire", "329842234", "manar@gmail.com", "Receptionist", 0f));
-            new StaffDAO().save(new Staff(6,"1","1", "Receptionist", "1", "1", "1", "Receptionist", 0f));
+
             
         }
         db.createBackUpDB();

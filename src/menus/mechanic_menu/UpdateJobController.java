@@ -9,7 +9,6 @@ import database.dao.job.JobSheetDAO;
 import database.dao.job.TaskDAO;
 import database.dao.job.VehicleDAO;
 import database.dao.part.StockPartDAO;
-import database.domain.job.Booking;
 import database.domain.job.JobSheet;
 import database.domain.job.Task;
 import database.domain.job.Vehicle;
@@ -17,10 +16,6 @@ import database.domain.part.StockPart;
 import garits.MainGUIController;
 import garits.singleton.CurrentUser;
 import garits.singleton.TaskSingleton;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Date;
-import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -32,18 +27,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import menus.receptionist_menu.booking.EditBookingController;
+import menus.foreperson_menu.ForepersonMenuController;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Date;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -185,14 +179,26 @@ public class UpdateJobController implements Initializable {
     }
 
     private void back(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/mechanic_menu/MechanicMenu.fxml"));
-        Parent root = (Parent) loader.load();
+        if (CurrentUser.getInstance().getStaff().getType().equals("Foreperson")) {
 
-        MechanicMenuController controller = loader.getController();
-        controller.switchTab(1);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/foreperson_menu/ForepersonMenu.fxml"));
+            Parent root = (Parent) loader.load();
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(new Scene(root));
+            ForepersonMenuController controller = loader.getController();
+            controller.switchTab(2);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/menus/mechanic_menu/MechanicMenu.fxml"));
+            Parent root = (Parent) loader.load();
+
+            MechanicMenuController controller = loader.getController();
+            controller.switchTab(1);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(new Scene(root));
+        }
     }
 
     private void refreshTables() {
