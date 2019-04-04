@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2019-04-03T12:52:09 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e294c825-e76c-4e3e-ab6d-03ebf1027d4d">
+	<parameter name="cust_name" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
+	<parameter name="todays_date" class="java.lang.String"/>
+	<parameter name="dear" class="java.lang.String"/>
+	<parameter name="reminder" class="java.lang.String"/>
+	<parameter name="vehicle_reg" class="java.lang.String"/>
+	<parameter name="amount" class="java.lang.String"/>
+	<parameter name="desc_date" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="119" splitType="Stretch">
+			<staticText>
+				<reportElement x="450" y="10" width="100" height="69" uuid="6faab1ba-9c2c-4da3-b6f9-35ba2a2a6d33"/>
+				<text><![CDATA[Quick Fix Fitters,
+19 High St.,
+Ashford,
+Kent, 
+CT16 8YY]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="10" width="120" height="13" uuid="df3190fa-fa7c-466e-b37f-ffb6f8f91acd">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$P{cust_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="23" width="120" height="56" uuid="f98c569b-316f-4795-800f-bed9859c8b88"/>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="100" width="100" height="13" uuid="2fe5f3d3-2fc2-4d35-9ca1-a15c0f0166c4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$P{todays_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="357" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="10" width="170" height="20" uuid="8a7c8f64-92ac-4bff-b84f-cb40a159e1a5"/>
+				<textFieldExpression><![CDATA["Dear " +$P{dear} + ","]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="160" y="40" width="260" height="13" uuid="31b34da5-5547-4ae2-9d22-a39dda5c7e22">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REMINDER - INVOICE NO.: "+$P{reminder}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="20" y="53" width="240" height="13" uuid="a5be9554-94dd-4a4e-bad7-a35c706eee83">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Vehicle Registration No.: "+$P{vehicle_reg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="53" width="230" height="13" uuid="b894454e-95fe-4757-9141-c42803dfcd4c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total Amount: "+$P{amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="80" width="550" height="30" uuid="e1ac8482-cb51-4837-a47f-3399c3f24017"/>
+				<textFieldExpression><![CDATA["According to our records, it appears that we have not yet received payment of the above invoice, which was posted to you on"+$P{desc_date} + ", for work done on the vehicle(s) listed above. "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="130" width="550" height="180" uuid="4d187c1b-c38d-41c9-844e-a215cfeb961a"/>
+				<text><![CDATA[We would appreciate payment at your earliest convenience.
+
+If you have already sent a payment to us recently, please accept our apologies.
+
+
+
+Yours sincerely,
+
+
+
+G. Lancaster]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

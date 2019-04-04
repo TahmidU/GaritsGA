@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
+<!-- 2019-04-03T00:20:56 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mot_reminder" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="72d3800c-3c77-4613-bbda-ee7d278d8f89">
+	<parameter name="cust_name" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
+	<parameter name="postcode" class="java.lang.String"/>
+	<parameter name="dear" class="java.lang.String"/>
+	<parameter name="todays_date" class="java.lang.String"/>
+	<parameter name="vehicle_reg" class="java.lang.String"/>
+	<parameter name="renewal_date" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<staticText>
+				<reportElement x="460" y="10" width="79" height="70" uuid="475b05dc-07bb-4166-af7f-431ca6fb80a0"/>
+				<text><![CDATA[Quick Fix Fitters,
+19 High St,
+Ashford,
+Kent, 
+CT16 8YY]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="10" width="100" height="13" uuid="a7fbd103-e2fc-4d57-863c-0d9769ede498">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$P{cust_name}+", "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="23" width="100" height="37" uuid="f175f286-f1cd-41da-b952-50e50c77bfac"/>
+				<textFieldExpression><![CDATA[$P{address}+","]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="60" width="100" height="20" uuid="4da6a3c6-4f98-4181-8b60-7d53c2dde78c"/>
+				<textFieldExpression><![CDATA[$P{postcode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="460" y="90" width="79" height="20" uuid="d9b3ae72-97ba-462f-94e1-cc92e641fb1d"/>
+				<textFieldExpression><![CDATA[$P{todays_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="250" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="140" height="20" uuid="237e309d-54ee-43fe-b467-01373d133528"/>
+				<textFieldExpression><![CDATA["Dear "+$P{dear}+","]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="210" y="10" width="140" height="30" uuid="fcbd9647-5780-4461-9d25-f9db400a261f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[REMINDER - MOT TEST DUE]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="40" width="280" height="13" uuid="d091e4d0-b14b-45b7-b0fa-1eefa7548f55"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Vehicle Registration No.: "+$P{vehicle_reg}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="53" width="280" height="13" uuid="3594fe12-33c0-4daf-a644-6a15227ee268">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Renewal Test Date: "+$P{renewal_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="550" height="140" uuid="599e8629-fd53-461c-bd4b-6c53fe0f524f"/>
+				<text><![CDATA[According to our records, the above vehicle is due to have its MOT certicate renewed on the date shown.
+
+Account Holder customers such as yourself are assured of our prompt attention, and we hope that you will use our services on this occasion in order to have the necessary test carried out on your vehicle.
+
+
+Yours sincerely,
+
+
+G. Lancaster]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>
