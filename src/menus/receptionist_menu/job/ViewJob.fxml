@@ -64,13 +64,13 @@
                                  </font>
                               </Label>
                               <TextField fx:id="dateCompletedText" editable="false" layoutX="229.0" layoutY="198.0" />
-                              <Label layoutX="46.0" layoutY="236.0" prefHeight="25.0" prefWidth="116.0" text="Status">
+                              <Label layoutX="46.0" layoutY="236.0" prefHeight="25.0" prefWidth="149.0" text="Problem Description">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
                               <TextArea fx:id="statusText" editable="false" layoutX="45.0" layoutY="259.0" prefHeight="174.0" prefWidth="334.0" wrapText="true" />
-                              <Label layoutX="415.0" layoutY="236.0" prefHeight="25.0" prefWidth="153.0" text="Problem Description">
+                              <Label layoutX="415.0" layoutY="236.0" prefHeight="25.0" prefWidth="153.0" text="Status">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
